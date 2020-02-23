@@ -20,7 +20,7 @@ import Book from '../components/Book';
     }
     render() {
         let recentBooksMarkup = this.state.books ? (
-            this.state.books.map(book => <Book book={book}/>)
+            this.state.books.map(book => <Book key={book.bookId} book={book}/>)
         ) : <p>Loading...</p>
         return (
             <Grid container spacing={6}>
