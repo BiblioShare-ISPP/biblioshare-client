@@ -71,6 +71,9 @@ const styles = (theme) => ({
     },
     edit: {
         align: 'right'
+    },
+    button:{
+        float: 'right'
     }
 });
 
@@ -82,7 +85,7 @@ class Profile extends Component {
         const { 
             classes, 
             user: {
-                credentials: { handle, imageUrl, location, tickets}, 
+                credentials: { handle, imageUrl, location, bio, tickets}, 
                 loading,
                 authenticated
             }
@@ -99,6 +102,8 @@ class Profile extends Component {
                     <div className="profile-details">
                             <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">{handle}</MuiLink>
                         <hr />
+                        {bio}
+                        <hr />
                         {location && (
                             <Fragment>
                                 <LocationOn color="primary" />{location}
@@ -111,13 +116,13 @@ class Profile extends Component {
                             <ExitToAppIcon color="primary" />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Edit profile" placement="top">
-                        <Link to={`/users/${handle}`}>
-                            <IconButton>
+                    <IconButton className={classes.button}>
+                        <Tooltip title="Edit profile" placement="top">
+                            <Link to={`/users/${handle}`}>
                                 <EditIcon color="primary" />
-                            </IconButton>
-                        </Link>
-                    </Tooltip>
+                            </Link>
+                        </Tooltip>
+                    </IconButton>
                 </div>
             </Paper>
         ) : (
