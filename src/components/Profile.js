@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
-import theme from '../util/theme';
 
 //MUI
 import Button from '@material-ui/core/Button';
@@ -12,9 +11,14 @@ import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 //Icons
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
-
+import LocationOn from '@material-ui/icons/LocationOn';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 //Redux
 import {connect} from 'react-redux';
+import {logoutUser} from '../redux/actions/userActions';
+import { Tooltip } from '@material-ui/core';
 
 const styles = (theme) => ({
     progress: {
@@ -64,10 +68,16 @@ const styles = (theme) => ({
         '& a': {
             margin: '20px 10px'
         }
+    },
+    edit: {
+        align: 'right'
     }
 });
 
 class Profile extends Component {
+    handleLogout = () => {
+        this.props.logoutUser();
+    };
     render() {
         const { 
             classes, 
@@ -81,16 +91,33 @@ class Profile extends Component {
         let profileMarkup = !loading ? (
             authenticated ? (
             <Paper className={classes.paper}>
-                <div className="image-wrapper">
-                    <img src={imageUrl} alt="profile" className="profile-image"/>
-                    <hr />
-                    <div className="profile-details">
-                        <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">{handle}</MuiLink>
-                    <hr />
-                    {location && <Typography variant="body2">{location}</Typography>}
-                    <hr />
-                    <ConfirmationNumberIcon color="primary" /> <span>{tickets}</span>
+                <div className={classes.profile}>
+                    <div className="image-wrapper">
+                        <img src={imageUrl} alt="profile" className="profile-image"/>
                     </div>
+                        <hr />
+                    <div className="profile-details">
+                            <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">{handle}</MuiLink>
+                        <hr />
+                        {location && (
+                            <Fragment>
+                                <LocationOn color="primary" />{location}
+                            </Fragment>)}
+                        <hr />
+                        <ConfirmationNumberIcon color="primary" /><span>{tickets} tickets</span>
+                    </div>
+                    <Tooltip title="Logout" placement="top">
+                        <IconButton onClick={this.handleLogout}>
+                            <ExitToAppIcon color="primary" />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Edit profile" placement="top">
+                        <Link to={`/users/${handle}`}>
+                            <IconButton>
+                                <EditIcon color="primary" />
+                            </IconButton>
+                        </Link>
+                    </Tooltip>
                 </div>
             </Paper>
         ) : (
@@ -116,9 +143,12 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
+const mapActionsToProps= { logoutUser };
+
 Profile.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile));
