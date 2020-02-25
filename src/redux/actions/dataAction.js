@@ -37,3 +37,13 @@ export const postBook = (newBook) => (dispatch) => {
         });
     });
 };
+
+//Upload cover
+export const uploadImage = (formData) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post('/book/cover', formData)
+    .then(res => {
+        dispatch(get)
+    });
+
+};
