@@ -12,10 +12,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CloseIcon from '@material-ui/icons/Close';
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+import IconButton from '@material-ui/core/IconButton';
 
 //Redux
 import {connect} from 'react-redux';
 import {postBook} from '../redux/actions/dataAction';
+import { Tooltip } from '@material-ui/core';
 
 const styles = {
     palette: {
@@ -89,6 +92,16 @@ class PostBook extends Component{
             cover: this.state.cover
         });
     };
+    handleImageChange = (event) => {
+        const image = event.target.files[0];
+        const formData = new FormData();
+        formData.append('cover', image, image.name);
+        this.props.uploadImage(formData);
+    };
+    handleUploadCover = () => {
+        const fileInput = document.getElementById('coverInput');
+        fileInput.click();
+    };
     render(){
         const { errors } = this.state;
         const { classes, UI: {loading}} = this.props;
@@ -104,9 +117,14 @@ class PostBook extends Component{
                     <DialogTitle>Post a book</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
+                            <input type="file" id="coverInput" onChange={this.handleImageChange} hidden="hidden" />
+                            <Tooltip title="Upload a cover image" placement="bottom">
+                                <IconButton className="button" onClick={this.handleUploadCover}>
+                                    <ImageSearchIcon color="primary" /> 
+                                </IconButton>
+                            </Tooltip>
                             <TextField name="title" type="text" label="Title" placeholder="Title" error={errors.title ? true : false } helperText={errors.title} className={classes.textField} onChange={this.handleChange} fullWidth />
                             <TextField name="author" type="text" label="Author" placeholder="Author" error={errors.author ? true : false } helperText={errors.author} className={classes.textField} onChange={this.handleChange} fullWidth />
-                            <TextField name="cover" type="text" label="Cover" placeholder="Cover" error={errors.cover ? true : false } helperText={errors.cover} className={classes.textField} onChange={this.handleChange} fullWidth />
                             <p>{errors.location}</p>
                             <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
                                 Submit 
