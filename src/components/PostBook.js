@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 //Redux
 import {connect} from 'react-redux';
-import {postBook} from '../redux/actions/dataAction';
+import {postBook, checkISBN} from '../redux/actions/dataAction';
 import { Tooltip } from '@material-ui/core';
 
 const styles = {
@@ -47,17 +47,20 @@ const styles = {
     },
     closeButton: {
         position: 'absolute',
-        left: '90%',
-        top: '5%'
+        right: '3%',
+        top: '3%'
     }
 };
 
 class PostBook extends Component{
+    titleISBN = '';
+    authorISBN = '';
     state = {
         open: false,
         title: '',
         author: '',
         cover: '',
+        isbn: '',
         errors: {}
     };
     componentWillReceiveProps(nextProps){
@@ -66,14 +69,21 @@ class PostBook extends Component{
                 errors: nextProps.UI.errors
             });
         };
-        if(!nextProps.UI.errors && !nextProps.UI.loading){
+        if(!nextProps.UI.errors && !nextProps.UI.loading && nextProps.UI.loadingISBN){
             this.setState({ 
                 author: '',
                 title: '',
-                cover: ''
+                cover: '',
+                isbn: ''
             });
             this.handleClose();
         };
+        if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
+            this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
+            this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors;
+            console.log(this.titleISBN);
+            console.log(this.authorISBN);
+        }
     };
     handleOpen = () => {
         this.setState({ open: true });
@@ -86,6 +96,7 @@ class PostBook extends Component{
     };
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log(this.state);
         this.props.postBook({ 
             title: this.state.title,
             author: this.state.author,
@@ -102,9 +113,13 @@ class PostBook extends Component{
         const fileInput = document.getElementById('coverInput');
         fileInput.click();
     };
+    checkISBN = (event) => {
+        event.preventDefault();
+        this.props.checkISBN({isbn: this.state.isbn});
+    };
     render(){
         const { errors } = this.state;
-        const { classes, UI: {loading}} = this.props;
+        const { classes, UI: {loading, loadingISBN}} = this.props;
         return (
             <Fragment>
                 <CustomButton onClick={this.handleOpen} tip="Post a book">
@@ -116,6 +131,15 @@ class PostBook extends Component{
                     </CustomButton>
                     <DialogTitle>Post a book</DialogTitle>
                     <DialogContent>
+                        <form onSubmit={this.checkISBN}>
+                           <TextField name="isbn" type="text" label="ISBN" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} fullWidth />
+                           <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
+                                CHECK ISBN 
+                                {loadingISBN && (
+                                    <CircularProgress size={30} className={classes.progressSpinner} />
+                                )}
+                            </Button>
+                        </form>
                         <form onSubmit={this.handleSubmit}>
                             <input type="file" id="coverInput" onChange={this.handleImageChange} hidden="hidden" />
                             <Tooltip title="Upload a cover image" placement="bottom">
@@ -123,8 +147,8 @@ class PostBook extends Component{
                                     <ImageSearchIcon color="primary" /> 
                                 </IconButton>
                             </Tooltip>
-                            <TextField name="title" type="text" label="Title" placeholder="Title" error={errors.title ? true : false } helperText={errors.title} className={classes.textField} onChange={this.handleChange} fullWidth />
-                            <TextField name="author" type="text" label="Author" placeholder="Author" error={errors.author ? true : false } helperText={errors.author} className={classes.textField} onChange={this.handleChange} fullWidth />
+                            <TextField id="title" name="title" type="text" label="Title" placeholder="Title" error={errors.title ? true : false } helperText={errors.title} className={classes.textField} onChange={this.handleChange} fullWidth />
+                            <TextField id="author" name="author" type="text" label="Author" placeholder="Author" error={errors.author ? true : false } helperText={errors.author} className={classes.textField} onChange={this.handleChange} fullWidth />
                             <p>{errors.location}</p>
                             <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
                                 Submit 
@@ -142,11 +166,17 @@ class PostBook extends Component{
 
 PostBook.propTypes = {
     postBook: PropTypes.func.isRequired,
-    UI: PropTypes.object.isRequired
+    checkISBN: PropTypes.func.isRequired,
+    UI: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    UI: state.UI
+    UI: state.UI,
+    data: state.data
 });
 
-export default connect(mapStateToProps, {postBook})(withStyles(styles)(PostBook));
+const mapActionsToProps= { postBook, checkISBN};
+
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PostBook));
