@@ -12,10 +12,19 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CloseIcon from '@material-ui/icons/Close';
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
+//Icons
+import { Icon } from '@iconify/react';
+import barcodeIcon from '@iconify/icons-mdi/barcode';
 
 //Redux
 import {connect} from 'react-redux';
-import {postBook} from '../redux/actions/dataAction';
+import {postBook, checkISBN, uploadImage} from '../redux/actions/dataAction';
+import { Tooltip } from '@material-ui/core';
 
 const styles = {
     palette: {
@@ -37,40 +46,79 @@ const styles = {
     },
     submitButton: {
         position: 'relative',
-        margin: '10px 0px 0px 0px'
+        margin: '10px 5px 0px 0px'
     },
     progressSpinner: {
         position: 'absolute'
     },
     closeButton: {
         position: 'absolute',
-        left: '90%',
-        top: '5%'
+        right: '3%',
+        top: '3%'
+    },
+    input: {
+    },
+    divImage:{
+        position: 'relative',
+        margin: '0 auto'
     }
 };
 
 class PostBook extends Component{
+    titleISBN = '';
+    authorISBN = '';
     state = {
         open: false,
+        openISBN: false,
         title: '',
         author: '',
         cover: '',
+        isbn: '',
         errors: {}
     };
     componentWillReceiveProps(nextProps){
+        console.log(nextProps);
         if(nextProps.UI.errors){
             this.setState({
                 errors: nextProps.UI.errors
             });
         };
-        if(!nextProps.UI.errors && !nextProps.UI.loading){
+        if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded){
             this.setState({ 
                 author: '',
                 title: '',
-                cover: ''
+                cover: '',
+                isbn: ''
             });
             this.handleClose();
         };
+        if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
+            this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
+            this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors[0];
+            document.getElementById('title').value = this.titleISBN;
+            document.getElementById('author').value = this.authorISBN;
+            this.setState({
+                title: this.titleISBN,
+                author: this.authorISBN
+            });
+            console.log(this.titleISBN);
+            console.log(this.authorISBN);
+            this.handleISBNClose();
+        };
+        if(nextProps.UI.coverUploaded){
+            document.getElementById('coverImg').src = nextProps.UI.coverUploaded;
+            this.setState({
+                cover: nextProps.UI.coverUploaded
+            });
+            nextProps.UI.coverUploaded = null;
+        }
+    };
+    handleISBNOpen = () => {
+        this.setState({ openISBN: true });
+    };
+    
+    handleISBNClose = () => {
+        this.setState({ openISBN: false, isbn: '', errors: {}});
     };
     handleOpen = () => {
         this.setState({ open: true });
@@ -83,15 +131,30 @@ class PostBook extends Component{
     };
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log(this.state);
         this.props.postBook({ 
             title: this.state.title,
             author: this.state.author,
             cover: this.state.cover
         });
     };
+    handleImageChange = (event) => {
+        const image = event.target.files[0];
+        const formData = new FormData();
+        formData.append('cover', image, image.name);
+        this.props.uploadImage(formData);
+    };
+    handleUploadCover = () => {
+        const fileInput = document.getElementById('coverInput');
+        fileInput.click();
+    };
+    checkISBN = (event) => {
+        event.preventDefault();
+        this.props.checkISBN({isbn: this.state.isbn});
+    };
     render(){
         const { errors } = this.state;
-        const { classes, UI: {loading}} = this.props;
+        const { classes, UI: {loading, loadingISBN}} = this.props;
         return (
             <Fragment>
                 <CustomButton onClick={this.handleOpen} tip="Post a book">
@@ -104,13 +167,40 @@ class PostBook extends Component{
                     <DialogTitle>Post a book</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
-                            <TextField name="title" type="text" label="Title" placeholder="Title" error={errors.title ? true : false } helperText={errors.title} className={classes.textField} onChange={this.handleChange} fullWidth />
-                            <TextField name="author" type="text" label="Author" placeholder="Author" error={errors.author ? true : false } helperText={errors.author} className={classes.textField} onChange={this.handleChange} fullWidth />
-                            <TextField name="cover" type="text" label="Cover" placeholder="Cover" error={errors.cover ? true : false } helperText={errors.cover} className={classes.textField} onChange={this.handleChange} fullWidth />
+                            <div className={classes.divImage}>
+                                <img id="coverImg" alt="Book cover" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/no-cover.jpg?alt=media" width="100px" />
+                                <input type="file" id="coverInput" name="cover" onChange={this.handleImageChange} hidden="hidden" />
+                                <Tooltip title="Upload a cover image" placement="bottom">
+                                    <IconButton className="button" onClick={this.handleUploadCover}>
+                                        <ImageSearchIcon color="primary" /> 
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                            <TextField className={classes.input} id="title" name="title" placeholder="Title" InputProps={{startAdornment: ( <InputAdornment position="start"> <MenuBookIcon color="primary" /> </InputAdornment>),}} error={errors.title ? true : false } helperText={errors.title} onChange={this.handleChange} fullWidth/>
+                            <TextField className={classes.input} id="author" name="author" placeholder="Author" InputProps={{startAdornment: ( <InputAdornment position="start"> <AccountCircle color="primary" /> </InputAdornment>),}} error={errors.author ? true : false } helperText={errors.author} onChange={this.handleChange} fullWidth/>
                             <p>{errors.location}</p>
-                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
+                            <Button variant="contained" className={classes.submitButton} color="secondary" onClick={this.handleISBNOpen}>
+                                Search by ISBN
+                            </Button><Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
                                 Submit 
                                 {loading && (
+                                    <CircularProgress size={30} className={classes.progressSpinner} />
+                                )}
+                            </Button>
+                        </form>
+                    </DialogContent>
+                </Dialog>
+                <Dialog open={this.state.openISBN} onClose={this.handleISBNClose} fullWidth maxWidth="sm">
+                    <CustomButton tip="Close" onClick={this.handleISBNClose} tipClassName={classes.closeButton}>
+                        <CloseIcon />
+                    </CustomButton>
+                    <DialogTitle>Search Book by ISBN</DialogTitle>
+                    <DialogContent>
+                        <form onSubmit={this.checkISBN}>
+                           <TextField name="isbn" type="text" label="ISBN matches with the code under the barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
+                           <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
+                                CHECK ISBN 
+                                {loadingISBN && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
                             </Button>
@@ -124,11 +214,18 @@ class PostBook extends Component{
 
 PostBook.propTypes = {
     postBook: PropTypes.func.isRequired,
-    UI: PropTypes.object.isRequired
+    checkISBN: PropTypes.func.isRequired,
+    uploadImage: PropTypes.func.isRequired,
+    UI: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    UI: state.UI
+    UI: state.UI,
+    data: state.data
 });
 
-export default connect(mapStateToProps, {postBook})(withStyles(styles)(PostBook));
+const mapActionsToProps= { postBook, checkISBN, uploadImage};
+
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PostBook));

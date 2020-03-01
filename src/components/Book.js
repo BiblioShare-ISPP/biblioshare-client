@@ -28,7 +28,7 @@ const styles = {
 class Book extends Component {
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {title, author, cover, owner, ownerImage, commentCount, requestCount, userPostDate, location}} = this.props;
+        const { classes, book: {title, author, cover, owner, ownerImage, userPostDate, location}} = this.props;
         return (
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
@@ -37,7 +37,7 @@ class Book extends Component {
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(userPostDate).fromNow()}</Typography>
                     <Typography variant="body2" color="textSecondary">Place: {location}</Typography>
-                    <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" color="textSecondary" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
+                    <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                 </CardContent>
             </Card>
         );
