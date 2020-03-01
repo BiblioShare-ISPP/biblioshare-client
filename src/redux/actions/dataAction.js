@@ -55,12 +55,17 @@ export const checkISBN = (isbn) => (dispatch) => {
         .then((data) => {
             return data.json();
         }).then((res)=>{
-            // Controlar la longitud de lo devuelto
-
-            dispatch({
-                type: CHECK_ISBN,
-                payload: res
-            });
+            if(res.totalItems !== 0){
+                dispatch({
+                    type: CHECK_ISBN,
+                    payload: res
+                });
+            }else{
+                dispatch({
+                    type: ISBN_ERRORS,
+                    payload: JSON.parse('{ "isbn":"No results were found"}')
+                });
+            }
         });
 
         dispatch({ type: ISBN_CHECKED });

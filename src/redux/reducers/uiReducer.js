@@ -28,7 +28,8 @@ export default function(state= initialState, action){
         case CHECKING_ISBN:
             return {
                 ...state,
-                loadingISBN: true
+                loadingISBN: true,
+                errors: null
             };
         case ISBN_ERRORS:
             return {

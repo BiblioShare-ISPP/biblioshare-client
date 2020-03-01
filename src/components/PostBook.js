@@ -14,6 +14,8 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CloseIcon from '@material-ui/icons/Close';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 //Redux
 import {connect} from 'react-redux';
@@ -40,7 +42,7 @@ const styles = {
     },
     submitButton: {
         position: 'relative',
-        margin: '10px 0px 0px 0px'
+        margin: '10px 5px 0px 0px'
     },
     progressSpinner: {
         position: 'absolute'
@@ -49,6 +51,12 @@ const styles = {
         position: 'absolute',
         right: '3%',
         top: '3%'
+    },
+    input: {
+    },
+    divImage:{
+        position: 'relative',
+        margin: '0 auto'
     }
 };
 
@@ -57,6 +65,7 @@ class PostBook extends Component{
     authorISBN = '';
     state = {
         open: false,
+        openISBN: false,
         title: '',
         author: '',
         cover: '',
@@ -80,10 +89,37 @@ class PostBook extends Component{
         };
         if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
             this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
-            this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors;
+            this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors[0];
+            let coverImg = nextProps.data.isbn[0].items[0].volumeInfo.imageLinks;
+
+            if(coverImg != null){
+                coverImg = coverImg.thumbnail;
+                if( coverImg == null){
+                    coverImg = '';
+                }
+                else{
+                    document.getElementById('coverImg').src = coverImg;
+                }
+            }
+            this.setState({
+                author: this.authorISBN,
+                title: this.titleISBN,
+                cover: coverImg
+            });
+            document.getElementById('title').value = this.titleISBN;
+            document.getElementById('author').value = this.authorISBN;
+
             console.log(this.titleISBN);
             console.log(this.authorISBN);
+            console.log(coverImg);
         }
+    };
+    handleISBNOpen = () => {
+        this.setState({ openISBN: true });
+    };
+    
+    handleISBNClose = () => {
+        this.setState({ openISBN: false, isbn: '', errors: {}});
     };
     handleOpen = () => {
         this.setState({ open: true });
@@ -116,6 +152,7 @@ class PostBook extends Component{
     checkISBN = (event) => {
         event.preventDefault();
         this.props.checkISBN({isbn: this.state.isbn});
+        this.handleISBNClose();
     };
     render(){
         const { errors } = this.state;
@@ -131,28 +168,41 @@ class PostBook extends Component{
                     </CustomButton>
                     <DialogTitle>Post a book</DialogTitle>
                     <DialogContent>
+                        <form onSubmit={this.handleSubmit}>
+                            <div className={classes.divImage}>
+                                <img id="coverImg" alt="Book cover" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/no-cover.jpg?alt=media" width="100px" />
+                                <input type="file" id="coverInput" onChange={this.handleImageChange} hidden="hidden" />
+                                <Tooltip title="Upload a cover image" placement="bottom">
+                                    <IconButton className="button" onClick={this.handleUploadCover}>
+                                        <ImageSearchIcon color="primary" /> 
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                            <TextField className={classes.input} id="title" name="title" placeholder="Title" InputProps={{startAdornment: ( <InputAdornment position="start"> <MenuBookIcon color="primary" /> </InputAdornment>),}} error={errors.title ? true : false } helperText={errors.title} onChange={this.handleChange} fullWidth/>
+                            <TextField className={classes.input} id="author" name="author" placeholder="Author" InputProps={{startAdornment: ( <InputAdornment position="start"> <AccountCircle color="primary" /> </InputAdornment>),}} error={errors.author ? true : false } helperText={errors.author} onChange={this.handleChange} fullWidth/>
+                            <p>{errors.location}</p>
+                            <Button variant="contained" className={classes.submitButton} color="secondary" onClick={this.handleISBNOpen}>
+                                Search by ISBN
+                            </Button><Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
+                                Submit 
+                                {loading && (
+                                    <CircularProgress size={30} className={classes.progressSpinner} />
+                                )}
+                            </Button>
+                        </form>
+                    </DialogContent>
+                </Dialog>
+                <Dialog open={this.state.openISBN} onClose={this.handleISBNClose} fullWidth maxWidth="sm">
+                    <CustomButton tip="Close" onClick={this.handleISBNClose} tipClassName={classes.closeButton}>
+                        <CloseIcon />
+                    </CustomButton>
+                    <DialogTitle>Search Book by ISBN</DialogTitle>
+                    <DialogContent>
                         <form onSubmit={this.checkISBN}>
                            <TextField name="isbn" type="text" label="ISBN" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
                                 CHECK ISBN 
                                 {loadingISBN && (
-                                    <CircularProgress size={30} className={classes.progressSpinner} />
-                                )}
-                            </Button>
-                        </form>
-                        <form onSubmit={this.handleSubmit}>
-                            <input type="file" id="coverInput" onChange={this.handleImageChange} hidden="hidden" />
-                            <Tooltip title="Upload a cover image" placement="bottom">
-                                <IconButton className="button" onClick={this.handleUploadCover}>
-                                    <ImageSearchIcon color="primary" /> 
-                                </IconButton>
-                            </Tooltip>
-                            <TextField id="title" name="title" type="text" label="Title" placeholder="Title" error={errors.title ? true : false } helperText={errors.title} className={classes.textField} onChange={this.handleChange} fullWidth />
-                            <TextField id="author" name="author" type="text" label="Author" placeholder="Author" error={errors.author ? true : false } helperText={errors.author} className={classes.textField} onChange={this.handleChange} fullWidth />
-                            <p>{errors.location}</p>
-                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
-                                Submit 
-                                {loading && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
                             </Button>
