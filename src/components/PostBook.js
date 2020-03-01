@@ -17,9 +17,13 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
+//Icons
+import { Icon } from '@iconify/react';
+import barcodeIcon from '@iconify/icons-mdi/barcode';
+
 //Redux
 import {connect} from 'react-redux';
-import {postBook, checkISBN} from '../redux/actions/dataAction';
+import {postBook, checkISBN, uploadImage} from '../redux/actions/dataAction';
 import { Tooltip } from '@material-ui/core';
 
 const styles = {
@@ -73,12 +77,13 @@ class PostBook extends Component{
         errors: {}
     };
     componentWillReceiveProps(nextProps){
+        console.log(nextProps);
         if(nextProps.UI.errors){
             this.setState({
                 errors: nextProps.UI.errors
             });
         };
-        if(!nextProps.UI.errors && !nextProps.UI.loading && nextProps.UI.loadingISBN){
+        if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded){
             this.setState({ 
                 author: '',
                 title: '',
@@ -90,28 +95,22 @@ class PostBook extends Component{
         if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
             this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
             this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors[0];
-            let coverImg = nextProps.data.isbn[0].items[0].volumeInfo.imageLinks;
-
-            if(coverImg != null){
-                coverImg = coverImg.thumbnail;
-                if( coverImg == null){
-                    coverImg = '';
-                }
-                else{
-                    document.getElementById('coverImg').src = coverImg;
-                }
-            }
-            this.setState({
-                author: this.authorISBN,
-                title: this.titleISBN,
-                cover: coverImg
-            });
             document.getElementById('title').value = this.titleISBN;
             document.getElementById('author').value = this.authorISBN;
-
+            this.setState({
+                title: this.titleISBN,
+                author: this.authorISBN
+            });
             console.log(this.titleISBN);
             console.log(this.authorISBN);
-            console.log(coverImg);
+            this.handleISBNClose();
+        };
+        if(nextProps.UI.coverUploaded){
+            document.getElementById('coverImg').src = nextProps.UI.coverUploaded;
+            this.setState({
+                cover: nextProps.UI.coverUploaded
+            });
+            nextProps.UI.coverUploaded = null;
         }
     };
     handleISBNOpen = () => {
@@ -152,7 +151,6 @@ class PostBook extends Component{
     checkISBN = (event) => {
         event.preventDefault();
         this.props.checkISBN({isbn: this.state.isbn});
-        this.handleISBNClose();
     };
     render(){
         const { errors } = this.state;
@@ -171,7 +169,7 @@ class PostBook extends Component{
                         <form onSubmit={this.handleSubmit}>
                             <div className={classes.divImage}>
                                 <img id="coverImg" alt="Book cover" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/no-cover.jpg?alt=media" width="100px" />
-                                <input type="file" id="coverInput" onChange={this.handleImageChange} hidden="hidden" />
+                                <input type="file" id="coverInput" name="cover" onChange={this.handleImageChange} hidden="hidden" />
                                 <Tooltip title="Upload a cover image" placement="bottom">
                                     <IconButton className="button" onClick={this.handleUploadCover}>
                                         <ImageSearchIcon color="primary" /> 
@@ -199,7 +197,7 @@ class PostBook extends Component{
                     <DialogTitle>Search Book by ISBN</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.checkISBN}>
-                           <TextField name="isbn" type="text" label="ISBN" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} fullWidth />
+                           <TextField name="isbn" type="text" label="ISBN matches with the code under the barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
                                 CHECK ISBN 
                                 {loadingISBN && (
@@ -217,6 +215,7 @@ class PostBook extends Component{
 PostBook.propTypes = {
     postBook: PropTypes.func.isRequired,
     checkISBN: PropTypes.func.isRequired,
+    uploadImage: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired
 };
@@ -226,7 +225,7 @@ const mapStateToProps = (state) => ({
     data: state.data
 });
 
-const mapActionsToProps= { postBook, checkISBN};
+const mapActionsToProps= { postBook, checkISBN, uploadImage};
 
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PostBook));

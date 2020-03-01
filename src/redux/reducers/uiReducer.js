@@ -1,9 +1,10 @@
-import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS } from '../types';
+import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED } from '../types';
 
 const initialState = {
     loading: false,
     loadingISBN: false,
-    errors: null
+    errors: null,
+    coverUploaded: null
 };
 
 export default function(state= initialState, action){
@@ -18,6 +19,7 @@ export default function(state= initialState, action){
             return {
                 ...state,
                 loading: false,
+                coverUploaded: null,
                 errors: null
             }
         case LOADING_UI:
@@ -25,6 +27,12 @@ export default function(state= initialState, action){
                 ...state,
                 loading: true
             };
+        case COVER_UPLOADED:
+            return{
+                ...state,
+                loading: false,
+                coverUploaded: action.payload
+            }
         case CHECKING_ISBN:
             return {
                 ...state,

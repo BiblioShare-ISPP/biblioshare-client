@@ -1,4 +1,4 @@
-import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS} from '../types';
+import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED} from '../types';
 import axios from 'axios';
 
 //Get all books
@@ -21,6 +21,7 @@ export const getBooks = () => dispatch =>{
 
 //Post a book
 export const postBook = (newBook) => (dispatch) => {
+    console.log(newBook);
     dispatch({ type: LOADING_UI });
     axios.post('/book', newBook)
     .then((res) => {
@@ -41,7 +42,17 @@ export const postBook = (newBook) => (dispatch) => {
 //Upload cover
 export const uploadImage = (formData) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-
+    axios.post('/book/image', formData)
+    .then((res) => {
+        dispatch({
+            type: COVER_UPLOADED,
+            payload: res.data.coverURL
+        });
+        return res.data.coverURL;
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
 };
 
 //Check ISBN
