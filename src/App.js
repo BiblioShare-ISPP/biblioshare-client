@@ -17,11 +17,14 @@ import themeFile from './util/theme';
 
 //Pages
 import home from './pages/home';
+import book from './pages/book';
 import login from './pages/login';
 import signup from './pages/signup';
 import axios from 'axios';
 
 const theme = createMuiTheme(themeFile);
+
+axios.defaults.baseURL = 'https://europe-west1-ispp-99815.cloudfunctions.net/api';
 
 const token = localStorage.FBIdToken;
 if(token){
@@ -47,6 +50,7 @@ function App() {
               <Route exact path="/" component={home}/>
               <AuthRoute exact path="/login" component={login}/>
               <AuthRoute exact path="/signup" component={signup}/>
+              <Route exact path="/books/:bookId" component={book} />
             </Switch>
         </div>
         </Router>

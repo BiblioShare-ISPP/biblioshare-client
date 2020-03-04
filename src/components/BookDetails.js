@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import {Link} from 'react-router-dom';
 
 //MUI
 import Card from '@material-ui/core/Card';
@@ -25,11 +25,12 @@ const styles = {
     }
 };
 
-class Book extends Component {
+class BookDetails extends Component {
     render() {
         dayjs.extend(relativeTime);
         const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location}} = this.props;
         return (
+            <Fragment>
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
@@ -40,8 +41,11 @@ class Book extends Component {
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                 </CardContent>
             </Card>
-        );
+            <Typography variant="body2" color="textSecondary">Comments: </Typography>
+
+            </Fragment>
+        )
     }
 }
 
-export default withStyles(styles)(Book);
+export default withStyles(styles)(BookDetails);
