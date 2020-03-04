@@ -16,6 +16,8 @@ import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 //Icons
 import { Icon } from '@iconify/react';
@@ -61,6 +63,11 @@ const styles = {
     divImage:{
         position: 'relative',
         margin: '0 auto'
+    },
+    addButton: {
+        position: 'fixed',
+        bottom: '10%',
+        right: '5%'
     }
 };
 
@@ -77,7 +84,6 @@ class PostBook extends Component{
         errors: {}
     };
     componentWillReceiveProps(nextProps){
-        console.log(nextProps);
         if(nextProps.UI.errors){
             this.setState({
                 errors: nextProps.UI.errors
@@ -101,8 +107,6 @@ class PostBook extends Component{
                 title: this.titleISBN,
                 author: this.authorISBN
             });
-            console.log(this.titleISBN);
-            console.log(this.authorISBN);
             this.handleISBNClose();
         };
         if(nextProps.UI.coverUploaded){
@@ -119,6 +123,8 @@ class PostBook extends Component{
     
     handleISBNClose = () => {
         this.setState({ openISBN: false, isbn: '', errors: {}});
+        this.titleISBN = '';
+        this.authorISBN = '';
     };
     handleOpen = () => {
         this.setState({ open: true });
@@ -131,7 +137,6 @@ class PostBook extends Component{
     };
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state);
         this.props.postBook({ 
             title: this.state.title,
             author: this.state.author,
@@ -197,7 +202,7 @@ class PostBook extends Component{
                     <DialogTitle>Search Book by ISBN</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.checkISBN}>
-                           <TextField name="isbn" type="text" label="ISBN matches with the code under the barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
+                           <TextField name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
                                 CHECK ISBN 
                                 {loadingISBN && (
@@ -207,6 +212,11 @@ class PostBook extends Component{
                         </form>
                     </DialogContent>
                 </Dialog>
+                <div className={classes.addButton}>
+                    <Fab color="primary" aria-label="add" onClick={this.handleOpen}>
+                        <AddIcon />
+                    </Fab>
+                </div>
             </Fragment>
         )
     }

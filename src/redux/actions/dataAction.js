@@ -1,4 +1,4 @@
-import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED} from '../types';
+import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED} from '../types';
 import axios from 'axios';
 
 //Get all books
@@ -39,6 +39,24 @@ export const postBook = (newBook) => (dispatch) => {
     });
 };
 
+//Get book
+export const getBookData = (bookId) => (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+    axios.get(`/book/${bookId}`)
+    .then((res) => {
+        dispatch({
+            type: SET_BOOK,
+            payload: res.data
+        });
+    })
+    .catch(() => {
+        dispatch({
+            type: SET_BOOK,
+            payload: null
+        })
+    });
+};
+
 //Upload cover
 export const uploadImage = (formData) => (dispatch) => {
     dispatch({ type: LOADING_UI });
@@ -56,7 +74,6 @@ export const uploadImage = (formData) => (dispatch) => {
 };
 
 //Check ISBN
-
 export const checkISBN = (isbn) => (dispatch) => {
     dispatch({ type: CHECKING_ISBN });
     let expresion = /^(97(8|9))?\d{9}(\d|X)$/;
