@@ -2,14 +2,14 @@ import React, { Component, Fragment } from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import CustomBotton from '../util/CustomBottom';
+import CustomBotton from '../util/CustomButton';
+import PostBook from './PostBook';
 //MUI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 
 //Icons
-import MenuBookIcon from '@material-ui/icons/MenuBook';
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 
@@ -22,9 +22,7 @@ class Navbar extends Component {
                 <Toolbar className="nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <CustomBotton tip="Post a book">
-                                <MenuBookIcon color="secondary"/>
-                            </CustomBotton>
+                            <PostBook/>
                             <Link to="/">
                                 <CustomBotton tip="Home">
                                     <HomeIcon color="secondary"/>
