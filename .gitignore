@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#Store.js - Cambio para la extension ReduxDevTools
+/src/redux/store.js
