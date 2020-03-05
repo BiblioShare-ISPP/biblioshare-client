@@ -1,0 +1,13 @@
+branches:
+  only:
+  - master
+install:
+  - npm install
+script:
+  - npm run build
+deploy:
+  provider: firebase
+  skip_cleanup: true
+  token:
+    secure: "O8tzqtAosgySwNoCtPjnOmugNaoR/iuxRSiPp6+2gaPIZokFAJJ5278QRL8cyL/pJrajramZwwURbWahQ66AdD8pe/gO9gdV/P6Rxa5ERHipxhCXk+ZC4CJRIwEwDqFyKqmroghtWJqbLglVOK9Oqbj38d9efnMbm9PCSUYAexkI+sM/rKju3aPwrU3/+UTqdYAf8Ss+ketS/IJCwx51DVox0XxvIBUnNITd5h0IQOdoXnQ25A59jv7X0HluS8WjpaJTZ36C5I01nFdIQrnPpwqBeEb7X1vBAaC/l94w3Db0IWoXB+LPwyHXOSitV1tAUrAJAPUkj9OlkwcbqEkF0Z2HAN0stvSo90zcKumQP+lb3c8GiAotRpnLzXvCbtpqkNu0mwmuvpcO3wrmKVKaaTUVL2wOvo8Dq+1Pm75vVdhNsWJ99Bbd2wDv1Ykoo07bAKfi03tpVOBkT39lsm+kxuah7CTcLWXyK7yMdx8V18m3G8ExwY7pBsIHvMdIG0e+4P1PtJRofPttxAqYrIqzRFpKJaIcB6Zs5wm6H9Rhd/5OdFaKiDdnznQjuZdpLv44OCxBdmFh7P8ty6nm8Ekk9R84b+6pa5Z4lpNGPxJiIOL/AmEQ4nsRz8U7/BL3WdeUwX5ufwHzLBgNh+kwdDy+HYo824xfuzNUrNScUUb45oc="
+  project: "biblioshare-s1"

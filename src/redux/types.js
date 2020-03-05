@@ -15,6 +15,7 @@ export const ISBN_ERRORS = 'ISBN_ERRORS';
 
 //Data reducer types
 export const POST_BOOK = 'POST_BOOK';
+export const SET_BOOK = 'SET_BOOK';
 export const SET_BOOKS = 'SET_BOOKS';
 export const CHECK_ISBN = 'CHECK_ISBN';
 export const COVER_UPLOADED = 'COVER_UPLOADED';
