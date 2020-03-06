@@ -1,6 +1,7 @@
 import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS } from '../types';
 import axios from 'axios';
 
+
 //Get all books
 export const getBooks = () => dispatch =>{
     dispatch({ type: LOADING_DATA });
@@ -37,3 +38,4 @@ export const postBook = (newBook) => (dispatch) => {
         });
     });
 };
+

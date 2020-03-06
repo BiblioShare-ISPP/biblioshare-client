@@ -28,9 +28,11 @@ class Navbar extends Component {
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
-                            <CustomBotton tip="Notifications">
+                            <Link to="/requests">
+                            <CustomBotton tip="Requests">
                                 <Notifications color="secondary"/>
                             </CustomBotton>
+                            </Link>
                         </Fragment>
                     ) : (
                         <Fragment>

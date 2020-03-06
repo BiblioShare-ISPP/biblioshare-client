@@ -13,3 +13,8 @@ export const LOADING_DATA = 'LOADING_DATA';
 //Data reducer types
 export const POST_BOOK = 'POST_BOOK';
 export const SET_BOOKS = 'SET_BOOKS';
+
+//Request reducer types
+export const SET_REQUESTS = 'SET_REQUESTS';
+export const ACCEPTED_REQUEST = 'ACCEPTED_REQUEST';
+export const REJECTED_REQUEST = 'REJECTED_REQUEST';
