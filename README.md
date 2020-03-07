@@ -2,6 +2,4 @@
 [![Build Status](https://travis-ci.com/BiblioShare-ISPP/biblioshare-client.svg?branch=master)](https://travis-ci.com/BiblioShare-ISPP/biblioshare-client)
 
 ## BiblioShare
-<p align="center">
 ![BiblioShare](https://github.com/BiblioShare-ISPP/biblioshare-client/blob/master/public/logo192.png)
-</p>
