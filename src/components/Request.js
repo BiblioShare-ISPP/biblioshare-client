@@ -13,7 +13,8 @@ import Button from '@material-ui/core/Button';
 import { green, red } from '@material-ui/core/colors';
 import Typography from '@material-ui/core/Typography';
 
-import { acceptedRequest, rejectedRequest } from '../redux/actions/requestAction';
+import {connect} from 'react-redux';
+import {getRequestsByUser, acceptedRequest, rejectedRequest } from '../redux/actions/requestAction';
 
 const styles = {
     progress: {
@@ -54,10 +55,26 @@ const theme = createMuiTheme({
   });
 
 class Request extends Component {
+    
     render() {
         dayjs.extend(relativeTime);
         const { classes, request: { requestId, bookId, bookOwner, userHandle, status, createdAt } } = this.props;
-
+        let button;
+        if(status == 'pending'){
+            button= <div className={classes.buttons}>
+                    
+            <ThemeProvider theme={theme}>
+                <Button variant="contained" color="primary" className={classes.margin} onClick={acceptedRequest(requestId)}>
+                    Accepted
+                </Button>
+            </ThemeProvider>
+            <ThemeProvider theme={theme1}>
+                <Button variant="contained" color="primary" className={classes.margin} onClick={rejectedRequest(requestId)}>
+                    Rejected
+                </Button>
+            </ThemeProvider>
+    </div>
+        }
         return (
             <Card className={classes.card}>
                 <CardContent className={classes.content}>
@@ -65,26 +82,27 @@ class Request extends Component {
                     <Typography variant="body2" color="textSecondary">Applicant: {userHandle}</Typography>
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(createdAt).fromNow()}</Typography>
                     <Typography variant="body2" color="textSecondary">Status: {status}</Typography>
-                    <div className={classes.buttons}>
-
-                        <ThemeProvider theme={theme}>
-                            <Button variant="contained" color="primary" fontColor="blank" className={classes.margin} onClick={acceptedRequest(requestId)}>
-                                Accepted
-                            </Button>
-                        </ThemeProvider>
-                        <ThemeProvider theme={theme1}>
-                            <Button variant="contained" color="primary" className={classes.margin} onClick={rejectedRequest(requestId)}>
-                                Rejected
-                            </Button>
-                        </ThemeProvider>
-                </div>
+                    {button}
+                        
+                    
+                    
                 </CardContent>
             </Card >
         );
     }
 }
 
+const mapStateToProps = state => ({
+    data: state.request,
+    user: state.user,
+    data1: state.data
+});
+
+const mapActionsToProps = {
+    acceptedRequest,
+    rejectedRequest,
+    getRequestsByUser
+}
 
 
-
-export default (withStyles(styles)(Request));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Request));

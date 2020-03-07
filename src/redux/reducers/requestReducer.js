@@ -3,7 +3,7 @@ import { SET_REQUESTS, LOADING_DATA, ACCEPTED_REQUEST, REJECTED_REQUEST } from '
 const initialState = {
     requests: [],
     loading: false,
-    request: {}
+    request:{}
 };
 
 export default function (state= initialState, action){
@@ -16,16 +16,18 @@ export default function (state= initialState, action){
         case SET_REQUESTS:
             return{
                 ...state,
-                requests: action.payload
+                requests: action.payload,
+                
             }
         case ACCEPTED_REQUEST:
         case REJECTED_REQUEST:
-            let index = state.requests.findIndex(
-                (request) => request.requestId === action.payload.requestId
-            );
-            state.requests[index] = action.payload;
+            
             return {
-                ...state
+                ...state,
+                requests: [
+                    action.payload,
+                    ...state.request
+                ]
             };
         default:
             return state;

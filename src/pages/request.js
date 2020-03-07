@@ -14,9 +14,10 @@ import {getRequestsByUser, acceptedRequest, rejectedRequest} from '../redux/acti
 
 class request extends Component {
     componentDidMount(){
-       console.log(this.props.user);
-        this.props.getRequestsByUser(this.props.user.credentials.handle);
+       let handle = this.props.user.credentials.handle;
+       this.props.getRequestsByUser(handle);
     };
+    
     render() {
         const styles = {
             progress: {
@@ -24,12 +25,17 @@ class request extends Component {
             }
         };
 
-        const { requests, loading} = this.props.data;
-        const user = this.props.user;
-        let recentRequestsMarkup = loading ? (
+        const  {requests }= this.props.data;
+        
+        const user = this.props.user.authenticated;
+        const loading  = this.props.data1;
+        let recentRequestsMarkup =  user? ( loading ? (
             requests.map((request) => 
                 <Request key={request.requestId} request={request}/>)
-        ) : (<CircularProgress style={styles.progress} />);
+        ) : (<CircularProgress style={styles.progress} />)) :
+        (
+          window.location.href = "/login"
+        );
         return (
             <Grid container spacing={6}>
                 
@@ -40,8 +46,6 @@ class request extends Component {
                 <Grid item sm={8} xs={12}>
                     {recentRequestsMarkup}
                     
-                    {requests.length === 0 && user.authenticated === true &&  (<Alert variant="outlined"><AlertTitle>INFORMATION</AlertTitle>There aren´t requests for you</Alert>)}
-                    {user.authenticated === false && (<Alert variant="filled"  severity="warning"><AlertTitle>WARNING</AlertTitle>Authentication Required</Alert>)}
                 </Grid>
                 
                 
@@ -56,13 +60,14 @@ request.propTypes = {
     rejectedRequest: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+   
 
 };
 
 const mapStateToProps = state => ({
     data: state.request,
     user: state.user,
+    data1: state.data
 });
 
 const mapActionsToProps = {
