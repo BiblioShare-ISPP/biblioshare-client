@@ -14,7 +14,8 @@ import { green, red } from '@material-ui/core/colors';
 import Typography from '@material-ui/core/Typography';
 
 import {connect} from 'react-redux';
-import {getRequestsByUser, acceptedRequest, rejectedRequest } from '../redux/actions/requestAction';
+import {acceptedRequest, rejectedRequest } from '../redux/actions/requestAction';
+import PropTypes from 'prop-types';
 
 const styles = {
     progress: {
@@ -55,33 +56,48 @@ const theme = createMuiTheme({
   });
 
 class Request extends Component {
+    acceptedRequest = () => {
+        this.props.acceptedRequest(this.props.request.requestId);
+    }
+    rejectedRequest = () => {
+        this.props.rejectedRequest(this.props.request.requestId);
+    }
     
     render() {
         dayjs.extend(relativeTime);
         const { classes, request: { requestId, bookId, bookOwner, userHandle, status, createdAt } } = this.props;
         let button;
-        if(status == 'pending'){
+        if(status == 'pending' && bookOwner == this.props.user.credentials.handle){
             button= <div className={classes.buttons}>
                     
             <ThemeProvider theme={theme}>
-                <Button variant="contained" color="primary" className={classes.margin} onClick={acceptedRequest(requestId)}>
+                <Button variant="contained" color="primary" className={classes.margin} onClick={this.acceptedRequest}>
                     Accepted
                 </Button>
             </ThemeProvider>
             <ThemeProvider theme={theme1}>
-                <Button variant="contained" color="primary" className={classes.margin} onClick={rejectedRequest(requestId)}>
+                <Button variant="contained" color="primary" className={classes.margin} onClick={this.rejectedRequest}>
                     Rejected
                 </Button>
             </ThemeProvider>
-    </div>
+            </div>
         }
+        let owner;
+        if(bookOwner != this.props.user.credentials.handle){
+           owner = <Typography variant="body2" color="textSecondary">Owner: {bookOwner}</Typography>
+        }
+        let applicant;
+        if(bookOwner == this.props.user.credentials.handle){
+            applicant = <Typography variant="body2" color="textSecondary">Applicant: {userHandle}</Typography>
+         }
         return (
             <Card className={classes.card}>
                 <CardContent className={classes.content}>
-                    <Typography variant="h6">Request: {bookId}</Typography>
-                    <Typography variant="body2" color="textSecondary">Applicant: {userHandle}</Typography>
+                    <Typography variant="h6">Request</Typography>
+                    {owner}
+                    {applicant}
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(createdAt).fromNow()}</Typography>
-                    <Typography variant="body2" color="textSecondary">Status: {status}</Typography>
+                    <Typography variant="body2" color="primary">Status: {status.toUpperCase()}</Typography>
                     {button}
                         
                     
@@ -92,16 +108,24 @@ class Request extends Component {
     }
 }
 
+Request.propTypes = {
+    acceptedRequest: PropTypes.func.isRequired,
+    rejectedRequest: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    request: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
+}
+
 const mapStateToProps = state => ({
     data: state.request,
     user: state.user,
-    data1: state.data
+   
 });
 
 const mapActionsToProps = {
     acceptedRequest,
     rejectedRequest,
-    getRequestsByUser
+    
 }
 
 

@@ -6,17 +6,23 @@ import {Alert, AlertTitle } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import Request from '../components/Request';
 import Profile from '../components/Profile';
-
+import Book from '../components/Book';
 //Redux
 
 import {connect} from 'react-redux';
 import {getRequestsByUser, acceptedRequest, rejectedRequest} from '../redux/actions/requestAction';
 
 class request extends Component {
+    
     componentDidMount(){
-       let handle = this.props.user.credentials.handle;
-       this.props.getRequestsByUser(handle);
+       let handle = this.props.handle;
+     
+      this.props.getRequestsByUser(handle);
+
     };
+
+    
+
     
     render() {
         const styles = {
@@ -25,17 +31,19 @@ class request extends Component {
             }
         };
 
-        const  {requests }= this.props.data;
-        
+        const  {requests, loading }= this.props.requests;
+    
         const user = this.props.user.authenticated;
-        const loading  = this.props.data1;
-        let recentRequestsMarkup =  user? ( loading ? (
+        console.log(requests)
+        let recentRequestsMarkup =  user? (requests.length > 0 ?  ( loading ? (
             requests.map((request) => 
-                <Request key={request.requestId} request={request}/>)
-        ) : (<CircularProgress style={styles.progress} />)) :
-        (
-          window.location.href = "/login"
-        );
+                <Request key={request.requestId} request={request}/>)): 
+                <CircularProgress style={styles.progress} />):
+                <Alert variant="outlined" severity="success"><AlertTitle>Information</AlertTitle>There aren´t  request for you</Alert>) :
+                (window.location.href = "/login" );
+
+       
+
         return (
             <Grid container spacing={6}>
                 
@@ -47,7 +55,7 @@ class request extends Component {
                     {recentRequestsMarkup}
                     
                 </Grid>
-                
+               
                 
             </Grid>
         )
@@ -65,9 +73,9 @@ request.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    data: state.request,
+    requests: state.request,
     user: state.user,
-    data1: state.data
+    handle: state.user.credentials.handle
 });
 
 const mapActionsToProps = {

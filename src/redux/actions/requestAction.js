@@ -13,22 +13,19 @@ export const getRequestsByUser = (data2) => dispatch =>{
             payload: res.data
         })
     })
-    .catch(err => {
-        dispatch({
-            type: SET_REQUESTS,
-            payload: []
-        })
+    .catch((err) => {
+        console.log(err);
     });
 };
 
 //Accepted a request
-export const acceptedRequest = (requestId) => (dispatch) => {
-    
+export const acceptedRequest = (requestId) => dispatch => {
+   
     axios.get(`/request/${requestId}/accept`)
     .then( (res) => {
         dispatch({
             type:ACCEPTED_REQUEST,
-            payload: res.data
+            payload: res.request
         });
     })
     .catch( err => console.log(err));

@@ -15,19 +15,19 @@ export default function (state= initialState, action){
             }
         case SET_REQUESTS:
             return{
-                ...state,
+                loading: true,
                 requests: action.payload,
                 
             }
         case ACCEPTED_REQUEST:
         case REJECTED_REQUEST:
+            let index = state.requests.findIndex(
+                (request) => request.requestId === action.payload.requestId);
+            state.requests[index].status = action.payload;
             
             return {
                 ...state,
-                requests: [
-                    action.payload,
-                    ...state.request
-                ]
+                
             };
         default:
             return state;
