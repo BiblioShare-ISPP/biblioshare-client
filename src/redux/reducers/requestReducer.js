@@ -1,4 +1,5 @@
 import { SET_REQUESTS, LOADING_DATA, ACCEPTED_REQUEST, REJECTED_REQUEST } from '../types';
+import request from '../../pages/request';
 
 const initialState = {
     requests: [],
@@ -20,15 +21,29 @@ export default function (state= initialState, action){
                 
             }
         case ACCEPTED_REQUEST:
-        case REJECTED_REQUEST:
             let index = state.requests.findIndex(
-                (request) => request.requestId === action.payload.requestId);
-            state.requests[index].status = action.payload;
-            
-            return {
+                (request) => request.requestId === action.payload.requestId
+              );
+              
+                state.requests[index].status = 'accepted' ;
+              
+              return {
                 ...state,
+                loading: true,
                 
-            };
+              };
+        case REJECTED_REQUEST:
+            let index1 = state.requests.findIndex(
+                (request) => request.requestId === action.payload.requestId
+              );
+              
+            state.requests[index1].status = 'rejected' ;
+              
+              return {
+                ...state,
+                loading: true,
+                
+              };
         default:
             return state;
     }

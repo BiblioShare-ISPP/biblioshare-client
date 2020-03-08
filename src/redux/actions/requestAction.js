@@ -25,7 +25,7 @@ export const acceptedRequest = (requestId) => dispatch => {
     .then( (res) => {
         dispatch({
             type:ACCEPTED_REQUEST,
-            payload: res.request
+            payload: res.data
         });
     })
     .catch( err => console.log(err));

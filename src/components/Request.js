@@ -8,11 +8,11 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 //MUI
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { green, red } from '@material-ui/core/colors';
 import Typography from '@material-ui/core/Typography';
-
 import {connect} from 'react-redux';
 import {acceptedRequest, rejectedRequest } from '../redux/actions/requestAction';
 import PropTypes from 'prop-types';
@@ -36,6 +36,9 @@ const styles = {
     },
     margin: {
         margin: '10px 10px'
+    },
+    image:{
+        minWidth: 100,
     }
     
     
@@ -56,6 +59,7 @@ const theme = createMuiTheme({
   });
 
 class Request extends Component {
+  
     acceptedRequest = () => {
         this.props.acceptedRequest(this.props.request.requestId);
     }
@@ -65,7 +69,7 @@ class Request extends Component {
     
     render() {
         dayjs.extend(relativeTime);
-        const { classes, request: { requestId, bookId, bookOwner, userHandle, status, createdAt } } = this.props;
+        const { classes, request: { title, cover,requestId, bookId, bookOwner, userHandle, status, createdAt } } = this.props;
         let button;
         if(status == 'pending' && bookOwner == this.props.user.credentials.handle){
             button= <div className={classes.buttons}>
@@ -92,9 +96,10 @@ class Request extends Component {
          }
         return (
             <Card className={classes.card}>
+                <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
-                    <Typography variant="h6">Request</Typography>
-                    {owner}
+                    <Typography variant="h5" color="textPrimary" component={Link} to={`/books/${bookId}`}>{title}</Typography>
+                    {owner} 
                     {applicant}
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(createdAt).fromNow()}</Typography>
                     <Typography variant="body2" color="primary">Status: {status.toUpperCase()}</Typography>
