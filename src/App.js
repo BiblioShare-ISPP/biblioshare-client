@@ -49,7 +49,7 @@ function App() {
               <Route exact path="/" component={home}/>
               <AuthRoute exact path="/login" component={login}/>
               <AuthRoute exact path="/signup" component={signup}/>
-              <Route exact path="/requests" component={request}/>
+              <Route exact path='/requests/:handle' component={request}/>
               <Route exact path="/myRequests" component={myrequest}/>
             </Switch>
         </div>

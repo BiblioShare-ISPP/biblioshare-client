@@ -15,8 +15,8 @@ import {getRequestsByUser, acceptedRequest, rejectedRequest} from '../redux/acti
 class request extends Component {
     
     componentDidMount(){
-       let handle = this.props.handle;
-     
+       
+    const handle = this.props.match.params.handle;
       this.props.getRequestsByUser(handle);
 
     };
@@ -32,10 +32,15 @@ class request extends Component {
         };
 
         const  {requests, loading }= this.props.requests;
-    
         const user = this.props.user.authenticated;
-        console.log(requests)
-        let recentRequestsMarkup =  user? (requests.length > 0 ?  ( loading ? (
+        const handle = this.props.handle;
+        let bookOwner;
+        if (requests != undefined && requests.length > 0){
+            bookOwner = requests[0].bookOwner;
+        }else{
+            bookOwner = null;
+        }
+        let recentRequestsMarkup = user  ? (requests.length > 0 && handle === bookOwner?  ( loading ? (
             requests.map((request) => 
                 <Request key={request.requestId} request={request}/>)): 
                 <CircularProgress style={styles.progress} />):

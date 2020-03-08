@@ -16,7 +16,7 @@ import Notifications from '@material-ui/icons/Notifications';
 
 class Navbar extends Component {
     render() {
-        const {authenticated} = this.props;
+        const {authenticated, handle} = this.props;
         return (
             <AppBar>
                 <Toolbar className="nav-container">
@@ -28,7 +28,7 @@ class Navbar extends Component {
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
-                            <Link to="/requests">
+                            <Link to={`/requests/${handle}`}>
                             <CustomBotton tip="Requests">
                                 <Notifications color="secondary"/>
                             </CustomBotton>
@@ -58,7 +58,8 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    authenticated: state.user.authenticated
+    authenticated: state.user.authenticated,
+    handle: state.user.credentials.handle
 });
 
 export default connect(mapStateToProps)(Navbar);
