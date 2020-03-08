@@ -14,9 +14,11 @@ const reducers = combineReducers({
     UI: uiReducer
 });
 
+
 const store = createStore(reducers, initialState, compose(
     applyMiddleware(...middleware))
 );
+
 /*
 const store = createStore(reducers, initialState, compose(
     applyMiddleware(...middleware), 

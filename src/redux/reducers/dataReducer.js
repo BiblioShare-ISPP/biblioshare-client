@@ -18,6 +18,7 @@ export default function (state= initialState, action){
         case SET_BOOKS:
             return{
                 ...state,
+                loading: false,  
                 books: action.payload
             };
         case SET_BOOK:

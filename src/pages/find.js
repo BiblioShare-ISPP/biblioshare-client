@@ -8,19 +8,17 @@ import Profile from '../components/Profile';
 
 //Redux
 import {connect} from 'react-redux';
-import {getBooks} from '../redux/actions/dataAction';
+import {findBooks} from '../redux/actions/dataAction';
 
 
-class home extends Component {
+class find extends Component {
     componentDidMount(){
-        this.props.getBooks();
+        const keyword = this.props.match.params.keyword
+        this.props.findBooks(keyword);
     };
     render() {
         const {data: {books, loading}} = this.props;
-        let recentBooksMarkup = loading ? (<CircularProgress/>) : (
-            books.map((book) => 
-                <Book key={book.bookId} book={book}/>)
-        );
+        let recentBooksMarkup = loading ? (<CircularProgress/>) : (books.map((book) => <Book key={book.bookId} book={book}/>));
         return (
             <Grid container spacing={6}>
                 <Grid item sm={4} xs={12}>
@@ -34,8 +32,8 @@ class home extends Component {
     }
 }
 
-home.propTypes = {
-    getBooks: PropTypes.func.isRequired,
+find.propTypes = {
+    findBooks: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired
 };
 
@@ -43,4 +41,4 @@ const mapStateToProps = state => ({
     data: state.data
 });
 
-export default connect(mapStateToProps, {getBooks})(home);
+export default connect(mapStateToProps,{findBooks})(find);
