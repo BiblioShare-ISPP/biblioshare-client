@@ -65,6 +65,11 @@ class EditDetails extends Component {
     this.props.editUserDetails(userDetails);
     this.handleClose();
   };
+  handleAutoComplete = (event, value) => {
+    if(value !== null) {
+        this.setState({location: value.title});
+    }
+  };
   render() {
     const { classes } = this.props;
     const {errors} = this.state;
@@ -98,7 +103,7 @@ class EditDetails extends Component {
                 onChange={this.handleChange}
                 fullWidth
               />
-              <Autocomplete freeSolo id="location" value={this.state.location}  placeholder="Where you live" name="location" options={spainCities} getOptionLabel={option => option.title} renderInput={params => <TextField {...params} label="Location" margin="normal" />} onChange={(event, value) => this.setState({location: value.title})} />
+              <Autocomplete freeSolo id="location" name="location" options={spainCities} getOptionLabel={option => option.title} renderInput={params => <TextField {...params} label={this.state.location} margin="normal" />} onChange={this.handleAutoComplete} />
               {errors.location && (
                   <Typography variant="body2" className={classes.customError}>
                       {errors.location}
