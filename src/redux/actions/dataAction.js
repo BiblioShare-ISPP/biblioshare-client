@@ -19,6 +19,24 @@ export const getBooks = () => dispatch =>{
     });
 };
 
+//Find books
+export const findBooks = (query) => dispatch =>{
+    dispatch({ type: LOADING_DATA });
+    axios.get(`/search/${query}`)
+    .then(res => {
+        dispatch({
+            type: SET_BOOKS,
+            payload: res.data
+        })
+    })
+    .catch(err => {
+        dispatch({
+            type: SET_BOOKS,
+            payload: []
+        })
+    });
+};
+
 //Post a book
 export const postBook = (newBook) => (dispatch) => {
     console.log(newBook);
