@@ -76,7 +76,11 @@ class signup extends Component {
         }
         this.props.signupUser(newUserData, this.props.history);
     };
-    
+    handleAutoComplete = (event, value) => {
+        if(value !== null) {
+            this.setState({location: value.title});
+        }
+    };
     handleChange = (event) => {
       this.setState({
           [event.target.name]: event.target.value
@@ -100,7 +104,8 @@ class signup extends Component {
                             value={this.state.confirmPassword} onChange={this.handleChange} fullWidth />
                         <TextField id="handle" name="handle" type="text" label="Handle" className={classes.textField} helperText={errors.handle} error={errors.handle ? true : false }
                             value={this.state.handle} onChange={this.handleChange} fullWidth />
-                        <Autocomplete freeSolo id="location" name="location" options={spainCities} getOptionLabel={option => option.title} renderInput={params => <TextField {...params} label="Location" margin="normal" />} onChange={(event, value) => this.setState({location: value.title})} />
+                        <Autocomplete freeSolo id="location" name="location" options={spainCities} getOptionLabel={option => option.title} renderInput={params => <TextField {...params} label="Location" margin="normal" />} 
+                            onChange={this.handleAutoComplete} />
                         {errors.location && (
                             <Typography variant="body2" className={classes.customError}>
                                 {errors.location}
