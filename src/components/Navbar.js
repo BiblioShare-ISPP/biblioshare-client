@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 //Icons
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
-
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 
 class Navbar extends Component {
     render() {
@@ -30,6 +30,9 @@ class Navbar extends Component {
                             </Link>
                             <CustomBotton tip="Notifications">
                                 <Notifications color="secondary"/>
+                            </CustomBotton>
+                            <CustomBotton tip="My requests">
+                                <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
                         </Fragment>
                     ) : (
