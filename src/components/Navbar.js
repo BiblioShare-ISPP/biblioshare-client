@@ -16,6 +16,7 @@ import { fade, withStyles } from '@material-ui/core/styles';
 //Icons
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 
 import {findBooks} from '../redux/actions/dataAction';
 
@@ -76,6 +77,9 @@ class Navbar extends Component {
                             </Link>
                             <CustomBotton tip="Notifications">
                                 <Notifications color="secondary"/>
+                            </CustomBotton>
+                            <CustomBotton tip="My requests">
+                                <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
                         </Fragment>
                     ) : (
