@@ -68,6 +68,9 @@ const styles = {
         position: 'fixed',
         bottom: '10%',
         right: '5%'
+    },
+    logo: {
+        maxWidth: 160,
     }
 };
 

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomBotton from '../util/CustomButton';
 import PostBook from './PostBook';
+import {findBooks} from '../redux/actions/dataAction';
 
 //MUI
 import AppBar from '@material-ui/core/AppBar';
@@ -17,8 +18,6 @@ import { fade, withStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-
-import {findBooks} from '../redux/actions/dataAction';
 
 class Navbar extends Component {
     constructor(){
