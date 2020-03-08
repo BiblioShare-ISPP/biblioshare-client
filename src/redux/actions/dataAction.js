@@ -1,4 +1,4 @@
-import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED} from '../types';
+import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, SET_USER} from '../types';
 import axios from 'axios';
 
 //Get all books
@@ -121,4 +121,41 @@ export const checkISBN = (isbn) => (dispatch) => {
             payload: JSON.parse('{ "isbn":"Incorrect ISBN"}')
         });
     }
+};
+
+//get user data
+
+export const getUserData = (userHandle) => dispatch => {
+    dispatch({type: LOADING_DATA});
+    axios.get(`/user/${userHandle}`)
+    .then((res) => {
+        dispatch({
+            type: SET_BOOKS,
+            payload: res.data.books
+        });
+    })
+    .catch(() => {
+        dispatch({
+            type: SET_BOOKS,
+            payload: null
+        })
+    });
+}
+
+//Get book
+export const getBooksByUser = (userHandle) => (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+    axios.get(`/books/${userHandle}`)
+    .then((res) => {
+        dispatch({
+            type: SET_BOOK,
+            payload: res.data
+        });
+    })
+    .catch(() => {
+        dispatch({
+            type: SET_BOOK,
+            payload: null
+        })
+    });
 };

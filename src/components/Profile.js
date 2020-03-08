@@ -14,11 +14,12 @@ import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import LocationOn from '@material-ui/icons/LocationOn';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
+
 //Redux
 import {connect} from 'react-redux';
 import {logoutUser} from '../redux/actions/userActions';
 import { Tooltip } from '@material-ui/core';
+import EditDetails from './EditDetails';
 
 const styles = (theme) => ({
     progress: {
@@ -116,13 +117,7 @@ class Profile extends Component {
                             <ExitToAppIcon color="primary" />
                         </IconButton>
                     </Tooltip>
-                    <IconButton className={classes.button}>
-                        <Tooltip title="Edit profile" placement="top">
-                            <Link to={`/users/${handle}`}>
-                                <EditIcon color="primary" />
-                            </Link>
-                        </Tooltip>
-                    </IconButton>
+                  <EditDetails/>
                 </div>
             </Paper>
         ) : (
