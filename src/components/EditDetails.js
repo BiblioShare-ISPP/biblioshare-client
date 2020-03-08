@@ -14,13 +14,25 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 // Icons
 import EditIcon from '@material-ui/icons/Edit';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+//Export 
+import {spainCities} from '../util/cities';
+import Typography from '@material-ui/core/Typography';
 
+
+
+const styles = {
+  button: {
+    float: 'right'
+  }
+};
 
 class EditDetails extends Component {
   state = {
     bio: '',
     location: '',
-    open: false
+    open: false,
+    errors: {}
   };
   mapUserDetailsToState = (credentials) => {
     this.setState({
@@ -55,6 +67,7 @@ class EditDetails extends Component {
   };
   render() {
     const { classes } = this.props;
+    const {errors} = this.state;
     return (
       <Fragment>
         <MyButton
@@ -78,23 +91,19 @@ class EditDetails extends Component {
                 tpye="text"
                 label="Bio"
                 multiline
-                rows="3"
+ 
                 placeholder="A short bio about yourself"
                 className={classes.textField}
                 value={this.state.bio}
                 onChange={this.handleChange}
                 fullWidth
               />
-              <TextField
-                name="location"
-                tpye="text"
-                label="Location"
-                placeholder="Where you live"
-                className={classes.textField}
-                value={this.state.location}
-                onChange={this.handleChange}
-                fullWidth
-              />
+              <Autocomplete freeSolo id="location" value={this.state.location}  placeholder="Where you live" name="location" options={spainCities} getOptionLabel={option => option.title} renderInput={params => <TextField {...params} label="Location" margin="normal" />} onChange={(event, value) => this.setState({location: value.title})} />
+              {errors.location && (
+                  <Typography variant="body2" className={classes.customError}>
+                      {errors.location}
+                  </Typography>
+                )}
             </form>
           </DialogContent>
           <DialogActions>
@@ -123,4 +132,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   { editUserDetails }
-)(withStyles()(EditDetails));
+)(withStyles(styles)(EditDetails));
