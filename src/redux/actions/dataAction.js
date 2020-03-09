@@ -104,3 +104,31 @@ export const checkISBN = (isbn) => (dispatch) => {
         });
     }
 };
+
+
+//Petición de un libro
+export const bookRequest = (bookId) => (dispatch) => {
+    console.log({ type: LOADING_DATA});
+    dispatch({ type: LOADING_UI });
+
+
+    console.log(bookId.bookId);
+
+
+    axios.get(`/book/${bookId.bookId}/request`)
+    .then((res) => {
+        dispatch({
+            type: SET_BOOK,
+            payload: res.data
+        });
+        dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch((err) => {
+        dispatch({
+            type: SET_ERRORS,
+            //payload: err.response.data
+        });
+    });
+};
+
+//hFZfrAHWRvHgGhnHBnmY
