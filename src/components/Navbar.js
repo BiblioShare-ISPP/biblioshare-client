@@ -43,8 +43,8 @@ class Navbar extends Component {
       };
 
     render() {
+        const { authenticated,handle } = this.props;
         const { classes } = this.props;
-        const { authenticated } = this.props;
         return (
             <AppBar>
                 <Toolbar className="nav-container">
@@ -74,12 +74,16 @@ class Navbar extends Component {
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
-                            <CustomBotton tip="Notifications">
+                            <Link to={`/requests/${handle}`}>
+                            <CustomBotton tip="Requests">
                                 <Notifications color="secondary"/>
                             </CustomBotton>
+                            </Link>
+                            <Link to="/myRequests">
                             <CustomBotton tip="My requests">
                                 <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
+                            </Link>
                         </Fragment>
                     ) : (
                         <Fragment>
@@ -108,6 +112,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
     authenticated: state.user.authenticated,
+    handle: state.user.credentials.handle,
     data: state.data
 });
 
