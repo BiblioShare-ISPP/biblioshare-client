@@ -18,10 +18,12 @@ import {getBooksByUser} from '../redux/actions/dataAction';
 import Book from '../components/Book';
 import UserDetails from '../components/UserDetails';
 
+
 class user extends Component{
     componentDidMount(){
         const handle = this.props.match.params.handle;
         this.props.getUserData(handle);
+        this.props.getBooksByUser(handle);
         axios.get(`/user/${handle}`)
             .then(res =>{
                     this.setState({
@@ -31,18 +33,19 @@ class user extends Component{
             .catch(err =>console.log(err));
     }
     render(){
-        const {data: {books, loading}} = this.props;
-        let recentBooksMarkup = loading ? (
-            books.map((book) => 
+        const {data: {book, loading}} = this.props;
+        let recentBooksMarkup = loading ? (<CircularProgress/>) : (
+            book.map((book) => 
                 <Book key={book.bookId} book={book}/>)
-        ) : (<CircularProgress/>);
+        );
         return (        
             <Grid container spacing={3}> 
                  <Grid item xs>   
                </Grid>
                <Grid item xs={6}>
                  <UserDetails/>
-        
+                 <br/>
+                 {recentBooksMarkup}
                </Grid>
                <Grid item xs>   
             </Grid>
@@ -56,7 +59,7 @@ class user extends Component{
 user.propTypes = {
     getUserData: PropTypes.func.isRequired, 
     data: PropTypes.object.isRequired,
-    getBooksByUser : PropTypes.func.isRequired
+    getBooksByUser: PropTypes.func.isRequired,
 
 }
 
