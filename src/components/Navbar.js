@@ -112,7 +112,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
     authenticated: state.user.authenticated,
-    handle: state.user.credentials.handle
+    handle: state.user.credentials.handle,
     data: state.data
 });
 
