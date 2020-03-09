@@ -19,6 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 //Redux
 import {connect} from 'react-redux';
 import {bookRequest} from '../redux/actions/dataAction';
+import { request } from 'http';
 
 const styles = {
     card: {
@@ -30,11 +31,29 @@ const styles = {
     },
     content: {
         padding: 25,
-        objectFit: 'cover'
+        objectFit: 'cover',
+        width: "100%",
+    },
+    button: {
+        float: 'right',
+        width: "30%",
+        
     }
+    
 };
 
 class Book extends Component {
+   
+    isMybook() {
+        this.props.user.requests.forEach(req => {
+            if (this.props.book.bookId === req.bookId ){
+                return true;
+            } else{
+                return false;
+            }
+        });
+    }
+    
     render() {
         dayjs.extend(relativeTime);
         const { classes, loading, 
@@ -43,6 +62,11 @@ class Book extends Component {
                 credentials: { handle, imageUrl, locationUser, bio, tickets}, 
                 authenticated
             }} = this.props;
+
+        const requests = this.props.user.requests;
+
+       
+    
 
         return (
             <Card className={classes.card}>
@@ -55,16 +79,31 @@ class Book extends Component {
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                 </CardContent>
                 
-                if (this.book.owner === this.user.handle){
+                {this.props.book.owner === handle ? (
+                   
+                   
 
-                    <Button onClick={this.bookRequest} type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
+                    <Button style={{ cursor: 'not-allowed' }} onClick={this.bookRequest} type="submit" variant="contained" color="primary" className={classes.button} disabled>
+                        LO QUIERO!
+                        {loading && (
+                            <CircularProgress size={30} className={classes.progressSpinner} />
+                        )}
+                    </Button>
+
+                ): (
+
+                    
+                        <Button  onClick={this.bookRequest} type="submit" variant="contained" color="primary" className={classes.button} disabled={this.isMybook}>
                         LO QUIERO! 
                         {loading && (
                             <CircularProgress size={30} className={classes.progressSpinner} />
                         )}
                     </Button>
 
-                }
+                    
+
+                    
+                )}
                 
                 
 
@@ -74,18 +113,16 @@ class Book extends Component {
     }
 
     bookRequest = (event) => {
-        //console.log(this.props.book);
-        
         event.preventDefault();
         this.props.bookRequest({ 
-            
             bookId: this.props.book.bookId,
-
         });
-        
-        //console.log(this.props.book.bookId);
+        console.log(this.props.user.requests);
     };
+
+
 }
+
 
 Book.propTypes = {
     bookRequest: PropTypes.func.isRequired,
@@ -96,7 +133,8 @@ Book.propTypes = {
 const mapStateToProps = (state) => ({
     UI: state.UI,
     data: state.data,
-    user: state.user
+    user: state.user,
+    handle: state.user.credentials.handle
 });
 
 const mapActionsToProps= {bookRequest};

@@ -24,27 +24,39 @@ const styles = {
     card: {
         display: 'flex',
         marginBottom: 20,
+        
     },
     image:{
         minWidth: 200,
     },
     content: {
         padding: 25,
-        objectFit: 'cover'
+        objectFit: 'cover',
+    },
+    button: {
+        width: '100%',
+        height: 'fit-content !important',
+    },
+    contentButton: {
+        width: '20%',
+        height: 'fit-content !important',
+        
     }
+    
 };
 
 class BookDetails extends Component {
 
-    componentDidMount(){
-       const bookId = this.props.match.params.bookId;
-       this.props.bookRequest(bookId);
-    }
-
     render() {
         dayjs.extend(relativeTime);
-        const { classes, loading, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location}} = this.props;
-        return (
+        const { classes, loading, 
+            book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location},
+            user: {
+                credentials: { handle, imageUrl, locationUser, bio, tickets}, 
+                authenticated
+            }} = this.props; 
+
+            return (
             <Fragment>
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
@@ -56,28 +68,41 @@ class BookDetails extends Component {
                     <Typography variant="body2" color="textSecondary">Place: {location}</Typography>
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                 </CardContent>
-                <Button onClick={this.bookRequest} type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
-                                LO QUIERO! 
+                
+                <CardContent className={classes.contentButton}>
+
+                {this.props.book.owner === handle ? (
+                    
+                        <Button onClick={this.bookRequest} type="submit" variant="contained" color="primary" className={classes.button} disabled>
+                                Este es tu libro! 
                                 {loading && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
                             </Button>
+
+                    ): (
+                        <Button  onClick={this.bookRequest} type="submit" variant="contained" color="primary" className={classes.button} disabled={loading}>
+                        LO QUIERO! 
+                        {loading && (
+                            <CircularProgress size={30} className={classes.progressSpinner} />
+                        )}
+                    </Button>
+                )}
+
+                </CardContent>
+
             </Card>
             <Typography variant="body2" color="textSecondary">Comments: </Typography>
 
             </Fragment>
-        )
+         );
     }
 
     bookRequest = (event) => {
-        //console.log(this.props.book);
+        event.preventDefault();
         this.props.bookRequest({ 
-
-            bookId: this.props.book.bookId
-
+            bookId: this.props.book.bookId,
         });
-        
-        
     };
 
     
@@ -92,7 +117,9 @@ BookDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
     UI: state.UI,
-    data: state.data
+    data: state.data,
+    user: state.user,
+    handle: state.user.credentials.handle
 });
 
 const mapActionsToProps= {bookRequest};
