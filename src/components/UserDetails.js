@@ -4,21 +4,24 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 
 //MUI
-import Button from '@material-ui/core/Button';
+
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import MuiLink from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
+
+
 //Icons
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import LocationOn from '@material-ui/icons/LocationOn';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import IconButton from '@material-ui/core/IconButton';
-
+import Typography from '@material-ui/core/Typography';
+import MuiLink from '@material-ui/core/Link';
 //Redux
 import {connect} from 'react-redux';
 import {logoutUser} from '../redux/actions/userActions';
-import { Tooltip } from '@material-ui/core';
+import EditDetails from './EditDetails';
+import { uploadImage } from '../redux/actions/userActions';
+import EditIcon from '@material-ui/icons/Edit';
+import MyButton from '../util/MyButton';
+
 
 
 const styles = (theme) => ({
@@ -26,7 +29,8 @@ const styles = (theme) => ({
         margin: '20% 50%',
     },
     paper: {
-        padding: 20
+        padding: 20,
+  
     },
     profile: {
     '& .image-wrapper': {
@@ -78,10 +82,20 @@ const styles = (theme) => ({
     }
 });
 
-class Profile extends Component {
+class UserDetails extends Component {
     handleLogout = () => {
         this.props.logoutUser();
     };
+    handleImageChange = (event) => {
+        const image = event.target.files[0];
+        const formData = new FormData();
+        formData.append('image', image, image.name);
+        this.props.uploadImage(formData);
+      };
+      handleEditPicture = () => {
+        const fileInput = document.getElementById('imageInput');
+        fileInput.click();
+      };
     render() {
         const { 
             classes, 
@@ -92,16 +106,30 @@ class Profile extends Component {
             }
         } = this.props;
         
-        let profileMarkup = !loading ? (
-            authenticated ? (
+        let profileMarkup = !loading && authenticated ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
                     <div className="image-wrapper">
                         <img src={imageUrl} alt="profile" className="profile-image"/>
+                        <input
+                            type="file"
+                            id="imageInput"
+                            hidden="hidden"
+                            onChange={this.handleImageChange}
+                        />
+                        <MyButton
+                            tip="Edit Profile Picture"
+                            onClick={this.handleEditPicture}
+                            btnClassName={classes.button}
+                            >
+                            <EditIcon color="primary" />
+                        </MyButton>
                     </div>
-                        <hr />
+                    <hr />
                     <div className="profile-details">
-                            <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">{handle}</MuiLink>
+                    <Typography variant="h4" component="h5">
+                    {handle}
+                    </Typography>             
                         <hr />
                         {bio}
                         <hr />
@@ -112,28 +140,12 @@ class Profile extends Component {
                         <hr />
                         <ConfirmationNumberIcon color="primary" /><span>{tickets} tickets</span>
                     </div>
-                    <Tooltip title="Logout" placement="top">
-                        <IconButton onClick={this.handleLogout}>
-                            <ExitToAppIcon color="primary" />
-                        </IconButton>
-                    </Tooltip>
+                    <EditDetails/>
                 </div>
+                <MuiLink component={Link} to={`/ticket`} color="primary" variant="h5">Buy tickets</MuiLink>
             </Paper>
-        ) : (
-            <Paper className={classes.paper}>
-                <Typography variant="body2" align="center">
-                    No profile found, please login</Typography>
-                <div className={classes.buttons}>
-                    <Button variant="contained" color="primary" component={Link} to="/login">
-                        Login
-                    </Button>
-                    <Button variant="contained" color="secondary" component={Link} to="/signup">
-                        Signup
-                    </Button>
-                </div>
-            </Paper>
-        )) : (<CircularProgress className={classes.progress} />);
-
+        ): (<CircularProgress className={classes.progress} />);
+                            
         return profileMarkup;
     }
 };
@@ -142,12 +154,13 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
-const mapActionsToProps= { logoutUser };
+const mapActionsToProps= { logoutUser, uploadImage };
 
-Profile.propTypes = {
+UserDetails.propTypes = {
     logoutUser: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
+    uploadImage: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(UserDetails));
