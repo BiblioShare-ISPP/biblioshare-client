@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomBotton from '../util/CustomButton';
 import PostBook from './PostBook';
+import {findBooks} from '../redux/actions/dataAction';
 
 //MUI
 import AppBar from '@material-ui/core/AppBar';
@@ -17,8 +18,6 @@ import { fade, withStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-
-import {findBooks} from '../redux/actions/dataAction';
 
 class Navbar extends Component {
     constructor(){
@@ -44,8 +43,8 @@ class Navbar extends Component {
       };
 
     render() {
+        const { authenticated,handle } = this.props;
         const { classes } = this.props;
-        const { authenticated } = this.props;
         return (
             <AppBar>
                 <Toolbar className="nav-container">
@@ -75,12 +74,16 @@ class Navbar extends Component {
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
-                            <CustomBotton tip="Notifications">
+                            <Link to={`/requests/${handle}`}>
+                            <CustomBotton tip="Requests">
                                 <Notifications color="secondary"/>
                             </CustomBotton>
+                            </Link>
+                            <Link to="/myRequests">
                             <CustomBotton tip="My requests">
                                 <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
+                            </Link>
                         </Fragment>
                     ) : (
                         <Fragment>
@@ -109,6 +112,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
     authenticated: state.user.authenticated,
+    handle: state.user.credentials.handle,
     data: state.data
 });
 

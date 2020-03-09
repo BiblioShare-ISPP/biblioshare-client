@@ -5,6 +5,7 @@ const initialState = {
     loading: false,
     credentials: {},
     requests: [],
+    accepted: [],
     notifications: []
 };
 
@@ -28,6 +29,7 @@ export default function(state= initialState, action){
                     ...state,
                     loading: true
                 }
+            
             default:
                 return state;
     }
