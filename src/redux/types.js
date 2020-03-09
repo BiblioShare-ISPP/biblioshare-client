@@ -20,3 +20,7 @@ export const SET_BOOKS = 'SET_BOOKS';
 export const CHECK_ISBN = 'CHECK_ISBN';
 export const COVER_UPLOADED = 'COVER_UPLOADED';
 
+//Request reducer types
+export const SET_REQUESTS = 'SET_REQUESTS';
+export const ACCEPTED_REQUEST = 'ACCEPTED_REQUEST';
+export const REJECTED_REQUEST = 'REJECTED_REQUEST';
