@@ -1,8 +1,9 @@
-import {SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER } from '../types';
+import {SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, REQUEST_BOOK } from '../types';
 
 const initialState = {
     authenticated: false,
     loading: false,
+    loadingProfile: true,
     credentials: {},
     requests: [],
     notifications: []
@@ -19,6 +20,7 @@ export default function(state= initialState, action){
                 return initialState;
             case SET_USER:
                 return {
+                    ...state,
                     authenticated: true,
                     loading: false,
                     ...action.payload
@@ -27,7 +29,29 @@ export default function(state= initialState, action){
                 return {
                     ...state,
                     loading: true
+                };
+            case LOADING_PROFILE:
+                return {
+                    ...state,
+                    loadingProfile: true
+                };
+            case REQUEST_BOOK:
+                return {
+                    ...state,
+                    requests: [
+                        ...state.requests,
+                        {
+                            userHandle: state.credentials.handle,
+                            bookId: action.payload.bookId
+                        }
+                    ]
                 }
+            case SET_PROFILE:
+                return {
+                    ...state,
+                    loadingProfile: false,
+                    userData: action.payload
+                };
             default:
                 return state;
     }

@@ -3,6 +3,8 @@ export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED';
 export const SET_USER = 'SET_USER';
 export const LOADING_USER = 'LOADING_USER';
+export const LOADING_PROFILE = 'LOADING_PROFILE';
+export const SET_PROFILE = 'SET_PROFILE';
 
 //UI reducer types
 export const SET_ERRORS = 'SET_ERRORS';
@@ -20,3 +22,8 @@ export const SET_BOOKS = 'SET_BOOKS';
 export const CHECK_ISBN = 'CHECK_ISBN';
 export const COVER_UPLOADED = 'COVER_UPLOADED';
 
+//Request reducer types
+export const SET_REQUESTS = 'SET_REQUESTS';
+export const ACCEPTED_REQUEST = 'ACCEPTED_REQUEST';
+export const REJECTED_REQUEST = 'REJECTED_REQUEST';
+export const REQUEST_BOOK = 'REQUEST_BOOK';

@@ -68,6 +68,9 @@ const styles = {
         position: 'fixed',
         bottom: '10%',
         right: '5%'
+    },
+    logo: {
+        maxWidth: 160,
     }
 };
 
@@ -100,7 +103,9 @@ class PostBook extends Component{
         };
         if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
             this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
-            this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors[0];
+            if(nextProps.data.isbn[0].items[0].volumeInfo.authors != null){
+                this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors[0];
+            }  
             document.getElementById('title').value = this.titleISBN;
             document.getElementById('author').value = this.authorISBN;
             this.setState({
