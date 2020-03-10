@@ -6,7 +6,6 @@ import {Alert, AlertTitle } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import Request from '../components/Request';
 import Profile from '../components/Profile';
-import Book from '../components/Book';
 //Redux
 
 import {connect} from 'react-redux';
@@ -35,7 +34,7 @@ class request extends Component {
         const user = this.props.user.authenticated;
         const handle = this.props.handle;
         let bookOwner;
-        if (requests != undefined && requests.length > 0){
+        if (requests !== undefined && requests.length > 0){
             bookOwner = requests[0].bookOwner;
         }else{
             bookOwner = null;

@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {Alert, AlertTitle } from '@material-ui/lab';
-import PropTypes from 'prop-types';
 import Request from '../components/Request';
 import Profile from '../components/Profile';
-import Book from '../components/Book';
-//Redux
 
+//Redux
 import {connect} from 'react-redux';
 
 class request extends Component {
     
-    render() {
-        const styles = {
-            progress: {
-                margin: '20% 50%',
-            }
-        };
-        
+    render() {        
         const  requests= this.props.user.requests;
         const authenticated= this.props.user.authenticated;
         let recentRequestsMarkup = authenticated  ? ( requests.lenght !== 0 ?(

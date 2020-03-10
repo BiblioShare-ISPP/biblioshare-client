@@ -1,5 +1,4 @@
 import { SET_REQUESTS, LOADING_DATA, ACCEPTED_REQUEST, REJECTED_REQUEST } from '../types';
-import request from '../../pages/request';
 
 const initialState = {
     requests: [],

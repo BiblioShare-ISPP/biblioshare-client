@@ -69,9 +69,9 @@ class Request extends Component {
     
     render() {
         dayjs.extend(relativeTime);
-        const { classes, request: { title, cover,requestId, bookId, bookOwner, userHandle, status, createdAt } } = this.props;
+        const { classes, request: { title, cover, bookId, bookOwner, userHandle, status, createdAt } } = this.props;
         let button;
-        if(status == 'pending' && bookOwner == this.props.user.credentials.handle){
+        if(status === 'pending' && bookOwner === this.props.user.credentials.handle){
             button= <div className={classes.buttons}>
                     
             <ThemeProvider theme={theme}>
@@ -87,11 +87,11 @@ class Request extends Component {
             </div>
         }
         let owner;
-        if(bookOwner != this.props.user.credentials.handle){
+        if(bookOwner !== this.props.user.credentials.handle){
            owner = <Typography variant="body2" color="textSecondary">Owner: {bookOwner}</Typography>
         }
         let applicant;
-        if(bookOwner == this.props.user.credentials.handle){
+        if(bookOwner === this.props.user.credentials.handle){
             applicant = <Typography variant="body2" color="textSecondary">Applicant: {userHandle}</Typography>
          }
         return (
