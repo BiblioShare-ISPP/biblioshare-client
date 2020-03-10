@@ -136,7 +136,7 @@ class Profile extends Component {
 
         return profileMarkup;
     }
-};
+}
 
 const mapStateToProps = (state) => ({
     user: state.user

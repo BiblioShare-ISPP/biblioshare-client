@@ -25,7 +25,7 @@ class Navbar extends Component {
         this.state = {
             keyword: '',
         }
-    };
+    }
 
     handleFind = (event) =>{
         event.preventDefault();
@@ -102,7 +102,7 @@ class Navbar extends Component {
             </AppBar>
         )
     }
-};
+}
 
 Navbar.propTypes = {
     authenticated: PropTypes.bool.isRequired,

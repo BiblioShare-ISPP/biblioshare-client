@@ -20,9 +20,11 @@ export class RequestButton extends Component {
       this.props.user.requests.find(
         (request) => request.bookId === this.props.bookId
       )
-    )
+    ){
       return true;
-    else return false;
+    }else {
+      return false;
+    }
   };
   requestBook = () => {
     this.props.requestBook(this.props.bookId);

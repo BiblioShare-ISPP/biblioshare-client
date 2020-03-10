@@ -31,6 +31,8 @@ const styles = (theme) => ({
     paper: {
         padding: 20,
   
+        
+  
     },
     profile: {
     '& .image-wrapper': {
@@ -155,7 +157,7 @@ class UserDetails extends Component {
                             
         return profileMarkup;
     }
-};
+}
 
 const mapStateToProps = (state) => ({
     user: state.user
