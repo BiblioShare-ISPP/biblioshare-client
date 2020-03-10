@@ -4,13 +4,13 @@ import Grid from '@material-ui/core/Grid';
 import {Alert, AlertTitle } from '@material-ui/lab';
 import Request from '../components/Request';
 import Profile from '../components/Profile';
-//Redux
 
+//Redux
 import {connect} from 'react-redux';
 
 class request extends Component {
     
-    render() {
+    render() {        
         const  requests= this.props.user.requests;
         const authenticated= this.props.user.authenticated;
         let recentRequestsMarkup = authenticated  ? ( requests.lenght !== 0 ?(

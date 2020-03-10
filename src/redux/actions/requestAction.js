@@ -1,4 +1,4 @@
-import {LOADING_DATA, SET_REQUESTS, ACCEPTED_REQUEST, REJECTED_REQUEST } from '../types';
+import {LOADING_DATA, SET_REQUESTS, ACCEPTED_REQUEST, REJECTED_REQUEST, REQUEST_BOOK } from '../types';
 import axios from 'axios';
 
 
@@ -17,6 +17,19 @@ export const getRequestsByUser = (data2) => dispatch =>{
         console.log(err);
     });
 };
+
+//Request a book
+export const requestBook = (bookId) => (dispatch) => {
+    axios
+      .get(`/book/${bookId}/request`)
+      .then((res) => {
+        dispatch({
+          type: REQUEST_BOOK,
+          payload: res.data
+        });
+      })
+      .catch((err) => console.log(err));
+  };
 
 //Accepted a request
 export const acceptedRequest = (requestId) => dispatch => {
