@@ -1,4 +1,4 @@
-import {SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE } from '../types';
+import {SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, REQUEST_BOOK } from '../types';
 
 const initialState = {
     authenticated: false,
@@ -35,6 +35,17 @@ export default function(state= initialState, action){
                     ...state,
                     loadingProfile: true
                 };
+            case REQUEST_BOOK:
+                return {
+                    ...state,
+                    requests: [
+                        ...state.requests,
+                        {
+                            userHandle: state.credentials.handle,
+                            bookId: action.payload.bookId
+                        }
+                    ]
+                }
             case SET_PROFILE:
                 return {
                     ...state,

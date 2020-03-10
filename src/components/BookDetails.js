@@ -41,8 +41,6 @@ class BookDetails extends Component {
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                 </CardContent>
             </Card>
-            <Typography variant="body2" color="textSecondary">Comments: </Typography>
-
             </Fragment>
         )
     }
