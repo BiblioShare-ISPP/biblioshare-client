@@ -16,7 +16,7 @@ class request extends Component {
     componentDidMount(){
         const handle = this.props.match.params.handle;
         this.props.getRequestsByUser(handle);
-    };
+    }
 
     
 
@@ -34,10 +34,11 @@ class request extends Component {
         let bookOwner;
         if (requests !== undefined && requests.length > 0){
             bookOwner = requests[0].bookOwner;
+            
         }else{
             bookOwner = null;
         }
-        let recentRequestsMarkup = user  ? (requests.length > 0 && handle === bookOwner?  ( loading ? (
+        let recentRequestsMarkup = user  ? (requests !== undefined && requests.length > 0 && handle === bookOwner?  ( loading ? (
             requests.map((request) => 
                 <Request key={request.requestId} request={request}/>)): 
                 <CircularProgress style={styles.progress} />):

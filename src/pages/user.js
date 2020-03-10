@@ -30,16 +30,14 @@ class user extends Component{
                 <Book key={book.bookId} book={book}/>)
         );
         return (        
-            <Grid container spacing={3}> 
-                 <Grid item xs>   
-               </Grid>
-               <Grid item xs={6}>
+            <Grid container spacing={3}  justify="center"> 
+           
+               <Grid item xs={12}>
                  {loadingProfile ? (<CircularProgress className={classes.progressBook}/>) : (
                  <UserDetails/> )}
                  <br/>
                  {recentBooksMarkup}
-               </Grid>
-               <Grid item xs>   
+       
             </Grid>
             </Grid>
         )

@@ -15,7 +15,7 @@ const styles = {
     progressBook: {
         margin: '50px 50%'
     }
-};
+}
 class home extends Component {
     componentDidMount(){
         this.props.getBooks();

@@ -15,7 +15,7 @@ class find extends Component {
     componentDidMount(){
         const keyword = this.props.match.params.keyword
         this.props.findBooks(keyword);
-    };
+    }
     render() {
         const {data: {books, loading}} = this.props;
         let recentBooksMarkup = loading ? (<CircularProgress/>) : (books.map((book) => <Book key={book.bookId} book={book}/>));
