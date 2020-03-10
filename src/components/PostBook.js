@@ -91,7 +91,7 @@ class PostBook extends Component{
             this.setState({
                 errors: nextProps.UI.errors
             });
-        };
+        }
         if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded){
             this.setState({ 
                 author: '',
@@ -100,7 +100,7 @@ class PostBook extends Component{
                 isbn: ''
             });
             this.handleClose();
-        };
+        }
         if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
             this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
             if(nextProps.data.isbn[0].items[0].volumeInfo.authors != null){
@@ -113,7 +113,7 @@ class PostBook extends Component{
                 author: this.authorISBN
             });
             this.handleISBNClose();
-        };
+        }
         if(nextProps.UI.coverUploaded){
             document.getElementById('coverImg').src = nextProps.UI.coverUploaded;
             this.setState({
@@ -121,7 +121,7 @@ class PostBook extends Component{
             });
             nextProps.UI.coverUploaded = null;
         }
-    };
+    }
     handleISBNOpen = () => {
         this.setState({ openISBN: true });
     };
