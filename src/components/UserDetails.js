@@ -100,47 +100,54 @@ class UserDetails extends Component {
         const { 
             classes, 
             user: {
-                credentials: { handle, imageUrl, location, bio, tickets}, 
+                credentials: { handle},
                 loading,
-                authenticated
+                authenticated,
+                userData
             }
         } = this.props;
-        
-        let profileMarkup = !loading && authenticated ? (
+        let isLoggedUser = (handle === userData.user.handle) ? true : false;
+        let profileMarkup = !(loading && authenticated) ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
                     <div className="image-wrapper">
-                        <img src={imageUrl} alt="profile" className="profile-image"/>
-                        <input
-                            type="file"
-                            id="imageInput"
-                            hidden="hidden"
-                            onChange={this.handleImageChange}
-                        />
-                        <MyButton
-                            tip="Edit Profile Picture"
-                            onClick={this.handleEditPicture}
-                            btnClassName={classes.button}
-                            >
-                            <EditIcon color="primary" />
-                        </MyButton>
+                        <img src={userData.user.imageUrl} alt="profile" className="profile-image"/>
+                        {isLoggedUser ? (
+                        <Fragment>
+                            <input
+                                type="file"
+                                id="imageInput"
+                                hidden="hidden"
+                                onChange={this.handleImageChange}
+                            />
+                            <MyButton
+                                tip="Edit Profile Picture"
+                                onClick={this.handleEditPicture}
+                                btnClassName={classes.button}
+                                >
+                                <EditIcon color="primary" />
+                            </MyButton>
+                        </Fragment>
+                        ) : (<p></p>)}
                     </div>
                     <hr />
                     <div className="profile-details">
                     <Typography variant="h4" component="h5">
-                    {handle}
+                    {userData.user.handle}
                     </Typography>             
                         <hr />
-                        {bio}
+                        {userData.user.bio}
                         <hr />
-                        {location && (
+                        {userData.user.location && (
                             <Fragment>
-                                <LocationOn color="primary" />{location}
+                                <LocationOn color="primary" />{userData.user.location}
                             </Fragment>)}
                         <hr />
-                        <ConfirmationNumberIcon color="primary" /><span>{tickets} tickets</span>
+                        <ConfirmationNumberIcon color="primary" /><span>{userData.user.tickets} tickets</span>
                     </div>
-                    <EditDetails/>
+                    {isLoggedUser ? (
+                        <EditDetails/>
+                    ) : (<p></p>)}
                 </div>
                 <MuiLink component={Link} to={`/ticket`} color="primary" variant="h5">Buy tickets</MuiLink>
             </Paper>

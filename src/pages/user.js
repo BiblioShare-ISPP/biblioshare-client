@@ -1,41 +1,32 @@
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types';
-
-import axios from 'axios';
-
 
 //MUI
 import Grid from '@material-ui/core/Grid';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 //Redux
 import {connect} from 'react-redux';
-import {getUserData} from '../redux/actions/userActions';
-import {getBooksByUser} from '../redux/actions/dataAction';
+import {getProfileData} from '../redux/actions/userActions';
 
 import Book from '../components/Book';
 import UserDetails from '../components/UserDetails';
 
-
+const styles = {
+    progressBook: {
+        margin: '50px 50%'
+    }
+};
 class user extends Component{
     componentDidMount(){
         const handle = this.props.match.params.handle;
-        this.props.getUserData(handle);
-        this.props.getBooksByUser(handle);
-        axios.get(`/user/${handle}`)
-            .then(res =>{
-                    this.setState({
-                        profile: res.data.user
-                    })
-            })
-            .catch(err =>console.log(err));
+        this.props.getProfileData(handle);
     }
     render(){
-        const {data: {book, loading}} = this.props;
-        let recentBooksMarkup = loading ? (<CircularProgress/>) : (
-            book.map((book) => 
+        const {classes, user: {loadingProfile, userData}} = this.props;
+        let recentBooksMarkup = (loadingProfile) ? (<CircularProgress className={classes.progressBook}/>) : (
+            userData.books.map((book) => 
                 <Book key={book.bookId} book={book}/>)
         );
         return (        
@@ -43,7 +34,8 @@ class user extends Component{
                  <Grid item xs>   
                </Grid>
                <Grid item xs={6}>
-                 <UserDetails/>
+                 {loadingProfile ? (<CircularProgress className={classes.progressBook}/>) : (
+                 <UserDetails/> )}
                  <br/>
                  {recentBooksMarkup}
                </Grid>
@@ -57,15 +49,12 @@ class user extends Component{
 }
 
 user.propTypes = {
-    getUserData: PropTypes.func.isRequired, 
-    data: PropTypes.object.isRequired,
-    getBooksByUser: PropTypes.func.isRequired,
-
+    getProfileData: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state =>({
-    data: state.data
-
+    user: state.user
 })
 
-export default connect(mapStateToProps, {getUserData, getBooksByUser})(user);
+export default connect(mapStateToProps, {getProfileData})(withStyles(styles)(user));
