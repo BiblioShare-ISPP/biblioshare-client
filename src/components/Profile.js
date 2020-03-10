@@ -19,7 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {connect} from 'react-redux';
 import {logoutUser} from '../redux/actions/userActions';
 import { Tooltip } from '@material-ui/core';
-import EditDetails from './EditDetails';
+
 
 const styles = (theme) => ({
     progress: {
@@ -117,7 +117,6 @@ class Profile extends Component {
                             <ExitToAppIcon color="primary" />
                         </IconButton>
                     </Tooltip>
-                  <EditDetails/>
                 </div>
             </Paper>
         ) : (

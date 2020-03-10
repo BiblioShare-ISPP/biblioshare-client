@@ -1,4 +1,4 @@
-import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER } from '../types';
+import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE} from '../types';
 import axios from 'axios';
 
 export const loginUser = (userData, history) => (dispatch) => {
@@ -35,6 +35,19 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     });
 };
 
+export const getProfileData = (userHandle) => (dispatch) => {
+    dispatch({ type: LOADING_PROFILE });
+    axios.get(`/user/${userHandle}`)
+    .then((res) => {
+        dispatch({
+            type: SET_PROFILE,
+            payload: res.data
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
 
 export const updateUser = (newUserData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
@@ -89,3 +102,12 @@ export const editUserDetails = (userDetails) => (dispatch) => {
       .catch((err) => console.log(err));
   };
   
+  export const uploadImage = (formData) => (dispatch) => {
+    dispatch({ type: LOADING_USER });
+    axios
+      .post('/user/image', formData)
+      .then(() => {
+        dispatch(getUserData());
+      })
+      .catch((err) => console.log(err));
+  };

@@ -14,10 +14,8 @@ import {getRequestsByUser, acceptedRequest, rejectedRequest} from '../redux/acti
 class request extends Component {
     
     componentDidMount(){
-       
-    const handle = this.props.match.params.handle;
-      this.props.getRequestsByUser(handle);
-
+        const handle = this.props.match.params.handle;
+        this.props.getRequestsByUser(handle);
     };
 
     
