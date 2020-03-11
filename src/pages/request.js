@@ -38,12 +38,12 @@ class request extends Component {
         }else{
             bookOwner = null;
         }
-        let recentRequestsMarkup = user  ? (requests !== undefined && requests.length > 0 && handle === bookOwner?  ( loading ? (
+        let recentRequestsMarkup = user  ?  (loading ? ( requests.length > 0 && handle === bookOwner? (
             requests.map((request) => 
                 <Request key={request.requestId} request={request}/>)): 
+                <Alert variant="outlined" severity="success"><AlertTitle>Information</AlertTitle>There aren´t  request for you</Alert>):
                 <CircularProgress style={styles.progress} />):
-                <Alert variant="outlined" severity="success"><AlertTitle>Information</AlertTitle>There aren´t  request for you</Alert>) :
-                (window.location.href = "/login" );
+                (window.location.href = "/login");
 
        
 

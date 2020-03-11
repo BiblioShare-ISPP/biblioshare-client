@@ -42,7 +42,11 @@ export default function(state= initialState, action){
                         ...state.requests,
                         {
                             userHandle: state.credentials.handle,
-                            bookId: action.payload.bookId
+                            bookId: action.payload.bookId,
+                            bookOwner: action.payload.owner,
+                            status: 'pending',
+                            cover: action.payload.cover,
+                            title: action.payload.title
                         }
                     ]
                 }
