@@ -1,4 +1,4 @@
-import { SET_REQUESTS, LOADING_DATA, ACCEPTED_REQUEST, REJECTED_REQUEST, REQUEST_BOOK} from '../types';
+import { SET_REQUESTS, LOADING_DATA, ACCEPTED_REQUEST, REJECTED_REQUEST} from '../types';
 
 const initialState = {
     requests: [],
@@ -8,7 +8,6 @@ const initialState = {
 
 export default function (state= initialState, action){
     switch (action.type){
-        case REQUEST_BOOK:
         case LOADING_DATA:
             return {
                 ...state,

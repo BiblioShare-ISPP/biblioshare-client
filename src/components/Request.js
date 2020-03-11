@@ -102,7 +102,7 @@ class Request extends Component {
                     {owner} 
                     {applicant}
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(createdAt).fromNow()}</Typography>
-                    <Typography variant="body2" color="primary">Status: {status.toUpperCase()}</Typography>
+                    <Typography variant="body2" color="primary">Status: {status}</Typography>
                     {button}
                         
                     
