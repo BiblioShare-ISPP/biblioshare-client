@@ -90,6 +90,7 @@ class PostBook extends Component{
         cover: '',
         isbn: '',
         camera: false,
+        reads: [],
         errors: {}
     };
     componentWillReceiveProps(nextProps){
@@ -169,31 +170,38 @@ class PostBook extends Component{
         this.props.checkISBN({isbn: this.state.isbn});
     };
     onDetected = (result) => {
-        let expresion = /^(97(8|9))?\d{9}(\d|X)$/;
-        let reads = []
-        if(result.match(expresion) && reads.length < 10){
-            reads.push(result);
+        if(this.state.camera){
+            let expresion = /^(97(8|9))?\d{9}(\d|X)$/;
+            if(result.match(expresion) && this.state.reads.length < 10){
+                this.state.reads.push(result);
+            }
+            if(this.state.reads.length === 10){
+                let counts = this.state.reads.reduce((a,c) =>{
+                    a[c] = (a[c] || 0) + 1;
+                    return a;
+                }, {});
+                let maxCount = Math.max(...Object.values(counts));
+                let mostRepeated = Object.keys(counts).filter(k => counts[k] === maxCount);
+                this.setState({
+                    camera: false,
+                    isbn: mostRepeated[0]
+                });
+                document.getElementById("isbn").value = mostRepeated[0];
+            }
         }
-        let counts = reads.reduce((a,c) =>{
-            a[c] = (a[c] || 0) + 1;
-            return a;
-        }, {});
-        let maxCount = Math.max(...Object.values(counts));
-        let mostRepeated = Object.keys(counts).filter(k => counts[k] === maxCount);
-        this.setState({
-            camera: false,
-            isbn: mostRepeated[0]
-        });
     };
     handleCamera = () => {
         let cuadro = document.getElementsByClassName("camara")[0];
-        console.log(cuadro);
         this.setState({camera: !this.state.camera});
         if(this.state.camera){
             cuadro.style.display = "none";
             cuadro.style.visibility = "hidden";
 
         }else{
+            console.log('Entro');
+            this.setState({
+                reads: []
+            });
             cuadro.style.display = "block";
             cuadro.style.visibility = "visible";
         }
@@ -251,7 +259,7 @@ class PostBook extends Component{
                         </Button>
                         <br /><br />
                         <form onSubmit={this.checkISBN}>
-                           <TextField name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
+                           <TextField id="isbn" name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
                                 CHECK ISBN 
                                 {loadingISBN && (
