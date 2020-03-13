@@ -28,6 +28,10 @@ import {connect} from 'react-redux';
 import {postBook, checkISBN, uploadImage} from '../redux/actions/dataAction';
 import { Tooltip } from '@material-ui/core';
 
+//Others
+import Scanner from "./Scanner";
+
+
 const styles = {
     palette: {
         primary: {
@@ -69,8 +73,9 @@ const styles = {
         bottom: '10%',
         right: '5%'
     },
-    logo: {
-        maxWidth: 160,
+    camera: {
+        width: '350px',
+        height: '300px'
     }
 };
 
@@ -84,6 +89,7 @@ class PostBook extends Component{
         author: '',
         cover: '',
         isbn: '',
+        camera: false,
         errors: {}
     };
     componentWillReceiveProps(nextProps){
@@ -162,9 +168,40 @@ class PostBook extends Component{
         event.preventDefault();
         this.props.checkISBN({isbn: this.state.isbn});
     };
+    onDetected = (result) => {
+        let expresion = /^(97(8|9))?\d{9}(\d|X)$/;
+        let reads = []
+        if(result.match(expresion) && reads.length < 10){
+            reads.push(result);
+        }
+        let counts = reads.reduce((a,c) =>{
+            a[c] = (a[c] || 0) + 1;
+            return a;
+        }, {});
+        let maxCount = Math.max(...Object.values(counts));
+        let mostRepeated = Object.keys(counts).filter(k => counts[k] === maxCount);
+        this.setState({
+            camera: false,
+            isbn: mostRepeated[0]
+        });
+    };
+    handleCamera = () => {
+        let cuadro = document.getElementsByClassName("camara")[0];
+        console.log(cuadro);
+        this.setState({camera: !this.state.camera});
+        if(this.state.camera){
+            cuadro.style.display = "none";
+            cuadro.style.visibility = "hidden";
+
+        }else{
+            cuadro.style.display = "block";
+            cuadro.style.visibility = "visible";
+        }
+    };
     render(){
         const { errors } = this.state;
         const { classes, UI: {loading, loadingISBN}} = this.props;
+
         return (
             <Fragment>
                 <CustomButton onClick={this.handleOpen} tip="Post a book">
@@ -206,6 +243,13 @@ class PostBook extends Component{
                     </CustomButton>
                     <DialogTitle>Search Book by ISBN</DialogTitle>
                     <DialogContent>
+                        <div className="camara">
+                            {this.state.camera && <Scanner onDetected={this.onDetected}/>}
+                        </div>
+                        <Button variant="contained" color="primary" onClick={this.handleCamera}>
+                                {this.state.camera ? "Stop camera" : "Start camera"}
+                        </Button>
+                        <br /><br />
                         <form onSubmit={this.checkISBN}>
                            <TextField name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
