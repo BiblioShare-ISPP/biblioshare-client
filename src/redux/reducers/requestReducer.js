@@ -23,8 +23,15 @@ export default function (state= initialState, action){
             let index = state.requests.findIndex(
                 (request) => request.requestId === action.payload.requestId
               );
-              
-                state.requests[index].status = 'accepted' ;
+            state.requests.forEach( 
+              request => 
+              {if(request.requestId !== action.payload.requestId && request.bookId === action.payload.bookId){
+                request.status = 'rejected';
+              }
+              }
+            );
+            
+              state.requests[index].status = 'accepted' ;
               
               return {
                 ...state,

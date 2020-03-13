@@ -69,7 +69,6 @@ request.propTypes = {
     getRequestsByUser: PropTypes.func.isRequired,
     acceptedRequest: PropTypes.func.isRequired,
     rejectedRequest: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
    
 
