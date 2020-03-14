@@ -66,15 +66,14 @@ export default function (state = initialState, action) {
                     tickets: state.credentials.tickets + 1
                 }
             };
-        case DELETE_BOOK:{
-
+        case DELETE_BOOK:
+        if(state.userData.books !== undefined){
             let index = state.userData.books.findIndex(book => book.bookId === action.payload);
             state.userData.books.splice(index, 1);
-
+        }
             return {
                 ...state
-            }
-        };
+            };
         case POST_BOOK: 
             state.userData.books.unshift(action.payload);
 

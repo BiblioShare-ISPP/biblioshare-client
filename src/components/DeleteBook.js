@@ -9,66 +9,82 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
-
-import {connect} from 'react-redux';
-import {deleteBook} from '../redux/actions/dataAction';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { blue, red } from '@material-ui/core/colors';
+import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+import { deleteBook } from '../redux/actions/dataAction';
 
 const style = {
     deleteButton: {
         position: 'absolute',
-        left:'85%',
-        
+        left: '85%',
+
         color: 'red'
     },
-    deleteText: {
-        color: 'red'
-    },
-    cancelText: {
-        color: 'blue'
-    }
+   
 };
+
+const theme = createMuiTheme({
+    palette: {
+      primary: blue,
+    },
+   
+  });
+
+  const theme1 = createMuiTheme({
+    palette: {
+      primary: red,
+    },
+    
+  });
 
 class DeleteBook extends Component {
     state = {
         open: false
     };
     handleOpen = () => {
-        this.setState({ open: true});
+        this.setState({ open: true });
     }
     handleClose = () => {
-        this.setState({ open: false});
+        this.setState({ open: false });
     }
     deleteBook = () => {
         this.props.deleteBook(this.props.bookId);
-        this.setState({ open: false});
+        this.setState({ open: false });
     }
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props;
 
         return (
-           <Fragment>
-               <MyButton tip="Delete Book" onClick={this.handleOpen}  btnClassName={classes.deleteButton}>
-                   <DeleteOutline />
-               </MyButton>
-               <Dialog
+            <Fragment>
+                <MyButton tip="Delete Book" onClick={this.handleOpen} btnClassName={classes.deleteButton}>
+                    <DeleteOutline />
+                </MyButton>
+                <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     fullWidth
                     maxWidth="sm"
-                    >
-                        <DialogTitle title="a">
-                            Are you sure you want to delete this book?
+                >
+                    <DialogTitle title="a">
+                        Are you sure you want to delete this book?
                         </DialogTitle>
-                        <DialogActions>
-                            <MyButton onClick={this.handleClose}  btnClassName={classes.cancelText}>
+                    <DialogActions>
+
+                        <ThemeProvider theme={theme}>
+                            <Button variant="contained" color="primary" className={classes.margin} onClick={this.handleClose}>
                                 Cancel
-                            </MyButton>
-                            <MyButton onClick={this.deleteBook}  btnClassName={classes.deleteText}>
+                        </Button>
+                        </ThemeProvider>
+                        <ThemeProvider theme={theme1}>
+                            <Button variant="contained" color="primary" className={classes.margin} onClick={this.deleteBook}>
                                 Delete
-                            </MyButton>
-                        </DialogActions>
-                    </Dialog>
-           </Fragment>
+                        </Button>
+                        </ThemeProvider>
+                    </DialogActions>
+                </Dialog>
+            </Fragment>
         )
     }
 }
@@ -79,4 +95,4 @@ DeleteBook.propTypes = {
     bookId: PropTypes.string.isRequired
 }
 
-export default connect(null, {deleteBook})(withStyles(style)(DeleteBook));
+export default connect(null, { deleteBook })(withStyles(style)(DeleteBook));
