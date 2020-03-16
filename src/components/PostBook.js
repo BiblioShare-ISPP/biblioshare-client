@@ -72,10 +72,6 @@ const styles = {
         position: 'fixed',
         bottom: '10%',
         right: '5%'
-    },
-    camera: {
-        width: '350px',
-        height: '300px'
     }
 };
 
@@ -95,7 +91,13 @@ class PostBook extends Component{
     };
     componentWillReceiveProps(nextProps){
         if(nextProps.UI.errors){
+            this.titleISBN = '';
+            this.authorISBN = '';
             this.setState({
+                title: '',
+                author: '',
+                cover: '',
+                isbn: '',
                 errors: nextProps.UI.errors
             });
         }
@@ -104,11 +106,14 @@ class PostBook extends Component{
                 author: '',
                 title: '',
                 cover: '',
-                isbn: ''
+                isbn: '',
+                reads: []
             });
+            this.titleISBN = '';
+            this.authorISBN = '';
             this.handleClose();
         }
-        if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
+        if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN) && this.state.isbn !== ''){
             this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
             if(nextProps.data.isbn[0].items[0].volumeInfo.authors != null){
                 this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors[0];
@@ -117,7 +122,8 @@ class PostBook extends Component{
             document.getElementById('author').value = this.authorISBN;
             this.setState({
                 title: this.titleISBN,
-                author: this.authorISBN
+                author: this.authorISBN,
+                isbn: ''
             });
             this.handleISBNClose();
         }
@@ -134,7 +140,11 @@ class PostBook extends Component{
     };
     
     handleISBNClose = () => {
-        this.setState({ openISBN: false, isbn: '', errors: {}});
+        this.setState({ 
+            openISBN: false, 
+            isbn: '',
+            open: false,
+            errors: {}});
         this.titleISBN = '';
         this.authorISBN = '';
     };
@@ -142,7 +152,16 @@ class PostBook extends Component{
         this.setState({ open: true });
     };
     handleClose = () => {
-        this.setState({ open: false, errors: {}});
+        this.setState({ 
+            open: false, 
+            errors: {},
+            title: '',
+            author: '',
+            cover: '',
+            isbn: ''
+        });
+        this.titleISBN = '';
+        this.authorISBN = '';
     };
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
@@ -191,20 +210,20 @@ class PostBook extends Component{
         }
     };
     handleCamera = () => {
-        let cuadro = document.getElementsByClassName("camara")[0];
-        this.setState({camera: !this.state.camera});
-        if(this.state.camera){
-            cuadro.style.display = "none";
-            cuadro.style.visibility = "hidden";
-
-        }else{
-            console.log('Entro');
-            this.setState({
-                reads: []
-            });
-            cuadro.style.display = "block";
-            cuadro.style.visibility = "visible";
-        }
+        document.getElementById("isbn").value = '';
+        this.setState({
+            isbn: '',
+            camera: true,
+            reads: []
+        });
+    };
+    handleCameraClose = () => {
+        document.getElementById("isbn").value = '';
+        this.setState({
+            camera: false,
+            isbn: '',
+            reads: []
+        });
     };
     render(){
         const { errors } = this.state;
@@ -251,13 +270,6 @@ class PostBook extends Component{
                     </CustomButton>
                     <DialogTitle>Search Book by ISBN</DialogTitle>
                     <DialogContent>
-                        <div className="camara">
-                            {this.state.camera && <Scanner onDetected={this.onDetected}/>}
-                        </div>
-                        <Button variant="contained" color="primary" onClick={this.handleCamera}>
-                                {this.state.camera ? "Stop camera" : "Start camera"}
-                        </Button>
-                        <br /><br />
                         <form onSubmit={this.checkISBN}>
                            <TextField id="isbn" name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
@@ -265,8 +277,21 @@ class PostBook extends Component{
                                 {loadingISBN && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
+                            </Button><Button variant="contained" color="primary" className={classes.submitButton} onClick={this.handleCamera}>
+                                START CAMERA
                             </Button>
                         </form>
+                    </DialogContent>
+                </Dialog>
+                <Dialog open={this.state.camera} onClose={this.handleCameraClose} fullWidth maxWidth="sm">
+                    <CustomButton tip="Close" onClick={this.handleCameraClose} tipClassName={classes.closeButton}>
+                        <CloseIcon />
+                    </CustomButton>
+                    <DialogTitle>Scan the barcode</DialogTitle>
+                    <DialogContent>
+                        <div className="camara">
+                            <Scanner onDetected={this.onDetected}/>
+                        </div>
                     </DialogContent>
                 </Dialog>
                 <div className={classes.addButton}>
