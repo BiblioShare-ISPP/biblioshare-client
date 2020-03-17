@@ -1,4 +1,4 @@
-import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED } from '../types';
+import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, DELETE_BOOK } from '../types';
 import axios from 'axios';
 
 
@@ -43,6 +43,7 @@ export const postBook = (newBook) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/book', newBook)
     .then((res) => {
+        
         dispatch({
             type: POST_BOOK,
             payload: res.data
@@ -159,3 +160,12 @@ export const getBooksByUser = (userHandle) => (dispatch) => {
         })
     });
 };
+
+export const deleteBook = (bookId) => (dispatch) => {
+    
+    axios.delete(`/book/${bookId}`)
+    .then(() => {
+        dispatch({ type: DELETE_BOOK, payload: bookId})
+    })
+    .catch(err => console.log(err));
+}
