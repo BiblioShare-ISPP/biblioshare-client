@@ -75,10 +75,11 @@ export default function (state = initialState, action) {
                 ...state
             };
         case POST_BOOK: 
+            
             state.userData.books.unshift(action.payload);
-
+        
             return {
-                ...state
+                ...state,
             }
         default:
             return state;
