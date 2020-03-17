@@ -49,10 +49,12 @@ class user extends Component{
 user.propTypes = {
     getProfileData: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state =>({
-    user: state.user
+    user: state.user,
+    data: state.data
 })
 
 export default connect(mapStateToProps, {getProfileData})(withStyles(styles)(user));

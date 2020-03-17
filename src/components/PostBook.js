@@ -115,6 +115,19 @@ class PostBook extends Component{
             this.authorISBN = '';
             this.handleClose();
         }
+        if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded && nextProps.user !== undefined){
+            this.setState({ 
+                author: '',
+                title: '',
+                cover: '',
+                isbn: '',
+                books: nextProps.data.books.length,
+                reads: []
+            });
+            this.titleISBN = '';
+            this.authorISBN = '';
+            this.handleClose();
+        }
         if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
             this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
             if(nextProps.data.isbn[0].items[0].volumeInfo.authors != null){
@@ -322,12 +335,14 @@ PostBook.propTypes = {
     checkISBN: PropTypes.func.isRequired,
     uploadImage: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    user:PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
     UI: state.UI,
-    data: state.data
+    data: state.data,
+    user: state.user
 });
 
 const mapActionsToProps= { postBook, checkISBN, uploadImage};

@@ -1,5 +1,7 @@
-import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, 
-    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK , POST_BOOK} from '../types';
+import {
+    SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
+    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST
+} from '../types';
 
 const initialState = {
     authenticated: false,
@@ -8,7 +10,8 @@ const initialState = {
     credentials: {},
     requests: [],
     notifications: [],
-    userData: {}
+    userData: {},
+    
 };
 
 export default function (state = initialState, action) {
@@ -67,19 +70,27 @@ export default function (state = initialState, action) {
                 }
             };
         case DELETE_BOOK:
-        if(state.userData.books !== undefined){
-            let index = state.userData.books.findIndex(book => book.bookId === action.payload);
-            state.userData.books.splice(index, 1);
-        }
+            if (state.userData.books !== undefined) {
+                let index = state.userData.books.findIndex(book => book.bookId === action.payload);
+                state.userData.books.splice(index, 1);
+            }
             return {
                 ...state
             };
-        case POST_BOOK: 
-            
-            state.userData.books.unshift(action.payload);
-        
+        case POST_BOOK:
+            if (state.userData.books !== undefined) {
+                state.userData.books.unshift(action.payload);
+            }
             return {
                 ...state,
+            }
+        case DELETE_REQUEST:
+
+            let index3 = state.requests.findIndex(request => request.bookId === action.payload);
+            state.requests.splice(index3, 1);
+
+            return {
+                ...state
             }
         default:
             return state;

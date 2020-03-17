@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-
+import PropTypes from 'prop-types';
 
 import Request from '../components/Request';
 import Profile from '../components/Profile';
@@ -16,7 +16,7 @@ import {connect} from 'react-redux';
 class request extends Component {
     
     render() {        
-        const  requests= this.props.user.requests;
+        const requests = this.props.user.requests;
         const authenticated= this.props.user.authenticated;
         let recentRequestsMarkup = authenticated  ? ( requests[0]  ?(
             requests.map((request) => 
@@ -56,6 +56,11 @@ class request extends Component {
     }
 }
 
+request.propTypes = {
+    classes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    
+};
 
 
 const mapStateToProps = state => ({

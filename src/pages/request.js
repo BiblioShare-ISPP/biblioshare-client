@@ -41,18 +41,20 @@ class request extends Component {
         }else{
             bookOwner = null;
         }
-        let recentRequestsMarkup = user  ?  (loading ? ( requests[0] && handle === bookOwner? (
+        let recentRequestsMarkup = user  ? (!loading ? (<CircularProgress style={styles.progress} />): ( requests[0] && handle === bookOwner? (
             requests.map((request) => 
+                
                 <Request key={request.requestId} request={request}/>)): 
-                <CircularProgress style={styles.progress} />):
                 <Card >
                 <CardContent >
                      <Typography variant="h5" color="textPrimary" component="h2" ><InfoIcon />Information</Typography>
                     <Typography variant="h5" color="textSecondary" component="h5">There aren´t any request for you</Typography>
             
                 </CardContent>
-            </Card >):
+            </Card >)):
                 
+                
+    
                 (window.location.href = "/login");
 
        

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-
+import DeleteRequest from './DeleteRequest';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 //MUI
@@ -66,11 +66,14 @@ class Request extends Component {
     rejectedRequest = () => {
         this.props.rejectedRequest(this.props.request.requestId);
     }
-    
+  
     render() {
         dayjs.extend(relativeTime);
-        const { classes, request: { title, cover, bookId, bookOwner, userHandle, status, createdAt } } = this.props;
+        const { classes, request: { title, cover, bookId, bookOwner, userHandle, status, createdAt },user: {authenticated,credentials: { handle } }} = this.props;
         let button;
+        const deleteButton = authenticated && userHandle === handle && status === 'pending' ? (
+            <DeleteRequest bookId={bookId}/>
+        ): null
         if(status === 'pending' && bookOwner === this.props.user.credentials.handle){
             button= <div className={classes.buttons}>
                     
@@ -98,6 +101,7 @@ class Request extends Component {
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
+                    {deleteButton}
                     <Typography variant="h5" color="textPrimary" component={Link} to={`/books/${bookId}`}>{title}</Typography>
                     {owner} 
                     {applicant}

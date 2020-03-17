@@ -162,8 +162,9 @@ export const getBooksByUser = (userHandle) => (dispatch) => {
 };
 
 export const deleteBook = (bookId) => (dispatch) => {
-    
+    console.log(bookId)
     axios.delete(`/book/${bookId}`)
+    
     .then(() => {
         dispatch({ type: DELETE_BOOK, payload: bookId})
     })

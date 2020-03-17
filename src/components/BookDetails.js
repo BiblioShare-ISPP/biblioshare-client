@@ -17,8 +17,6 @@ import Avatar from '@material-ui/core/Avatar';
 import MyButton from '../util/MyButton';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
-// Redux
-import { connect } from 'react-redux';
 import { deleteBook } from '../redux/actions/dataAction';
 
 const styles = {
@@ -79,6 +77,10 @@ class BookDetails extends Component {
 const mapStateToProps = (state) => ({
     user: state.user
   });
+
+const mapActionsToProps = {
+    deleteBook,
+}
   
 
-export default connect(mapStateToProps)(withStyles(styles)(BookDetails));
+export default connect(mapStateToProps,mapActionsToProps)(withStyles(styles)(BookDetails));
