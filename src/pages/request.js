@@ -38,7 +38,7 @@ class request extends Component {
         let request;
         if (requests !== undefined && requests.length > 0){
             bookOwner = requests[0].bookOwner;
-            request = request[0]
+            request = requests[0]
         }else{
             bookOwner = null;
             request = ''
