@@ -1,0 +1,165 @@
+{
+  "id": "97bfa6a1-278a-4509-883c-fccf50c82080",
+  "version": "2.0",
+  "name": "BiblioShare",
+  "url": "https://biblioshare-s1.firebaseapp.com",
+  "tests": [{
+    "id": "b6ea980d-7a74-42c9-9c38-4cb023c51b92",
+    "name": "Login y logout",
+    "commands": [{
+      "id": "e18fc88e-e04b-4e5f-962c-3ae688be59d0",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3f617334-be50-4000-abcf-dedd9cf0ac35",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1096",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ed690a68-416f-4441-b640-d8f5b026ce84",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiButton-containedPrimary > .MuiButton-label",
+      "targets": [
+        ["css=.MuiButton-containedPrimary > .MuiButton-label", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/div/div/a/span", "xpath:idRelative"],
+        ["xpath=//div/div/a/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b99c5a87-672b-4e69-9708-d8547626ddd6",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "83ee8d70-58f6-41ad-890f-8995f7b4f7dd",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "juan12_rubio@hotmail.com"
+    }, {
+      "id": "f2cb6cfb-511c-4adc-b82a-74300990f82b",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "51399880-1db3-4599-9945-a0f5f6e74184",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiButton-contained > .MuiButton-label",
+      "targets": [
+        ["css=.MuiButton-contained > .MuiButton-label", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/form/button/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3c3b557c-e72c-47f1-ba89-f1c8b85c0ec0",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "12ke28600"
+    }, {
+      "id": "e5037422-c6dd-4f79-9793-4005670ac120",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiButton-contained > .MuiButton-label",
+      "targets": [
+        ["css=.MuiButton-contained > .MuiButton-label", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/form/button/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9de38817-4e23-4120-a985-d50b68dd80e5",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.MuiButton-contained > .MuiButton-label",
+      "targets": [
+        ["css=.MuiButton-contained > .MuiButton-label", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/form/button/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2b9e6079-253c-432c-91ed-371885a4fb73",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiSvgIcon-colorPrimary:nth-child(1) > path",
+      "targets": [
+        ["css=.MuiSvgIcon-colorPrimary:nth-child(1) > path", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "2597aeb2-8c9f-4abb-b0ea-796218606afb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiSvgIcon-colorPrimary:nth-child(1) > path",
+      "targets": [
+        ["css=.MuiSvgIcon-colorPrimary:nth-child(1) > path", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "1567f7cf-5ef6-47d9-94ba-3eab235cfc09",
+      "comment": "",
+      "command": "click",
+      "target": "id=root",
+      "targets": [
+        ["id=root", "id"],
+        ["css=#root", "css:finder"],
+        ["xpath=//div[@id='root']", "xpath:attributes"],
+        ["xpath=//div", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "4328bfb9-2012-488d-96a4-8190ca6fe6c5",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["b6ea980d-7a74-42c9-9c38-4cb023c51b92"]
+  }],
+  "urls": ["https://biblioshare-s1.firebaseapp.com/"],
+  "plugins": []
+}
