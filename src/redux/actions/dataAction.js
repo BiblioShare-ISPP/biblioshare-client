@@ -40,7 +40,6 @@ export const findBooks = (query) => dispatch =>{
 
 //Post a book
 export const postBook = (newBook) => (dispatch) => {
-    console.log(newBook);
     dispatch({ type: LOADING_UI });
     axios.post('/book', newBook)
     .then((res) => {
