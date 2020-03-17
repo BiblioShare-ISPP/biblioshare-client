@@ -41,7 +41,7 @@ class request extends Component {
         }else{
             bookOwner = null;
         }
-        let recentRequestsMarkup = user  ? (!loading ? (<CircularProgress style={styles.progress} />): ( requests.length > 0 && handle === bookOwner? (
+        let recentRequestsMarkup = user  ? (!loading ? (<CircularProgress style={styles.progress} />): (requests!== undefined && requests.length > 0 && handle === bookOwner? (
             requests.map((request) => 
                 
                 <Request key={request.requestId} request={request}/>)): 
