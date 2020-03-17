@@ -91,10 +91,7 @@ class PostBook extends Component{
         errors: {}
     };
     componentWillReceiveProps(nextProps){
-        console.log(this.state);
-        console.log(nextProps);
         if(nextProps.UI.errors){
-            console.log('Entro 1');
             this.titleISBN = '';
             this.authorISBN = '';
             this.setState({
@@ -106,8 +103,6 @@ class PostBook extends Component{
             });
         }
         if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded && (nextProps.data.books.length > this.state.books)){
-            console.log('Entro 2');
-
             this.setState({ 
                 author: '',
                 title: '',
@@ -121,8 +116,6 @@ class PostBook extends Component{
             this.handleClose();
         }
         if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
-            console.log('Entro 3');
-
             this.titleISBN = nextProps.data.isbn[0].items[0].volumeInfo.title;
             if(nextProps.data.isbn[0].items[0].volumeInfo.authors != null){
                 this.authorISBN = nextProps.data.isbn[0].items[0].volumeInfo.authors[0];
@@ -137,7 +130,6 @@ class PostBook extends Component{
             this.handleISBNClose();
         }
         if(nextProps.UI.coverUploaded){
-            console.log('Entro 4');
             document.getElementById('coverImg').src = nextProps.UI.coverUploaded;
             this.setState({
                 cover: nextProps.UI.coverUploaded

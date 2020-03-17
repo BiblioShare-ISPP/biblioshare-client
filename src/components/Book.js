@@ -27,9 +27,6 @@ const styles = {
         padding: 25,
         objectFit: 'cover',
         width: '100%'
-    },
-    requestButton: {
-       float: 'right'
     }
 };
 
