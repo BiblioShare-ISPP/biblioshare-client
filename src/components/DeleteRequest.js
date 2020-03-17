@@ -17,9 +17,7 @@ import { deleteRequest } from '../redux/actions/requestAction';
 
 const style = {
     deleteButton: {
-        position: 'absolute',
-        left: '85%',
-
+        float: 'left',
         color: 'red'
     },
    
@@ -59,7 +57,7 @@ class DeleteRequest extends Component {
         return (
             <Fragment>
                 <MyButton tip="Delete Request" onClick={this.handleOpen} btnClassName={classes.deleteButton}>
-                    <DeleteOutline />
+                    <DeleteOutline color="error"/>
                 </MyButton>
                 <Dialog
                     open={this.state.open}

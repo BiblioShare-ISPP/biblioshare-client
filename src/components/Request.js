@@ -101,12 +101,13 @@ class Request extends Component {
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
-                    {deleteButton}
+                
                     <Typography variant="h5" color="textPrimary" component={Link} to={`/books/${bookId}`}>{title}</Typography>
                     {owner} 
                     {applicant}
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(createdAt).fromNow()}</Typography>
-                    <Typography variant="body2" color="primary">Status: {status}</Typography>
+                    <Typography variant="body2" color="primary">Status: {status}</Typography> 
+                    {deleteButton}
                     {button}
                         
                     

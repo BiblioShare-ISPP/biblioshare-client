@@ -17,10 +17,7 @@ import { deleteBook } from '../redux/actions/dataAction';
 
 const style = {
     deleteButton: {
-        position: 'absolute',
-        left: '85%',
-
-        color: 'red'
+        float: 'right'
     },
    
 };
@@ -59,7 +56,7 @@ class DeleteBook extends Component {
         return (
             <Fragment>
                 <MyButton tip="Delete Book" onClick={this.handleOpen} btnClassName={classes.deleteButton}>
-                    <DeleteOutline />
+                    <DeleteOutline color="error"/>
                 </MyButton>
                 <Dialog
                     open={this.state.open}

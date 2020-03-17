@@ -33,10 +33,9 @@ const styles = {
         width: '100%'
     },
     deleteButton: {
-        position: 'absolute',
-        left: '85%',
-        bottom:'75%',
-        color: 'red'
+        float: 'right'
+       
+        
     }
 };
 
@@ -49,9 +48,9 @@ class BookDetails extends Component {
         const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle }}} = this.props;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
-            <MyButton  tip="Delete Book" onClick={this.deleteBook}  btnClassName={classes.deleteButton}>
-                    <a  btnClassName={classes.iconDelete} href={`/users/${owner}`}><DeleteOutline /> </a>
-                </MyButton>
+            <MyButton  tip="Delete Book" onClick={this.deleteBook}   btnClassName={classes.deleteButton}>
+                    <a  btnClassName={classes.iconDelete} href={`/users/${owner}`}><DeleteOutline color="error"/> </a>
+            </MyButton>
         ): null
         return (
             <Fragment>
