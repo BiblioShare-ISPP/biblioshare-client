@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {Alert, AlertTitle } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import Request from '../components/Request';
 import Profile from '../components/Profile';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import InfoIcon from '@material-ui/icons/Info';
 //Redux
 
 import {connect} from 'react-redux';
@@ -38,12 +41,21 @@ class request extends Component {
         }else{
             bookOwner = null;
         }
-        let recentRequestsMarkup = user  ? (requests !== undefined && requests.length > 0 && handle === bookOwner?  ( loading ? (
+        let recentRequestsMarkup = user  ? (!loading ? (<CircularProgress style={styles.progress} />): ( requests[0] && handle === bookOwner? (
             requests.map((request) => 
+                
                 <Request key={request.requestId} request={request}/>)): 
-                <CircularProgress style={styles.progress} />):
-                <Alert variant="outlined" severity="success"><AlertTitle>Information</AlertTitle>There aren´t  request for you</Alert>) :
-                (window.location.href = "/login" );
+                <Card >
+                <CardContent >
+                     <Typography variant="h5" color="textPrimary" component="h2" ><InfoIcon />Information</Typography>
+                    <Typography variant="h5" color="textSecondary" component="h5">There aren´t any request for you</Typography>
+            
+                </CardContent>
+            </Card >)):
+                
+                
+    
+                (window.location.href = "/login");
 
        
 
@@ -69,7 +81,6 @@ request.propTypes = {
     getRequestsByUser: PropTypes.func.isRequired,
     acceptedRequest: PropTypes.func.isRequired,
     rejectedRequest: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
    
 

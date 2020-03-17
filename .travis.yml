@@ -1,14 +1,20 @@
 language: node_js
 node_js:
   - "10.16.3"
+addons:
+  chrome: stable
 branches:
   only:
   - master
 install:
 - npm install
 - npm install -g firebase-tools
+- npm install -g chromedriver
+- npm install -g selenium-side-runner
 script:
 - npm run build
 - echo "Deploying"
 after-success:
 - firebase deploy --token $FIREBASE_TOKEN
+- cd tests
+- selenium-side-runner -c "goog:chromeOptions.args=[--headless,--nogpu] browserName=chrome" *.side
