@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
+import withStyles from '@material-ui/core/styles/withStyles';
 //Data actions
 import {getBookData} from '../redux/actions/dataAction';
 
@@ -12,23 +12,28 @@ import BookDetails from '../components/BookDetails';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-class book extends Component {
-    state = {
-        book: null
+
+const styles = {
+    progressBook: {
+        margin: '7% 49%'
     }
+}
+class book extends Component {
+    
     componentDidMount(){
         const bookId = this.props.match.params.bookId;
         this.props.getBookData(bookId);
     }
     render() {
-        const { loading, book} = this.props.data;
+        const { book, loading} = this.props.data;
+        const {classes} = this.props;
         return (
             <Grid container spacing={6}>
-                {!loading ? (
+                {loading ? (<CircularProgress className={classes.progressBook}/>): (
                     <Grid item xs={12}>
-                        <BookDetails book={book}/>
+                        <BookDetails book={book} />
                     </Grid>)
-                    :(<CircularProgress />)}
+                    }
             </Grid>
         )
     }
@@ -36,11 +41,12 @@ class book extends Component {
 
 book.propTypes = {
     getBookData: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state =>({
     data: state.data
 });
 
-export default connect(mapStateToProps, {getBookData})(book);
+export default connect(mapStateToProps, {getBookData})(withStyles(styles)(book));

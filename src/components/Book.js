@@ -34,7 +34,7 @@ const styles = {
        float: 'right'
     },
    noTickets: {
-        left: '50%',
+        float: 'right',
         
    }
 };
@@ -55,8 +55,8 @@ class Book extends Component {
                     
                     {deleteButton}
                     <Typography variant="h5" component={Link} to={`/books/${bookId}`} color="primary">{title}</Typography>
-                    <Typography variant="body2" color="primary">Status: {availability}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
+                    <Typography variant="body2" color="primary">Status: {availability}</Typography>
                     <Typography variant="body2" color="textSecondary">Place: {location}</Typography>
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                     <Typography className={classes.date} variant="body2" color="textSecondary">Posted: {dayjs(userPostDate).fromNow()}</Typography>
