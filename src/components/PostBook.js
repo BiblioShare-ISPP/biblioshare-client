@@ -28,6 +28,10 @@ import {connect} from 'react-redux';
 import {postBook, checkISBN, uploadImage} from '../redux/actions/dataAction';
 import { Tooltip } from '@material-ui/core';
 
+//Others
+import Scanner from "./Scanner";
+
+
 const styles = {
     palette: {
         primary: {
@@ -68,9 +72,6 @@ const styles = {
         position: 'fixed',
         bottom: '10%',
         right: '5%'
-    },
-    logo: {
-        maxWidth: 160,
     }
 };
 
@@ -80,25 +81,51 @@ class PostBook extends Component{
     state = {
         open: false,
         openISBN: false,
+        books: this.props.data.books.length,
         title: '',
         author: '',
         cover: '',
         isbn: '',
+        camera: false,
+        reads: [],
         errors: {}
     };
     componentWillReceiveProps(nextProps){
         if(nextProps.UI.errors){
+            this.titleISBN = '';
+            this.authorISBN = '';
             this.setState({
+                title: '',
+                author: '',
+                cover: '',
+                isbn: '',
                 errors: nextProps.UI.errors
             });
         }
-        if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded){
+        if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded && (nextProps.data.books.length > this.state.books)){
             this.setState({ 
                 author: '',
                 title: '',
                 cover: '',
-                isbn: ''
+                isbn: '',
+                books: nextProps.data.books.length,
+                reads: []
             });
+            this.titleISBN = '';
+            this.authorISBN = '';
+            this.handleClose();
+        }
+        if(!nextProps.UI.errors && !nextProps.UI.loading && !this.state.openISBN && !nextProps.UI.coverUploaded && nextProps.user !== undefined){
+            this.setState({ 
+                author: '',
+                title: '',
+                cover: '',
+                isbn: '',
+                books: nextProps.data.books.length,
+                reads: []
+            });
+            this.titleISBN = '';
+            this.authorISBN = '';
             this.handleClose();
         }
         if(nextProps.data.isbn.length > 0 && (nextProps.data.isbn[0].items[0].volumeInfo.title !== this.titleISBN)){
@@ -110,7 +137,8 @@ class PostBook extends Component{
             document.getElementById('author').value = this.authorISBN;
             this.setState({
                 title: this.titleISBN,
-                author: this.authorISBN
+                author: this.authorISBN,
+                isbn: ''
             });
             this.handleISBNClose();
         }
@@ -127,15 +155,37 @@ class PostBook extends Component{
     };
     
     handleISBNClose = () => {
-        this.setState({ openISBN: false, isbn: '', errors: {}});
+        this.setState({ 
+            openISBN: false, 
+            isbn: '',
+            errors: {}});
         this.titleISBN = '';
         this.authorISBN = '';
     };
     handleOpen = () => {
-        this.setState({ open: true });
+        this.setState({ 
+            open: true,
+            errors: {},
+            title: '',
+            author: '',
+            cover: '',
+            isbn: ''
+        });
+        this.titleISBN = '';
+        this.authorISBN = '';
     };
     handleClose = () => {
-        this.setState({ open: false, errors: {}});
+        this.setState({ 
+            open: false, 
+            errors: {},
+            title: '',
+            author: '',
+            cover: '',
+            isbn: ''
+        });
+        this.titleISBN = '';
+        this.authorISBN = '';
+        this.props.data.isbn = '';
     };
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
@@ -147,6 +197,8 @@ class PostBook extends Component{
             author: this.state.author,
             cover: this.state.cover
         });
+        this.titleISBN = '';
+        this.authorISBN = '';
     };
     handleImageChange = (event) => {
         const image = event.target.files[0];
@@ -162,9 +214,47 @@ class PostBook extends Component{
         event.preventDefault();
         this.props.checkISBN({isbn: this.state.isbn});
     };
+    onDetected = (result) => {
+        if(this.state.camera){
+            let expresion = /^(97(8|9))?\d{9}(\d|X)$/;
+            if(result.match(expresion) && this.state.reads.length < 10){
+                this.state.reads.push(result);
+            }
+            if(this.state.reads.length === 10){
+                let counts = this.state.reads.reduce((a,c) =>{
+                    a[c] = (a[c] || 0) + 1;
+                    return a;
+                }, {});
+                let maxCount = Math.max(...Object.values(counts));
+                let mostRepeated = Object.keys(counts).filter(k => counts[k] === maxCount);
+                this.setState({
+                    camera: false,
+                    isbn: mostRepeated[0]
+                });
+                document.getElementById("isbn").value = mostRepeated[0];
+            }
+        }
+    };
+    handleCamera = () => {
+        document.getElementById("isbn").value = '';
+        this.setState({
+            isbn: '',
+            camera: true,
+            reads: []
+        });
+    };
+    handleCameraClose = () => {
+        document.getElementById("isbn").value = '';
+        this.setState({
+            camera: false,
+            isbn: '',
+            reads: []
+        });
+    };
     render(){
         const { errors } = this.state;
         const { classes, UI: {loading, loadingISBN}} = this.props;
+
         return (
             <Fragment>
                 <CustomButton onClick={this.handleOpen} tip="Post a book">
@@ -207,14 +297,27 @@ class PostBook extends Component{
                     <DialogTitle>Search Book by ISBN</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.checkISBN}>
-                           <TextField name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
+                           <TextField id="isbn" name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
                                 CHECK ISBN 
                                 {loadingISBN && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
+                            </Button><Button variant="contained" color="primary" className={classes.submitButton} onClick={this.handleCamera}>
+                                START CAMERA
                             </Button>
                         </form>
+                    </DialogContent>
+                </Dialog>
+                <Dialog open={this.state.camera} onClose={this.handleCameraClose} fullWidth maxWidth="sm">
+                    <CustomButton tip="Close" onClick={this.handleCameraClose} tipClassName={classes.closeButton}>
+                        <CloseIcon />
+                    </CustomButton>
+                    <DialogTitle>Scan the barcode</DialogTitle>
+                    <DialogContent>
+                        <div className="camara">
+                            <Scanner onDetected={this.onDetected}/>
+                        </div>
                     </DialogContent>
                 </Dialog>
                 <div className={classes.addButton}>
@@ -232,12 +335,14 @@ PostBook.propTypes = {
     checkISBN: PropTypes.func.isRequired,
     uploadImage: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    user:PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
     UI: state.UI,
-    data: state.data
+    data: state.data,
+    user: state.user
 });
 
 const mapActionsToProps= { postBook, checkISBN, uploadImage};

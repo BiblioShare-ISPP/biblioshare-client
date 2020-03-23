@@ -1,4 +1,4 @@
-import {LOADING_DATA, SET_REQUESTS, ACCEPTED_REQUEST, REJECTED_REQUEST, REQUEST_BOOK } from '../types';
+import {LOADING_DATA, SET_REQUESTS, ACCEPTED_REQUEST, REJECTED_REQUEST, REQUEST_BOOK, DELETE_REQUEST } from '../types';
 import axios from 'axios';
 
 
@@ -54,4 +54,15 @@ export const rejectedRequest = (requestId) => (dispatch) => {
         })
     })
     .catch( err => console.log(err));
+}
+
+export const deleteRequest = (bookId) => (dispatch) => {
+    
+    axios.get(`/book/${bookId}/cancelRequest`)
+    
+    .then((res) => {
+        console.log(res)
+        dispatch({ type: DELETE_REQUEST, payload: res.data.bookId})
+    })
+    .catch(err => console.log(err));
 }

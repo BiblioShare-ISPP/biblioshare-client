@@ -1,4 +1,4 @@
-import { POST_BOOK, SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN} from '../types';
+import { POST_BOOK,  SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN, DELETE_BOOK} from '../types';
 
 const initialState = {
     books: [],
@@ -28,6 +28,7 @@ export default function (state= initialState, action){
                 book: action.payload
             };
         case POST_BOOK:
+           
             return {
                 ...state,
                 books: [
@@ -42,6 +43,14 @@ export default function (state= initialState, action){
                     action.payload
                 ]
             };
+        case DELETE_BOOK:
+            
+            let index = state.books.findIndex(book => book.bookId === action.payload);
+            state.books.splice(index,1);
+            
+            return {
+                ...state
+            }
         default:
             return state;
     }

@@ -130,7 +130,7 @@ class UserDetails extends Component {
                                 <EditIcon color="primary" />
                             </MyButton>
                         </Fragment>
-                        ) : (<p></p>)}
+                        ) : null}
                     </div>
                     <hr />
                     <div className="profile-details">
@@ -149,9 +149,11 @@ class UserDetails extends Component {
                     </div>
                     {isLoggedUser ? (
                         <EditDetails/>
-                    ) : (<p></p>)}
+                    ) : null}
                 </div>
-                <MuiLink component={Link} to={`/ticket`} color="primary" variant="h5">Buy tickets</MuiLink>
+                { isLoggedUser ? (
+                    <MuiLink component={Link} to={`/ticket`} color="primary" variant="h5">Buy tickets</MuiLink>
+                ): null}
             </Paper>
         ): (<CircularProgress className={classes.progress} />);
                             

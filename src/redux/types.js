@@ -21,9 +21,11 @@ export const SET_BOOK = 'SET_BOOK';
 export const SET_BOOKS = 'SET_BOOKS';
 export const CHECK_ISBN = 'CHECK_ISBN';
 export const COVER_UPLOADED = 'COVER_UPLOADED';
+export const DELETE_BOOK = 'DELETE_BOOK';
 
 //Request reducer types
 export const SET_REQUESTS = 'SET_REQUESTS';
 export const ACCEPTED_REQUEST = 'ACCEPTED_REQUEST';
 export const REJECTED_REQUEST = 'REJECTED_REQUEST';
 export const REQUEST_BOOK = 'REQUEST_BOOK';
+export const DELETE_REQUEST = 'DELETE_REQUEST';
