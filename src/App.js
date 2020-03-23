@@ -9,6 +9,7 @@ import jwtDecode from 'jwt-decode';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
+import { SET_AUTHENTICATED_HALL } from './redux/types';
 import { logoutUser, getUserData } from './redux/actions/userActions';
 //Components
 import Navbar from './components/Navbar';
@@ -25,6 +26,9 @@ import find from './pages/find';
 import axios from 'axios';
 import myrequest from './pages/myrequest';
 import user from './pages/user';
+import hall from './pages/hall';
+import hallLogin from './pages/hallLogin';
+import { logoutHall, getHallData } from './redux/actions/hallAction';
 
 const theme = createMuiTheme(themeFile);
 
@@ -34,12 +38,23 @@ const token = localStorage.FBIdToken;
 if(token){
   const decodedToken = jwtDecode(token);
   if(decodedToken.exp * 1000 < Date.now()){
-    store.dispatch(logoutUser());
-    window.location.href = '/login';
+    if(token.startsWith('Bearer')){
+      store.dispatch(logoutUser());
+      window.location.href = '/login';
+    }else{
+      store.dispatch(logoutHall());
+      window.location.href = '/hall/login';
+    }
   }else{
-    store.dispatch({ type: SET_AUTHENTICATED });
-    axios.defaults.headers.common['Authorization'] = token;
-    store.dispatch(getUserData());
+    if(token.startsWith('Bearer')){
+      store.dispatch({ type: SET_AUTHENTICATED });
+      axios.defaults.headers.common['Authorization'] = token;
+      store.dispatch(getUserData());
+    }else{
+      store.dispatch({ type: SET_AUTHENTICATED_HALL });
+      axios.defaults.headers.common['Authorization'] = token;
+      store.dispatch(getHallData());
+    }
   }
 }
 
@@ -54,6 +69,9 @@ function App() {
               <Route exact path="/" component={home}/>
               <AuthRoute exact path="/login" component={login}/>
               <AuthRoute exact path="/signup" component={signup}/>
+              <AuthRoute exact path="/hall/login" component={hallLogin}/>
+
+              <Route exact path="/hall" component={hall}/>
               <Route exact path='/requests/:handle' component={request}/>
               <Route exact path="/myRequests" component={myrequest}/>
               <Route exact path="/books/:bookId" component={book} />

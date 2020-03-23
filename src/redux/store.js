@@ -3,7 +3,8 @@ import thunk from 'redux-thunk';
 import userReducer from './reducers/userReducer';
 import dataReducer from './reducers/dataReducer';
 import uiReducer from './reducers/uiReducer';
-import requestReducer from './reducers/requestReducer'
+import requestReducer from './reducers/requestReducer';
+import hallReducer from './reducers/hallReducer';
 
 const initialState = {};
 
@@ -13,19 +14,20 @@ const reducers = combineReducers({
     user: userReducer,
     data: dataReducer,
     UI: uiReducer,
-    request: requestReducer
+    request: requestReducer,
+    hall: hallReducer
 });
 
-
+/*
 const store = createStore(reducers, initialState, compose(
     applyMiddleware(...middleware))
 );
+*/
 
-/*
 const store = createStore(reducers, initialState, compose(
     applyMiddleware(...middleware), 
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 );
-*/
+
 export default store;
