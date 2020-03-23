@@ -5,7 +5,7 @@ import {
 const initialState = {
     authenticated: false,
     loading: false,
-    loadingResidents: false,
+    loadingResidents: true,
     credentials: {},
     residents : []
 };
@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
         case SET_RESIDENTS:
             return {
                 ...state,
-                loadingResidents: true,
+                loadingResidents: false,
                 residents: action.payload
             }
         default:
