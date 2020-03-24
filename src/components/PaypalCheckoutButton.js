@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import paypal from 'paypal-checkout';
+import {updateTickets} from '../redux/actions/userActions';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
-
-const PaypalCheckoutButton = ({order}) => {
+const PaypalCheckoutButton = ({ order }) => {
 
     const paypalConf = {
         currency: 'EUR',
@@ -13,16 +15,17 @@ const PaypalCheckoutButton = ({order}) => {
             production: '-- id--',
         },
         style: {
-            layout:  'vertical',
-            color:   'gold',
-            shape:   'rect',
-            label:   'paypal'
+            layout: 'horizontal',
+            color: 'blue',
+            shape: 'rect',
+            label: 'paypal'
         }
     };
 
-    const PaypalButton = paypal.Button.driver('react', {React, ReactDOM});
+    const PaypalButton = paypal.Button.driver('react', { React, ReactDOM });
 
     const payment = (data, actions) => {
+
         const payment = {
             transactions: [
                 {
@@ -33,25 +36,29 @@ const PaypalCheckoutButton = ({order}) => {
                     description: 'Buy tickets in BiblioShare',
                     custom: order.custom || '',
                     item_list: {
-                        items:order.items
+                        items: [order.items]
                     }
                 }
             ],
             note_to_payer: 'Contact for more information'
         };
-        return actions.payment.create({payment});
+        return actions.payment.create({ payment });
     };
 
+    
     const onAuthorize = (data, actions) => {
-        return actions.payment.execute()
-        .then( response => {
-            console.log(response);
-            alert(`El pago fue procesado correctamente, ID: ${response.id}`);
-        })
-        .catch( error => {
-            console.log(error);
-            alert(`se ha producido un error`)
-        });
+        let result = actions.payment.execute()
+            .then(response => {
+                return true;
+        
+            })
+            
+            .catch(error => {
+                console.log(error);
+                alert(`se ha producido un error`)
+            });
+           if(result)
+                this.props.updateTickets(this.props.user.credentials.handle,order.items.quantity);
     };
 
     const onError = (error) => {
@@ -59,26 +66,38 @@ const PaypalCheckoutButton = ({order}) => {
         alert('El pago no fue realizado, intentalo de nuevo');
     };
 
-    const onCancel = (data,actions) => {
+    const onCancel = (data, actions) => {
         alert('Pago no realizado, el usuario canceló el proceso');
     };
 
-    return(
+    return (
         <PaypalButton
-        env={paypalConf.env}
-        client={paypalConf.client}
-        payment={(data,actions) => payment(data, actions)}
-        onAuthorize={(data,actions) => onAuthorize(data, actions)}
-        onCancel={(data,actions) => onCancel(data, actions)}
-        onError={(error)=> onError(error)}
-        style={paypalConf.style}
-        commit
-        locale="es_ES"
+            env={paypalConf.env}
+            client={paypalConf.client}
+            payment={(data, actions) => payment(data, actions)}
+            onAuthorize={(data, actions) => onAuthorize(data, actions)}
+            onCancel={(data, actions) => onCancel(data, actions)}
+            onError={(error) => onError(error)}
+            style={paypalConf.style}
+            commit
+            locale="es_ES"
         />
 
-        
+
     );
 };
 
-export default PaypalCheckoutButton;
+PaypalCheckoutButton.propTypes = {
+    updateTickets: PropTypes.func.isRequired,    
+}
+
+const mapStateToProps = state => ({
+    user: state.user,
+});
+
+const mapActionsToProps = {
+    updateTickets,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(PaypalCheckoutButton);
 

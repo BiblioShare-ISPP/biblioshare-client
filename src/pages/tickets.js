@@ -1,81 +1,57 @@
 import React, { Component } from 'react';
-import PaypalCheckoutButton from '../components/PaypalCheckoutButton';
+import Grid from '@material-ui/core/Grid';
+import Profile from '../components/Profile';
+import {getOffers} from '../redux/actions/dataAction';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import PropTypes from 'prop-types';
+import Tickets from '../components/Tickets';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+//Redux
+import {connect} from 'react-redux';
 
-import Typography from '@material-ui/core/Typography';
-
-
+const styles = {
+    progressBook: {
+        margin: '50px 50%'
+    }
+}
 class tickets extends Component {
 
+    componentDidMount(){
+       
+        this.props.getOffers();
+    }
+
     render() {
-        const order = {
-            customer: '123456',
-            total: '3.00',
-            items: [
-                {
-                    sku: '1',
-                    name: '1 Ticket BiblioShare',
-                    quantity: '1',
-                    price: '3.0',
-                    currency: 'EUR',
-                    description: 'Compra de ticket en la página BiblioShare',
-                }
-            ]
-        }
-
-        const order1 = {
-            customer: '123456',
-            total: '13.0',
-            items: [
-                {
-                    sku: '2',
-                    name: 'Pack x5 Tickets BiblioShare',
-                    quantity: '5',
-                    price: '2.6',
-                    currency: 'EUR',
-                    description: 'Compra de ticket en la página BiblioShare',
-                }
-            ]
-        };
-
-        const order2 = {
-            customer: '123456',
-            total: '25.0',
-            items: [
-                {
-                    sku: '3',
-                    name: ' Pack x10 Tickets BiblioShare',
-                    quantity: '10',
-                    price: '2.5',
-                    currency: 'EUR',
-                    description: 'Compra de ticket en la página BiblioShare',
-                }
-            ]
-
-
-        }
-
+        
+        const {classes, data: {offers, loading}} = this.props;
+        let recentOffersMarkup = loading ? (<CircularProgress className={classes.progressBook} />) : (
+            offers.map((offer) => 
+                <Tickets key={offer.items.sku} offer={offer}/>)
+        );
         return (
-            <Card>
-
-                <CardContent >
-
-                    <Typography variant='h5'>Tickets3</Typography>  <Typography variant='h5'>1€</Typography>
-                    <br/>
-                    <PaypalCheckoutButton order={order1} />
-
-
-
-                </CardContent>
-            </Card > 
+            <Grid container spacing={6}>
+                <Grid item sm={4} xs={12}>
+                    <Profile/>
+                </Grid>
+                <Grid item sm={8} xs={12}>
+                    {recentOffersMarkup}
+                </Grid>
+            </Grid>
+           
         )
         
     }
 }
 
+tickets.propTypes = {
+    getOffers: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+    data: state.data
+});
 
 
-
-export default (tickets);
+export default connect(mapStateToProps, {getOffers})(withStyles(styles)(tickets));

@@ -29,3 +29,8 @@ export const ACCEPTED_REQUEST = 'ACCEPTED_REQUEST';
 export const REJECTED_REQUEST = 'REJECTED_REQUEST';
 export const REQUEST_BOOK = 'REQUEST_BOOK';
 export const DELETE_REQUEST = 'DELETE_REQUEST';
+
+
+//Ticket reducer types
+export const SET_OFFERS = 'SET_OFFERS';
+export const UPDATE_TICKETS = 'UPDATE_TICKETS';

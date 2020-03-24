@@ -1,4 +1,4 @@
-import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE} from '../types';
+import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, UPDATE_TICKETS} from '../types';
 import axios from 'axios';
 
 export const loginUser = (userData, history) => (dispatch) => {
@@ -111,3 +111,13 @@ export const editUserDetails = (userDetails) => (dispatch) => {
       })
       .catch((err) => console.log(err));
   };
+
+
+  export const updateTickets = (handle,tickets) => (dispatch) => {
+    console.log('entro')
+    axios.post(`/user/${handle}/${tickets}`)
+    .then((res) => {
+        dispatch({ type: UPDATE_TICKETS, payload: tickets})
+    })
+    .catch(err => console.log(err));
+}
