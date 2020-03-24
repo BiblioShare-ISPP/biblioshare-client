@@ -25,6 +25,7 @@ import find from './pages/find';
 import axios from 'axios';
 import myrequest from './pages/myrequest';
 import user from './pages/user';
+import tickets from './pages/tickets';
 
 const theme = createMuiTheme(themeFile);
 
@@ -59,6 +60,7 @@ function App() {
               <Route exact path="/books/:bookId" component={book} />
               <Route exact path="/find/:keyword" component={find} />
               <Route exact path="/users/:handle" component={user} />
+              <Route exact path="/ticket" component={tickets} />
             </Switch>
         </div>
         </Router>

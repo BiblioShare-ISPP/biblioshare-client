@@ -1,7 +1,8 @@
 import {
     SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
-    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST
+    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS
 } from '../types';
+
 
 const initialState = {
     authenticated: false,
@@ -92,6 +93,15 @@ export default function (state = initialState, action) {
             return {
                 ...state
             }
+        
+        case UPDATE_TICKETS:
+            return {
+                ...state,
+                credentials: {
+                    ...state.credentials,
+                    tickets: state.credentials.tickets + action.payload,
+                    }
+                };
         default:
             return state;
     }
