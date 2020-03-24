@@ -4,11 +4,12 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {Link} from 'react-router-dom';
 import RequestButton from './RequestButton';
-
+import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 
 //MUI
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -33,10 +34,12 @@ const styles = {
         width: '100%'
     },
     deleteButton: {
-        float: 'right'
-       
+        float: 'right'   
+    },
+    noTickets: {
+        float: 'right',
         
-    }
+   }
 };
 
 class BookDetails extends Component {
@@ -45,7 +48,7 @@ class BookDetails extends Component {
     }
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle }}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle, tickets }}} = this.props;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
             <MyButton  tip="Delete Book" onClick={this.deleteBook}   btnClassName={classes.deleteButton}>
@@ -60,11 +63,17 @@ class BookDetails extends Component {
                     {deleteButton}
                     <Typography variant="h5" color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
+                    <Typography variant="body2" color="primary">Status: {availability}</Typography>
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(userPostDate).fromNow()}</Typography>
                     <Typography variant="body2" color="textSecondary">Place: {location}</Typography>
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
-                    { (!isOwner && authenticated) ? (
+                    { (!isOwner && authenticated && availability === 'available' && tickets > 1) ? (
                     <RequestButton bookId={bookId} />
+                    ) : null}
+                     { (!isOwner && authenticated && availability === 'available' && tickets < 1) ? (
+                    <Button component={Link} variant="contained" color="primary" className={classes.noTickets} to="/ticket">
+                    You don´t have any tickets
+                    </Button>
                     ) : null}
                 </CardContent>
             </Card>
@@ -72,7 +81,11 @@ class BookDetails extends Component {
         )
     }
 }
-
+BookDetails.propTypes = {
+    user: PropTypes.object.isRequired,
+    book: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
+}
 const mapStateToProps = (state) => ({
     user: state.user
   });

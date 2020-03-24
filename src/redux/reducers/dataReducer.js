@@ -1,11 +1,12 @@
-import { POST_BOOK,  SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN, DELETE_BOOK} from '../types';
+import { POST_BOOK,  SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN, DELETE_BOOK, SET_OFFERS} from '../types';
 
 const initialState = {
     books: [],
     book: [],
     isbn: [],
     loading: false,
-    loadingISBN: false
+    loadingISBN: false,
+    offers: []
 };
 
 export default function (state= initialState, action){
@@ -51,6 +52,12 @@ export default function (state= initialState, action){
             return {
                 ...state
             }
+        case SET_OFFERS:
+            return{
+                ...state,
+                loading: false,  
+                offers: action.payload
+            };
         default:
             return state;
     }
