@@ -36,7 +36,7 @@ class Tickets extends Component {
     render() {
         const offerpaypal= this.props.offer;
         const {classes} = this.props;
-        const { offer: {total, imageUrl, items: {description}}} = this.props;        
+        const {offer: {total, imageUrl, items: {description}}} = this.props;        
         return (
             <Card className={classes.card}>
                 <CardMedia image={imageUrl} title="Cover image" className={classes.image}/>
@@ -44,7 +44,7 @@ class Tickets extends Component {
 
                     <Typography variant="h5"  color="primary">{description}</Typography>
                     <Typography variant="h6" color="textSecondary">{total}€</Typography>
-                    <PaypalCheckoutButton order={offerpaypal}/>
+                    <PaypalCheckoutButton order={offerpaypal} user={this.props.user.credentials.handle}/>
                      
                 </CardContent>
             </Card>
@@ -55,7 +55,7 @@ class Tickets extends Component {
 Tickets.propTypes = {
     classes: PropTypes.object.isRequired,
     data:PropTypes.object.isRequired,
-    
+    user: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({

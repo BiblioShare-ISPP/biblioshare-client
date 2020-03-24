@@ -50,7 +50,7 @@ tickets.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    data: state.data
+    data: state.data,
 });
 
 

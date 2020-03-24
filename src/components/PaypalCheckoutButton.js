@@ -4,8 +4,9 @@ import paypal from 'paypal-checkout';
 import {updateTickets} from '../redux/actions/userActions';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
-const PaypalCheckoutButton = ({ order }) => {
+const PaypalCheckoutButton = ({ order , user}) => {
 
     const paypalConf = {
         currency: 'EUR',
@@ -45,20 +46,17 @@ const PaypalCheckoutButton = ({ order }) => {
         return actions.payment.create({ payment });
     };
 
-    
     const onAuthorize = (data, actions) => {
-        let result = actions.payment.execute()
-            .then(response => {
-                return true;
-        
+        console.log(user.credentials.handle)
+        return actions.payment.execute()
+            .then(function(){
+                axios.post(`/user/${user.credentials.handle}/${order.items.quantity}`);
+                window.location.href = `/users/${user.credentials.handle}`;
             })
-            
             .catch(error => {
                 console.log(error);
                 alert(`se ha producido un error`)
             });
-           if(result)
-                this.props.updateTickets(this.props.user.credentials.handle,order.items.quantity);
     };
 
     const onError = (error) => {
@@ -82,8 +80,6 @@ const PaypalCheckoutButton = ({ order }) => {
             commit
             locale="es_ES"
         />
-
-
     );
 };
 
