@@ -50,7 +50,9 @@ const PaypalCheckoutButton = ({ order , user}) => {
         console.log(user.credentials.handle)
         return actions.payment.execute()
             .then(function(){
-                axios.post(`/user/${user.credentials.handle}/${order.items.quantity}`);
+                return axios.post(`/user/${user.credentials.handle}/${order.items.quantity}`);
+            })
+            .then(()=>{
                 window.location.href = `/users/${user.credentials.handle}`;
             })
             .catch(error => {
