@@ -9,6 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
+import Avatar from '@material-ui/core/Avatar';
+
 //Icons
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import LocationOn from '@material-ui/icons/LocationOn';
@@ -86,19 +89,52 @@ class Profile extends Component {
         const { 
             classes, 
             user: {
-                credentials: { handle, imageUrl, location, bio, tickets}, 
+                credentials: { handle, imageUrl, location, bio, tickets},
+                isHallMember, 
+                hallImage,
                 loading,
                 authenticated
             }
         } = this.props;
-        
+        const SmallAvatar = withStyles(theme => ({
+            root: {
+              width: 50,
+              height: 50,
+              left: '40%',
+              border: `2px solid ${theme.palette.background.paper}`,
+            },
+          }))(Avatar);
+
+          const BigAvatar = withStyles(theme => ({
+            root: {
+              width: 200,
+              height: 200,
+              top: '80%',
+              left: '25%',
+              border: `2px solid ${theme.palette.background.paper}`,
+            },
+          }))(Avatar);
+          const NoHallAvatar = withStyles(theme => ({
+            root: {
+              width: 200,
+              height: 200,
+              top: '80%',
+              left: '20%',
+              border: `2px solid ${theme.palette.background.paper}`,
+            },
+          }))(Avatar);
         let profileMarkup = !loading ? (
             authenticated ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
-                    <div className="image-wrapper">
-                        <img src={imageUrl} alt="profile" className="profile-image"/>
-                    </div>
+                        {isHallMember ? 
+                            <Badge overlap="circle" anchorOrigin={{vertical: 'bottom', horizontal: 'right',}}
+                                badgeContent={<SmallAvatar alt={location} src={hallImage} />}>
+                            <BigAvatar alt={handle} src={imageUrl} />
+                            </Badge>
+                        :
+                            <NoHallAvatar alt={handle} src={imageUrl} />
+                        }
                         <hr />
                     <div className="profile-details">
                             <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">{handle}</MuiLink>

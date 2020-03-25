@@ -8,7 +8,7 @@ import HallProfile from '../components/HallProfile';
 
 //Redux
 import {connect} from 'react-redux';
-import { getResidents} from '../redux/actions/hallAction';
+import { getResidents, addUserToHall} from '../redux/actions/hallAction';
 
 //MaterialUI
 import List from '@material-ui/core/List';
@@ -33,18 +33,16 @@ class hall extends Component {
     state = {
         members: [],
         accounts: 0,
+        location: '',
     };
-    componentWillReceiveProps(nextProps){
-        console.log('Entro')
-
-    }
     componentDidUpdate(prevProps){
         /* Funcion para obtener todos los habitantes de la region del ayuntamiento */
         if(this.props.hall.credentials !== prevProps.hall.credentials){
             this.props.getResidents(this.props.hall.credentials.location);
             this.setState({
                 members: this.props.hall.credentials.members,
-                accounts: this.props.hall.credentials.accounts
+                accounts: this.props.hall.credentials.accounts,
+                location: this.props.hall.credentials.location
             });
         }
     };
@@ -56,15 +54,12 @@ class hall extends Component {
             members: newMember,
             accounts: accounts
          });
-        console.log(this.state);
-        /* Añadir a miembros del ayuntamiento el handle */
-        /* Dar tickets al usuario */
-        /* Quitar la cuenta al ayuntamiento */
 
+        this.props.addUserToHall(value, this.state.location);
     };
     render() {
-        const {classes, hall:{loadingResidents, residents}} = this.props;
-        let members = !loadingResidents ? (
+        const {classes, hall:{loadingResidents, residents, credentials:{members}}} = this.props;
+        let allResidents = !loadingResidents ? (
             residents.map((resident, index) => (
                 <ListItem key={resident.handle} button>
                     <ListItemAvatar>
@@ -72,9 +67,7 @@ class hall extends Component {
                     </ListItemAvatar>
                     <ListItemText id={`checkbox-list-secondary-label-${index}`} primary={resident.handle} />
                     <ListItemSecondaryAction>
-                        <Checkbox edge="end" 
-                            onChange={this.handleCheck(resident.handle)}
-                            inputProps={{ 'aria-labelledby': `checkbox-list-secondary-label-${index}` }}/>
+                        <Checkbox edge="end" onChange={this.handleCheck(resident.handle)} checked={(members.includes(resident.handle)) ? true : false} disabled={(members.includes(resident.handle)) ? true : false} />
                     </ListItemSecondaryAction>
                 </ListItem>
             ))): (<CircularProgress className={classes.progress} />);
@@ -87,7 +80,7 @@ class hall extends Component {
                     <Typography variant="h4" color="primary">Users</Typography>
                     <br />
                     <List dense className={classes.root}>
-                        {members}
+                        {allResidents}
                     </List>
                 </Grid>
             </Grid>
@@ -97,7 +90,8 @@ class hall extends Component {
 
 hall.propTypes = {
     hall: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    addUserToHall: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -106,4 +100,6 @@ const mapStateToProps = state => ({
 
 });
 
-export default connect(mapStateToProps, {getResidents})(withStyles(styles)(hall));
+
+
+export default connect(mapStateToProps, {getResidents, addUserToHall})(withStyles(styles)(hall));

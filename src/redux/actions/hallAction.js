@@ -1,4 +1,4 @@
-import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS } from '../types';
+import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED } from '../types';
 import axios from 'axios';
 
 export const loginHall = (hallData, history) => (dispatch) => {
@@ -52,6 +52,20 @@ export const getResidents = (location) => (dispatch) => {
     .then((res) => {
         dispatch({
             type: SET_RESIDENTS,
+            payload: res.data
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
+
+export const addUserToHall = (handle, location) => (dispatch) => {
+    dispatch({ type: ADDING_USER});
+    axios.post(`/hall/${location}/${handle}`)
+    .then((res) => {
+        dispatch({
+            type: USER_ADDED,
             payload: res.data
         })
     })
