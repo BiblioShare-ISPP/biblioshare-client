@@ -61,7 +61,7 @@ class hall extends Component {
         this.props.addUserToHall(value, this.state.location);
     };
     render() {
-        const {classes, hall:{loadingResidents, residents, credentials:{members, image, description}}} = this.props;
+        const {classes, hall:{loadingResidents, residents, credentials:{members, image, description, accounts}}} = this.props;
         let allResidents = !loadingResidents ? (
             residents.map((resident, index) => (
                 <ListItem key={resident.handle} button>
@@ -70,7 +70,7 @@ class hall extends Component {
                     </ListItemAvatar>
                     <ListItemText id={`checkbox-list-secondary-label-${index}`} primary={resident.handle} />
                     <ListItemSecondaryAction>
-                        <Checkbox edge="end" onChange={this.handleCheck(resident.handle)} checked={(members.includes(resident.handle)) ? true : false} disabled={(members.includes(resident.handle)) ? true : false} />
+                        <Checkbox edge="end" onChange={this.handleCheck(resident.handle)} checked={(members.includes(resident.handle)) ? true : false} disabled={((members.includes(resident.handle)) || (accounts<=0)) ? true : false} />
                     </ListItemSecondaryAction>
                 </ListItem>
             ))): (<CircularProgress className={classes.progress} />);
