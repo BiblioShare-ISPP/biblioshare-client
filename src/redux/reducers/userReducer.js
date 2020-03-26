@@ -12,6 +12,8 @@ const initialState = {
     requests: [],
     notifications: [],
     userData: {},
+    isHallMember: false,
+    hallImage: ''
     
 };
 
