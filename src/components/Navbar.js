@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomBotton from '../util/CustomButton';
 import PostBook from './PostBook';
+import PostAd from './PostAd';
 import {findBooks} from '../redux/actions/dataAction';
 
 //MUI
@@ -19,7 +20,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 class Navbar extends Component {
     constructor(){
@@ -99,9 +99,7 @@ class Navbar extends Component {
                                 <CustomBotton tip="Stats">
                                     <EqualizerIcon color="secondary"/>
                                 </CustomBotton>
-                                <CustomBotton tip="Adds">
-                                    <AddCircleIcon color="secondary"/>
-                                </CustomBotton>
+                                <PostAd/>
                             </Fragment>
                             ) : (
                                 <Fragment>

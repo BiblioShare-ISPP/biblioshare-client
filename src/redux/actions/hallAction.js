@@ -1,4 +1,5 @@
-import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED } from '../types';
+import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED,
+        POST_AD, SET_ERRORS_AD, CLEAR_ERRORS_AD, AD_IMAGE_UPLOADED } from '../types';
 import axios from 'axios';
 
 export const loginHall = (hallData, history) => (dispatch) => {
@@ -70,6 +71,41 @@ export const addUserToHall = (handle, location) => (dispatch) => {
         })
     })
     .catch((err) => {
+        console.log(err);
+    });
+};
+
+//Post an add
+export const postAd = (newAd) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post('/ad', newAd)
+    .then((res) => {
+        dispatch({
+            type: POST_AD,
+            payload: res.data
+        });
+        dispatch({ type: CLEAR_ERRORS_AD });
+    })
+    .catch((err) => {
+        dispatch({
+            type: SET_ERRORS_AD,
+            payload: err.response.data
+        });
+    });
+};
+
+//UploadAdImage
+export const uploadAdImage = (formData) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post('/adImage', formData)
+    .then((res) => {
+        dispatch({
+            type: AD_IMAGE_UPLOADED,
+            payload: res.data.coverURL
+        });
+        return res.data.coverURL;
+    })
+    .catch((err)=>{
         console.log(err);
     });
 };

@@ -7,7 +7,9 @@ const initialState = {
     loading: false,
     loadingResidents: true,
     credentials: {},
-    residents : []
+    residents : [],
+    description: '',
+    image:''
 };
 
 export default function (state = initialState, action) {

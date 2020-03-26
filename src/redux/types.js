@@ -15,6 +15,10 @@ export const LOADING_RESIDENTS = 'LOADING_RESIDENTS';
 export const SET_RESIDENTS = 'SET_RESIDENTS';
 export const ADDING_USER = 'ADDING_USER';
 export const USER_ADDED = 'USER_ADDED';
+export const POST_AD = 'POST_AD';
+export const SET_ERRORS_AD = 'SET_ERRORS_AD';
+export const CLEAR_ERRORS_AD = 'CLEAR_ERRORS_AD';
+export const AD_IMAGE_UPLOADED = 'AD_IMAGE_UPLOADED';
 
 //UI reducer types
 export const SET_ERRORS = 'SET_ERRORS';
