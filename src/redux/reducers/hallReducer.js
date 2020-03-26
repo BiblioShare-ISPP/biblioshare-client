@@ -1,5 +1,5 @@
 import {
-    SET_HALL, SET_AUTHENTICATED_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED
+    SET_HALL, SET_AUTHENTICATED_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED, SET_AD
 } from '../types';
 
 const initialState = {
@@ -8,8 +8,6 @@ const initialState = {
     loadingResidents: true,
     credentials: {},
     residents : [],
-    description: '',
-    image:''
 };
 
 export default function (state = initialState, action) {
@@ -57,6 +55,15 @@ export default function (state = initialState, action) {
                     ...state.credentials,
                     accounts: action.payload.accounts,
                     members: action.payload.members
+                }
+            }
+        case SET_AD:
+            return {
+                ...state,
+                credentials:{
+                    ...state.credentials,
+                    description: action.payload.description,
+                    image: action.payload.image
                 }
             }
         default:

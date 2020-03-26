@@ -1,5 +1,5 @@
 import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED,
-        POST_AD, SET_ERRORS_AD, CLEAR_ERRORS_AD, AD_IMAGE_UPLOADED } from '../types';
+        AD_IMAGE_UPLOADED, SET_AD } from '../types';
 import axios from 'axios';
 
 export const loginHall = (hallData, history) => (dispatch) => {
@@ -80,15 +80,15 @@ export const postAd = (newAd) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/ad', newAd)
     .then((res) => {
+        console.log(res.data)
         dispatch({
-            type: POST_AD,
+            type: SET_AD,
             payload: res.data
         });
-        dispatch({ type: CLEAR_ERRORS_AD });
     })
     .catch((err) => {
         dispatch({
-            type: SET_ERRORS_AD,
+            type: SET_ERRORS,
             payload: err.response.data
         });
     });
@@ -101,7 +101,7 @@ export const uploadAdImage = (formData) => (dispatch) => {
     .then((res) => {
         dispatch({
             type: AD_IMAGE_UPLOADED,
-            payload: res.data.coverURL
+            payload: res.data.image
         });
         return res.data.coverURL;
     })

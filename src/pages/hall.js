@@ -26,6 +26,9 @@ const styles = theme => ({
     root: {
         width: '100%',
         backgroundColor: theme.palette.background.paper,
+    },
+    ad: {
+        margin: '10px'
     }
 });
 
@@ -33,7 +36,7 @@ class hall extends Component {
     state = {
         members: [],
         accounts: 0,
-        location: '',
+        location: ''
     };
     componentDidUpdate(prevProps){
         /* Funcion para obtener todos los habitantes de la region del ayuntamiento */
@@ -58,7 +61,7 @@ class hall extends Component {
         this.props.addUserToHall(value, this.state.location);
     };
     render() {
-        const {classes, hall:{loadingResidents, residents, credentials:{members}}} = this.props;
+        const {classes, hall:{loadingResidents, residents, credentials:{members, image, description}}} = this.props;
         let allResidents = !loadingResidents ? (
             residents.map((resident, index) => (
                 <ListItem key={resident.handle} button>
@@ -75,6 +78,10 @@ class hall extends Component {
             <Grid container spacing={6}>
                 <Grid item sm={4} xs={12}>
                     <HallProfile/>
+                    <div className={classes.ad}>
+                        <Typography variant="h5" color="primary">{description}</Typography>
+                        <img alt="Ad" src={image} width="100%"/>
+                    </div>
                 </Grid>
                 <Grid item sm={8} xs={12}>
                     <Typography variant="h4" color="primary">Users</Typography>
