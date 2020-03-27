@@ -28,6 +28,7 @@ import myrequest from './pages/myrequest';
 import user from './pages/user';
 import hall from './pages/hall';
 import hallLogin from './pages/hallLogin';
+import hallSignup from './pages/hallSignup';
 import { logoutHall, getHallData } from './redux/actions/hallAction';
 
 const theme = createMuiTheme(themeFile);
@@ -70,6 +71,7 @@ function App() {
               <AuthRoute exact path="/login" component={login}/>
               <AuthRoute exact path="/signup" component={signup}/>
               <AuthRoute exact path="/hall/login" component={hallLogin}/>
+              <AuthRoute exact path="/hall/signup" component={hallSignup}/>
 
               <Route exact path="/hall" component={hall}/>
               <Route exact path='/requests/:handle' component={request}/>

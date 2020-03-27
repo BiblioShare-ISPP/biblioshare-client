@@ -62,18 +62,22 @@ class hall extends Component {
     };
     render() {
         const {classes, hall:{loadingResidents, residents, credentials:{members, image, description, accounts}}} = this.props;
-        let allResidents = !loadingResidents ? (
-            residents.map((resident, index) => (
-                <ListItem key={resident.handle} button>
-                    <ListItemAvatar>
-                        <Avatar alt={resident.handle} src={resident.imageUrl}/>
-                    </ListItemAvatar>
-                    <ListItemText id={`checkbox-list-secondary-label-${index}`} primary={resident.handle} />
-                    <ListItemSecondaryAction>
-                        <Checkbox edge="end" onChange={this.handleCheck(resident.handle)} checked={(members.includes(resident.handle)) ? true : false} disabled={((members.includes(resident.handle)) || (accounts<=0)) ? true : false} />
-                    </ListItemSecondaryAction>
+        let allResidents = !loadingResidents ? (!(residents.size === 0) ? (
+                <ListItem button>
+                    <ListItemText>There arent any BiblioShare user in {this.state.location}</ListItemText>
                 </ListItem>
-            ))): (<CircularProgress className={classes.progress} />);
+            ) : (
+                residents.map((resident, index) => (
+                    <ListItem key={resident.handle} button>
+                        <ListItemAvatar>
+                            <Avatar alt={resident.handle} src={resident.imageUrl}/>
+                        </ListItemAvatar>
+                        <ListItemText id={`checkbox-list-secondary-label-${index}`} primary={resident.handle} />
+                        <ListItemSecondaryAction>
+                            <Checkbox edge="end" onChange={this.handleCheck(resident.handle)} checked={(members.includes(resident.handle)) ? true : false} disabled={((members.includes(resident.handle)) || (accounts<=0)) ? true : false} />
+                        </ListItemSecondaryAction>
+                    </ListItem>
+            )))): (<CircularProgress className={classes.progress} />);
         return (
             <Grid container spacing={6}>
                 <Grid item sm={4} xs={12}>

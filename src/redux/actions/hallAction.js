@@ -19,6 +19,24 @@ export const loginHall = (hallData, history) => (dispatch) => {
     });
 };
 
+export const signupHall = (newHallData, history) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post('/hall/signup', newHallData)
+    .then((res) => {
+        setAuthorizationHeader(res.data.token);
+        dispatch(getHallData());
+        dispatch({ type: CLEAR_ERRORS});
+        history.push('/hall');
+    })
+    .catch((err) => {
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data
+        });
+    });
+};
+
+
 export const getHallData = () => (dispatch) => {
     dispatch({ type: LOADING_HALL});
     axios.get('/hall')
