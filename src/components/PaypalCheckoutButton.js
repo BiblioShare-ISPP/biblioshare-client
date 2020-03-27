@@ -50,8 +50,14 @@ const PaypalCheckoutButton = ({ order , user}) => {
         console.log(user.credentials.handle)
         return actions.payment.execute()
             .then(function(){
+               if(user.credentials.handle !== undefined){
                 axios.post(`/user/${user.credentials.handle}/${order.items.quantity}`);
                 window.location.href = `/users/${user.credentials.handle}`;
+               }
+               if(user.credentials.handle === undefined){
+                axios.post(`/accounts/200`);
+                window.location.href = `/hall`;
+               }
             })
             .catch(error => {
                 console.log(error);
@@ -89,6 +95,7 @@ PaypalCheckoutButton.propTypes = {
 
 const mapStateToProps = state => ({
     user: state.user,
+    hall:state.hall,
 });
 
 const mapActionsToProps = {

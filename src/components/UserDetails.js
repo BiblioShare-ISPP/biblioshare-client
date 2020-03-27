@@ -35,6 +35,7 @@ const styles = (theme) => ({
   
     },
     profile: {
+     
     '& .image-wrapper': {
         textAlign: 'center',
         position: 'relative',
@@ -43,6 +44,13 @@ const styles = (theme) => ({
         top: '80%',
         left: '70%'
         }
+    },
+    '& .hall-image': {
+        width: 100,
+        height: 100,
+        objectFit: 'cover',
+        maxWidth: '100%',
+        borderRadius: '50%'
     },
     '& .profile-image': {
         width: 200,
@@ -102,8 +110,10 @@ class UserDetails extends Component {
         const { 
             classes, 
             user: {
-                credentials: { handle},
+                credentials: { handle, location, bio},
                 loading,
+                isHallMember, 
+                hallImage,
                 authenticated,
                 userData
             }
@@ -112,8 +122,12 @@ class UserDetails extends Component {
         let profileMarkup = !(loading && authenticated) ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
+                           
                     <div className="image-wrapper">
                         <img src={userData.user.imageUrl} alt="profile" className="profile-image"/>
+                        {isHallMember ? 
+                        <img src={hallImage} alt="profile" className="hall-image" />:
+                        null}
                         {isLoggedUser ? (
                         <Fragment>
                             <input
@@ -138,11 +152,11 @@ class UserDetails extends Component {
                     {userData.user.handle}
                     </Typography>             
                         <hr />
-                        {userData.user.bio}
+                        {bio}
                         <hr />
-                        {userData.user.location && (
+                        {location && (
                             <Fragment>
-                                <LocationOn color="primary" />{userData.user.location}
+                                <LocationOn color="primary" />{location}
                             </Fragment>)}
                         <hr />
                         <ConfirmationNumberIcon color="primary" /><span>{userData.user.tickets} tickets</span>

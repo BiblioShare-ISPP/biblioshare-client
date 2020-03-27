@@ -5,6 +5,7 @@ export const SET_USER = 'SET_USER';
 export const LOADING_USER = 'LOADING_USER';
 export const LOADING_PROFILE = 'LOADING_PROFILE';
 export const SET_PROFILE = 'SET_PROFILE';
+export const EDIT_PROFILE ='EDIT_PROFILE'
 
 //Hall reducer types
 export const SET_HALL = 'SET_HALL';

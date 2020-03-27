@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import ButtonAddCounts from './ButtonAddCounts';
 //MUI
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -73,6 +73,7 @@ const styles = (theme) => ({
     button:{
         float: 'right'
     }
+    
 });
 
 class HallProfile extends Component {
@@ -109,10 +110,13 @@ class HallProfile extends Component {
                     </div>
                     <Tooltip title="Logout" placement="top">
                         <IconButton onClick={this.handleLogout}>
-                            <ExitToAppIcon color="primary" />
+                            <ExitToAppIcon color="primary" /> 
                         </IconButton>
+                        
                     </Tooltip>
+                    <ButtonAddCounts/>
                 </div>
+                
             </Paper>
         ) : (null)) : (<CircularProgress className={classes.progress} />);
 
