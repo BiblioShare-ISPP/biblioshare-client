@@ -96,9 +96,11 @@ class Navbar extends Component {
                                         <HomeIcon color="secondary"/>
                                     </CustomBotton>
                                 </Link>
-                                <CustomBotton tip="Stats">
-                                    <EqualizerIcon color="secondary"/>
-                                </CustomBotton>
+                                <Link to="/hall/stats">
+                                    <CustomBotton tip="Stats">
+                                        <EqualizerIcon color="secondary"/>
+                                    </CustomBotton>
+                                </Link>
                                 <PostAd/>
                             </Fragment>
                             ) : (

@@ -62,7 +62,7 @@ class hall extends Component {
     };
     render() {
         const {classes, hall:{loadingResidents, residents, credentials:{members, image, description, accounts}}} = this.props;
-        let allResidents = !loadingResidents ? (!(residents.size === 0) ? (
+        let allResidents = !loadingResidents ? ((residents.length === 0) ? (
                 <ListItem button>
                     <ListItemText>There arent any BiblioShare user in {this.state.location}</ListItemText>
                 </ListItem>

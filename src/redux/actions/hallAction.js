@@ -1,5 +1,5 @@
 import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED,
-        AD_IMAGE_UPLOADED, SET_AD } from '../types';
+        AD_IMAGE_UPLOADED, SET_AD, SET_STATS } from '../types';
 import axios from 'axios';
 
 export const loginHall = (hallData, history) => (dispatch) => {
@@ -126,4 +126,20 @@ export const uploadAdImage = (formData) => (dispatch) => {
     .catch((err)=>{
         console.log(err);
     });
+};
+
+
+export const getBookStats = () => (dispatch) =>{
+    axios.get('/booksPerMember')
+    .then((res) => {
+        dispatch({
+            type: SET_STATS,
+            payload: res.data
+        });
+        return res.data.coverURL;
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+
 };

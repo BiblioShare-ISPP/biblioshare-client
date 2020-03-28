@@ -1,13 +1,16 @@
 import {
-    SET_HALL, SET_AUTHENTICATED_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED, SET_AD
+    SET_HALL, SET_AUTHENTICATED_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED, SET_AD,
+    SET_STATS
 } from '../types';
 
 const initialState = {
     authenticated: false,
     loading: false,
     loadingResidents: true,
+    loadingStats: true,
     credentials: {},
     residents : [],
+    stats: {}
 };
 
 export default function (state = initialState, action) {
@@ -65,6 +68,12 @@ export default function (state = initialState, action) {
                     description: action.payload.description,
                     image: action.payload.image
                 }
+            }
+        case SET_STATS:
+            return {
+                ...state,
+                loadingStats: false,
+                stats: action.payload
             }
         default:
             return state;
