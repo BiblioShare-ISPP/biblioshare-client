@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {Link} from 'react-router-dom';
 import RequestButton from './RequestButton';
+import Comments from './Comment';
+import CommentForm from './CommentForm';
 import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
@@ -17,7 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import MyButton from '../util/MyButton';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
-
+import ChatIcon from '@material-ui/icons/Chat';
 import { deleteBook } from '../redux/actions/dataAction';
 
 const styles = {
@@ -48,7 +50,7 @@ class BookDetails extends Component {
     }
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle, tickets }}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, commentCount,  comments},  user: {authenticated,credentials: { handle, tickets }}} = this.props;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
             <MyButton  tip="Delete Book" onClick={this.deleteBook}   btnClassName={classes.deleteButton}>
@@ -66,7 +68,13 @@ class BookDetails extends Component {
                     <Typography variant="body2" color="primary">Status: {availability}</Typography>
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(userPostDate).fromNow()}</Typography>
                     <Typography variant="body2" color="textSecondary">Place: {location}</Typography>
-                    <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
+                    <Avatar alt={owner} src={ownerImage}/>
+                    <Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
+                    <MyButton tip="comments">
+                      <ChatIcon color="primary" />
+                    </MyButton>
+                     <span>{commentCount} comments</span>
+                     <hr className={classes.visibleSeparator} />
                     { (!isOwner && authenticated && availability === 'available' && tickets > 1) ? (
                     <RequestButton bookId={bookId} />
                     ) : null}

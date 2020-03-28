@@ -1,4 +1,6 @@
-import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, DELETE_BOOK, SET_OFFERS } from '../types';
+import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN,
+     ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, DELETE_BOOK, SET_OFFERS,
+     SUBMIT_COMMENT} from '../types';
 import axios from 'axios';
 
 
@@ -188,3 +190,25 @@ export const getOffers = () => dispatch =>{
         })
     });
 };
+
+export const submitComment = (bookId, commentData) => (dispatch) => {
+    axios
+      .post(`/book/${bookId}/comment`, commentData)
+      .then((res) => {
+        dispatch({
+          type: SUBMIT_COMMENT,
+          payload: res.data
+        });
+        dispatch(clearErrors());
+      })
+      .catch((err) => {
+        dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+        });
+      });
+  };
+
+  export const clearErrors = () => (dispatch) => {
+    dispatch({ type: CLEAR_ERRORS });
+  };
