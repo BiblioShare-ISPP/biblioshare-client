@@ -109,3 +109,12 @@ export const uploadAdImage = (formData) => (dispatch) => {
         console.log(err);
     });
 };
+
+export const uploadImage = (formData) => (dispatch) => {
+    dispatch({ type: LOADING_HALL });
+    axios.post('hall/image', formData)
+      .then(() => {
+        dispatch(getHallData());
+      })
+      .catch((err) => console.log(err));
+  };

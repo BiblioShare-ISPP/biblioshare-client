@@ -6,17 +6,18 @@ import ButtonAddCounts from './ButtonAddCounts';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import MyButton from '../util/MyButton';
 //Icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LocationOn from '@material-ui/icons/LocationOn';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import IconButton from '@material-ui/core/IconButton';
-
+import EditIcon from '@material-ui/icons/Edit';
 //Redux
 import {connect} from 'react-redux';
 import { logoutHall} from '../redux/actions/hallAction';
 import { Tooltip } from '@material-ui/core';
-
+import { uploadImage } from '../redux/actions/hallAction';
 
 const styles = (theme) => ({
     progress: {
@@ -80,6 +81,16 @@ class HallProfile extends Component {
     handleLogout = () => {
         this.props.logoutHall();
     };
+    handleImageChange = (event) => {
+        const image = event.target.files[0];
+        const formData = new FormData();
+        formData.append('image', image, image.name);
+        this.props.uploadImage(formData);
+      };
+      handleEditPicture = () => {
+        const fileInput = document.getElementById('imageInput');
+        fileInput.click();
+      };
     render() {
         const { 
             classes, 
@@ -96,6 +107,23 @@ class HallProfile extends Component {
                 <div className={classes.profile}>
                     <div className="image-wrapper">
                         <img src={imageUrl} alt="profile" className="profile-image"/>
+                        <Fragment>
+                            <input
+                                type="file"
+                                id="imageInput"
+                                hidden="hidden"
+                                onChange={this.handleImageChange}
+                            />
+                            <MyButton
+                                tip="Edit Profile Picture"
+                                onClick={this.handleEditPicture}
+                                btnClassName={classes.button}
+                                >
+                                <EditIcon color="primary" />
+                            </MyButton>
+                        </Fragment>
+                       
+                       
                     </div>
                         <hr />
                     <div className="profile-details">
@@ -128,12 +156,13 @@ const mapStateToProps = (state) => ({
     hall: state.hall
 });
 
-const mapActionsToProps= { logoutHall };
+const mapActionsToProps= { logoutHall,  uploadImage };
 
 HallProfile.propTypes = {
     logoutHall: PropTypes.func.isRequired,
     hall: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    uploadImage: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(HallProfile));
