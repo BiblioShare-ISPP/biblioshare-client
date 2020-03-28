@@ -57,24 +57,17 @@ class hallStats extends Component {
     render() {
         const {classes, hall:{loadingResidents, loadingStats, residents, credentials:{location, members}, stats}} = this.props;
         const residentStats = !loadingResidents ? ({labels: ['Hall members',`${location} Residents`],datasets: [{data: [members.length, (residents.length - members.length)],backgroundColor: ['#FF6384','#FFCE56'],hoverBackgroundColor: ['#FF6384','#FFCE56']}]}) : null;
-        const data = (canvas) => {
-        const ctx = canvas.getContext("2d")
-        const gradient = ctx.createLinearGradient(500, 0, 100, 0);
-        gradient.addColorStop(0, "#80b6f4");
-        gradient.addColorStop(0.2, "#94d973");
-        gradient.addColorStop(0.5, "#fad874");
-        gradient.addColorStop(1, "#f49080");
+
         const bookStats = !loadingStats ? ({
             datasets: [{
               data: stats.map(function(stat){return stat.books;}),
-              backgroundColor: gradient,
+              backgroundColor: stats.map(function(){return '#'+(Math.random()*0xFFFFFF<<0).toString(16);}),
             }],
             labels: stats.map(function(stat){return stat.user;})
           }) : null;
-          return bookStats;
-        }
+
         let allResidents = !loadingResidents ? (<Doughnut data={residentStats} />) :(<CircularProgress className={classes.progress} />);
-        let bookPerMember = !loadingStats ? (<Polar data={data} />) : (<CircularProgress className={classes.progress} />);
+        let bookPerMember = !loadingStats ? (<Polar data={bookStats} />) : (<CircularProgress className={classes.progress} />);
         return (
             <Grid container spacing={1}>
                 <Grid item sm={6} xs={12}>
