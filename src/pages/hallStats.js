@@ -83,6 +83,7 @@ class hallStats extends Component {
                 <Grid item sm={6} xs={12}>
                     <Paper elevation={3}>
                     <Typography className={classes.statTitle} variant="h5" color="primary">Books per member</Typography>
+                    <Typography className={classes.statTitle} variant="body1" color="primary">Number of books posted by hall member</Typography>
                     <br />
                     {bookPerMember}
                     <br />
