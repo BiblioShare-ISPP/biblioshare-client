@@ -4,6 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 import Book from '../components/Book';
 import Profile from '../components/Profile';
@@ -18,6 +19,9 @@ const styles = {
     },
     ad: {
         margin: '10px'
+    },
+    paper: {
+        padding: 20
     }
 }
 class home extends Component {
@@ -43,7 +47,8 @@ class home extends Component {
                     null}
                 </Grid>
                 <Grid item sm={8} xs={12}>
-                    {recentBooksMarkup}
+                    {recentBooksMarkup.length===0 ?
+                        (<Paper className={classes.paper}><p>No books found...</p></Paper>):recentBooksMarkup}
                 </Grid>
             </Grid>
         )
