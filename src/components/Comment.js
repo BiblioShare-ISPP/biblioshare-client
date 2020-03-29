@@ -7,8 +7,10 @@ import dayjs from 'dayjs';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
+// Redux
+import { connect } from 'react-redux';
 const styles = (theme) => ({
-  ...theme,
+ 
   commentImage: {
     maxWidth: '100%',
     height: 100,
@@ -22,12 +24,9 @@ const styles = (theme) => ({
 
 class Comments extends Component {
   render() {
-    const { comments, classes } = this.props;
+    const { comments:{body, createdAt, bookId, userHandle, userImage }, classes } = this.props;
     return (
       <Grid container>
-        {comments.map((comment, index) => {
-          const { body, createdAt, userImage, userHandle } = comment;
-          return (
             <Fragment key={createdAt}>
               <Grid item sm={12}>
                 <Grid container>
@@ -57,9 +56,8 @@ class Comments extends Component {
                   </Grid>
                 </Grid>
               </Grid>
-              {index !== comments.length - 1 && (
-                <hr className={classes.visibleSeparator} />
-              )}
+              
+             
             </Fragment>
           );
         })}
@@ -69,7 +67,9 @@ class Comments extends Component {
 }
 
 Comments.propTypes = {
-  comments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+  data:PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Comments);

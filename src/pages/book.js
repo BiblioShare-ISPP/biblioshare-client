@@ -7,7 +7,7 @@ import {getBookData} from '../redux/actions/dataAction';
 
 //Components
 import BookDetails from '../components/BookDetails';
-
+import Comments from '../components/Comment';
 //MUI
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -25,16 +25,24 @@ class book extends Component {
         this.props.getBookData(bookId);
     }
     render() {
-        const { book, loading} = this.props.data;
+        const { book: {comments}, loading, loadingProfile} = this.props.data;
         const {classes} = this.props;
+        let commentsBook = (loadingProfile) ? (<CircularProgress className={classes.progressBook} />) : (         
+            book.comments.map((comment) => 
+                <Comments comments={comment}/>)
+        );
         return (
             <Grid container spacing={6}>
-                {loading ? (<CircularProgress className={classes.progressBook}/>): (
+                {loadingProfile ? (<CircularProgress className={classes.progressBook}/>): (
+                    
                     <Grid item xs={12}>
                         <BookDetails book={book} />
-                    </Grid>)
-                    }
+                    </Grid>
+                    )}
+                     <br/>
+                        {commentsBook}
             </Grid>
+            
         )
     }
 }
