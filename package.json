@@ -12,6 +12,7 @@
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "dayjs": "^1.8.23",
+    "browser-image-compression": "^1.0.9",
     "jwt-decode": "^2.2.0",
     "paypal-checkout": "^4.0.311",
     "quagga": "^0.12.1",
