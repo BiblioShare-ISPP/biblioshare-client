@@ -22,6 +22,8 @@ export const CLEAR_ERRORS_AD = 'CLEAR_ERRORS_AD';
 export const AD_IMAGE_UPLOADED = 'AD_IMAGE_UPLOADED';
 export const SET_AD = 'SET_AD';
 export const SET_STATS = 'SET_STATS';
+export const SET_ERRORS_HALL = 'SET_ERRORS_HALL';
+export const CLEAR_ERRORS_HALL = 'CLEAR_ERRORS_HALL';
 
 
 //UI reducer types

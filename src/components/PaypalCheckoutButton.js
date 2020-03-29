@@ -49,16 +49,15 @@ const PaypalCheckoutButton = ({ order , user}) => {
     const onAuthorize = (data, actions) => {
         console.log(user.credentials.handle)
         return actions.payment.execute()
-            .then(function(){
-                return axios.post(`/user/${user.credentials.handle}/${order.items.quantity}`);
-            })
             .then(()=>{
-                window.location.href = `/users/${user.credentials.handle}`;
-               }
-               if(user.credentials.handle === undefined){
-                axios.post(`/accounts/200`);
-                window.location.href = `/hall`;
-               }
+                if(user.credentials.handle !== undefined){
+                    axios.post(`/user/${user.credentials.handle}/${order.items.quantity}`);
+                    window.location.href = `/users/${user.credentials.handle}`;
+                }
+                if(user.credentials.handle === undefined){
+                    axios.post('/accounts/200');
+                    window.location.href = '/hall';
+                }
             })
             .catch(error => {
                 console.log(error);
