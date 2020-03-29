@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import CustomBotton from '../util/CustomButton';
 import PostBook from './PostBook';
 import PostAd from './PostAd';
-import {findBooks} from '../redux/actions/dataAction';
+import {findBooks, getBooks} from '../redux/actions/dataAction';
+import { createBrowserHistory } from 'history'
 
 //MUI
 import AppBar from '@material-ui/core/AppBar';
@@ -30,12 +31,16 @@ class Navbar extends Component {
     }
 
     handleFind = (event) =>{
+        let history = createBrowserHistory()
         event.preventDefault();
         this.setState({
             loading: true
         });
         this.props.findBooks(this.state.keyword);
-        window.location.href = `/find/${this.state.keyword}`;
+        history.push(`/find/${this.state.keyword}`);
+    };
+    handleHome = () =>{
+        this.props.getBooks();
     };
 
     handleChange = (event) => {
@@ -72,7 +77,7 @@ class Navbar extends Component {
                             </div>
                             <PostBook/>
                             <Link to="/">
-                                <CustomBotton tip="Home">
+                                <CustomBotton onClick={this.handleHome} tip="Home">
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
@@ -96,9 +101,11 @@ class Navbar extends Component {
                                         <HomeIcon color="secondary"/>
                                     </CustomBotton>
                                 </Link>
-                                <CustomBotton tip="Stats">
-                                    <EqualizerIcon color="secondary"/>
-                                </CustomBotton>
+                                <Link to="/hall/stats">
+                                    <CustomBotton tip="Stats">
+                                        <EqualizerIcon color="secondary"/>
+                                    </CustomBotton>
+                                </Link>
                                 <PostAd/>
                             </Fragment>
                             ) : (
@@ -128,6 +135,7 @@ class Navbar extends Component {
 Navbar.propTypes = {
     authenticated: PropTypes.bool.isRequired,
     findBooks: PropTypes.func.isRequired,
+    getBooks: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     authenticatedHall : PropTypes.bool.isRequired
 };
@@ -179,4 +187,4 @@ const styles = theme => ({
       },
 });
 
-export default connect(mapStateToProps,{findBooks})(withStyles(styles)(Navbar));
+export default connect(mapStateToProps,{findBooks, getBooks})(withStyles(styles)(Navbar));

@@ -13,8 +13,9 @@ const initialState = {
     notifications: [],
     userData: {},
     isHallMember: false,
-    hallImage: ''
-    
+    hallImage: '',
+    image: null,
+    description: null    
 };
 
 export default function (state = initialState, action) {

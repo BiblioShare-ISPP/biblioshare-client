@@ -20,6 +20,9 @@ export const POST_AD = 'POST_AD';
 export const SET_ERRORS_AD = 'SET_ERRORS_AD';
 export const CLEAR_ERRORS_AD = 'CLEAR_ERRORS_AD';
 export const AD_IMAGE_UPLOADED = 'AD_IMAGE_UPLOADED';
+export const SET_AD = 'SET_AD';
+export const SET_STATS = 'SET_STATS';
+
 
 //UI reducer types
 export const SET_ERRORS = 'SET_ERRORS';
