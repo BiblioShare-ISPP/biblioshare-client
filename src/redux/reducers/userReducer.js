@@ -1,6 +1,6 @@
 import {
     SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
-    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS
+    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS,  EDIT_PROFILE
 } from '../types';
 
 
@@ -12,6 +12,8 @@ const initialState = {
     requests: [],
     notifications: [],
     userData: {},
+    isHallMember: false,
+    hallImage: ''
     
 };
 
@@ -101,6 +103,16 @@ export default function (state = initialState, action) {
                     ...state.credentials,
                     tickets: state.credentials.tickets + action.payload,
                     }
+                };
+        case EDIT_PROFILE:
+            return {
+                ...state,
+                credentials: {
+                    ...state.credentials,
+                    bio: action.payload.bio,
+                    location: action.payload.location
+                    }
+                    
                 };
         default:
             return state;

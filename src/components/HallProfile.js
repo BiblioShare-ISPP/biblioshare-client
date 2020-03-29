@@ -1,41 +1,32 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Link } from 'react-router-dom';
-
+import ButtonAddCounts from './ButtonAddCounts';
 //MUI
-
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-
-//Icons
-import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
-import LocationOn from '@material-ui/icons/LocationOn';
 import Typography from '@material-ui/core/Typography';
-import MuiLink from '@material-ui/core/Link';
+import MyButton from '../util/MyButton';
+//Icons
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LocationOn from '@material-ui/icons/LocationOn';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 //Redux
 import {connect} from 'react-redux';
-import {logoutUser} from '../redux/actions/userActions';
-import EditDetails from './EditDetails';
-import { uploadImage } from '../redux/actions/userActions';
-import EditIcon from '@material-ui/icons/Edit';
-import MyButton from '../util/MyButton';
-
-
+import { logoutHall} from '../redux/actions/hallAction';
+import { Tooltip } from '@material-ui/core';
+import { uploadImage } from '../redux/actions/hallAction';
 
 const styles = (theme) => ({
     progress: {
         margin: '20% 50%',
     },
     paper: {
-        padding: 20,
-  
-        
-  
+        padding: 20
     },
     profile: {
-     
     '& .image-wrapper': {
         textAlign: 'center',
         position: 'relative',
@@ -44,13 +35,6 @@ const styles = (theme) => ({
         top: '80%',
         left: '70%'
         }
-    },
-    '& .hall-image': {
-        width: 100,
-        height: 100,
-        objectFit: 'cover',
-        maxWidth: '100%',
-        borderRadius: '50%'
     },
     '& .profile-image': {
         width: 200,
@@ -90,11 +74,12 @@ const styles = (theme) => ({
     button:{
         float: 'right'
     }
+    
 });
 
-class UserDetails extends Component {
+class HallProfile extends Component {
     handleLogout = () => {
-        this.props.logoutUser();
+        this.props.logoutHall();
     };
     handleImageChange = (event) => {
         const image = event.target.files[0];
@@ -109,26 +94,19 @@ class UserDetails extends Component {
     render() {
         const { 
             classes, 
-            user: {
-                credentials: { handle, location, bio},
+            hall: {
+                credentials: {imageUrl, location, accounts}, 
                 loading,
-                isHallMember, 
-                hallImage,
-                authenticated,
-                userData
+                authenticated
             }
         } = this.props;
-        let isLoggedUser = (handle === userData.user.handle) ? true : false;
-        let profileMarkup = !(loading && authenticated) ? (
+
+        let profileMarkup = !loading ? (
+            authenticated ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
-                           
                     <div className="image-wrapper">
-                        <img src={userData.user.imageUrl} alt="profile" className="profile-image"/>
-                        {isHallMember ? 
-                        <img src={hallImage} alt="profile" className="hall-image" />:
-                        null}
-                        {isLoggedUser ? (
+                        <img src={imageUrl} alt="profile" className="profile-image"/>
                         <Fragment>
                             <input
                                 type="file"
@@ -144,48 +122,47 @@ class UserDetails extends Component {
                                 <EditIcon color="primary" />
                             </MyButton>
                         </Fragment>
-                        ) : null}
+                       
+                       
                     </div>
-                    <hr />
-                    <div className="profile-details">
-                    <Typography variant="h4" component="h5">
-                    {userData.user.handle}
-                    </Typography>             
                         <hr />
-                        {bio}
+                    <div className="profile-details">
+                            <Typography variant="h5" color="primary">{location} city hall</Typography>
                         <hr />
                         {location && (
                             <Fragment>
                                 <LocationOn color="primary" />{location}
                             </Fragment>)}
                         <hr />
-                        <ConfirmationNumberIcon color="primary" /><span>{userData.user.tickets} tickets</span>
+                        <AccountCircleIcon color="primary" /><span>{accounts} accounts remaining</span>
                     </div>
-                    {isLoggedUser ? (
-                        <EditDetails/>
-                    ) : null}
+                    <Tooltip title="Logout" placement="top">
+                        <IconButton onClick={this.handleLogout}>
+                            <ExitToAppIcon color="primary" /> 
+                        </IconButton>
+                        
+                    </Tooltip>
+                    <ButtonAddCounts/>
                 </div>
-                { isLoggedUser ? (
-                    <MuiLink component={Link} to={`/ticket`} color="primary" variant="h5">Buy tickets</MuiLink>
-                ): null}
+                
             </Paper>
-        ): (<CircularProgress className={classes.progress} />);
-                            
+        ) : (null)) : (<CircularProgress className={classes.progress} />);
+
         return profileMarkup;
     }
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    hall: state.hall
 });
 
-const mapActionsToProps= { logoutUser, uploadImage };
+const mapActionsToProps= { logoutHall,  uploadImage };
 
-UserDetails.propTypes = {
-    logoutUser: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
+HallProfile.propTypes = {
+    logoutHall: PropTypes.func.isRequired,
+    hall: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     uploadImage: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(UserDetails));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(HallProfile));
