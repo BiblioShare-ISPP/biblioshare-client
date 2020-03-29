@@ -4,7 +4,9 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomBotton from '../util/CustomButton';
 import PostBook from './PostBook';
-import {findBooks} from '../redux/actions/dataAction';
+import PostAd from './PostAd';
+import {findBooks, getBooks} from '../redux/actions/dataAction';
+import { createBrowserHistory } from 'history'
 
 //MUI
 import AppBar from '@material-ui/core/AppBar';
@@ -18,6 +20,7 @@ import { fade, withStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 
 class Navbar extends Component {
     constructor(){
@@ -28,12 +31,16 @@ class Navbar extends Component {
     }
 
     handleFind = (event) =>{
+        let history = createBrowserHistory()
         event.preventDefault();
         this.setState({
             loading: true
         });
         this.props.findBooks(this.state.keyword);
-        window.location.href = `/find/${this.state.keyword}`;
+        history.push(`/find/${this.state.keyword}`);
+    };
+    handleHome = () =>{
+        this.props.getBooks();
     };
 
     handleChange = (event) => {
@@ -43,7 +50,7 @@ class Navbar extends Component {
       };
 
     render() {
-        const { authenticated,handle } = this.props;
+        const { authenticated,handle,authenticatedHall } = this.props;
         const { classes } = this.props;
         return (
             <AppBar>
@@ -70,7 +77,7 @@ class Navbar extends Component {
                             </div>
                             <PostBook/>
                             <Link to="/">
-                                <CustomBotton tip="Home">
+                                <CustomBotton onClick={this.handleHome} tip="Home">
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
@@ -87,15 +94,36 @@ class Navbar extends Component {
                         </Fragment>
                     ) : (
                         <Fragment>
-                            <Button color="inherit" component={Link} to="/login">
-                                Login
-                            </Button>
-                            <Button color="inherit" component={Link} to="/">
-                                Home
-                            </Button>
-                            <Button color="inherit" component={Link} to="/signup">
-                                Signup
-                            </Button>
+                            {authenticatedHall ? (
+                                <Fragment>
+                                <Link to="/hall">
+                                    <CustomBotton tip="Home">
+                                        <HomeIcon color="secondary"/>
+                                    </CustomBotton>
+                                </Link>
+                                <Link to="/hall/stats">
+                                    <CustomBotton tip="Stats">
+                                        <EqualizerIcon color="secondary"/>
+                                    </CustomBotton>
+                                </Link>
+                                <PostAd/>
+                            </Fragment>
+                            ) : (
+                                <Fragment>
+                                    <Button color="inherit" component={Link} to="/login">
+                                        Login
+                                    </Button>
+                                    <Button color="inherit" component={Link} to="/">
+                                        Home
+                                    </Button>
+                                    <Button color="inherit" component={Link} to="/signup">
+                                        Signup
+                                    </Button>
+                                    <Button color="inherit" component={Link} to="/hall/login">
+                                        Halls
+                                    </Button>
+                            </Fragment>
+                            )}
                         </Fragment>
                     )}
                 </Toolbar>
@@ -107,13 +135,16 @@ class Navbar extends Component {
 Navbar.propTypes = {
     authenticated: PropTypes.bool.isRequired,
     findBooks: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
+    getBooks: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
+    authenticatedHall : PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
     authenticated: state.user.authenticated,
     handle: state.user.credentials.handle,
-    data: state.data
+    data: state.data,
+    authenticatedHall : state.hall.authenticated
 });
 
 const styles = theme => ({
@@ -156,4 +187,4 @@ const styles = theme => ({
       },
 });
 
-export default connect(mapStateToProps,{findBooks})(withStyles(styles)(Navbar));
+export default connect(mapStateToProps,{findBooks, getBooks})(withStyles(styles)(Navbar));

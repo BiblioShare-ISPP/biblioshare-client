@@ -30,6 +30,7 @@ import { Tooltip } from '@material-ui/core';
 
 //Others
 import Scanner from "./Scanner";
+import imageCompression from 'browser-image-compression';
 
 
 const styles = {
@@ -200,10 +201,26 @@ class PostBook extends Component{
         this.titleISBN = '';
         this.authorISBN = '';
     };
-    handleImageChange = (event) => {
+    handleImageChange = async (event) => {
         const image = event.target.files[0];
-        const formData = new FormData();
-        formData.append('cover', image, image.name);
+        var options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+            onProgress: function() {
+                return true;
+            }
+          }
+        let formData = await imageCompression(image, options)
+            .then(function (compressedImage) {
+                const formData = new FormData();
+                console.log(compressedImage)
+                formData.append('cover', compressedImage, image.name);
+                return formData;
+            })
+            .catch((error)=>{
+                console.log(error.message);
+            });
         this.props.uploadImage(formData);
     };
     handleUploadCover = () => {

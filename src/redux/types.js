@@ -5,6 +5,26 @@ export const SET_USER = 'SET_USER';
 export const LOADING_USER = 'LOADING_USER';
 export const LOADING_PROFILE = 'LOADING_PROFILE';
 export const SET_PROFILE = 'SET_PROFILE';
+export const EDIT_PROFILE ='EDIT_PROFILE'
+
+//Hall reducer types
+export const SET_HALL = 'SET_HALL';
+export const LOADING_HALL = 'LOADING_HALL';
+export const SET_AUTHENTICATED_HALL = 'SET_AUTHENTICATED_HALL';
+export const SET_UNAUTHENTICATED_HALL = 'SET_UNAUTHENTICATED_HALL';
+export const LOADING_RESIDENTS = 'LOADING_RESIDENTS';
+export const SET_RESIDENTS = 'SET_RESIDENTS';
+export const ADDING_USER = 'ADDING_USER';
+export const USER_ADDED = 'USER_ADDED';
+export const POST_AD = 'POST_AD';
+export const SET_ERRORS_AD = 'SET_ERRORS_AD';
+export const CLEAR_ERRORS_AD = 'CLEAR_ERRORS_AD';
+export const AD_IMAGE_UPLOADED = 'AD_IMAGE_UPLOADED';
+export const SET_AD = 'SET_AD';
+export const SET_STATS = 'SET_STATS';
+export const SET_ERRORS_HALL = 'SET_ERRORS_HALL';
+export const CLEAR_ERRORS_HALL = 'CLEAR_ERRORS_HALL';
+
 
 //UI reducer types
 export const SET_ERRORS = 'SET_ERRORS';

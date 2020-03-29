@@ -28,9 +28,10 @@ export const findBooks = (query) => dispatch =>{
         dispatch({
             type: SET_BOOKS,
             payload: res.data
-        })
+        });
     })
     .catch(err => {
+        console.error(err);
         dispatch({
             type: SET_BOOKS,
             payload: []

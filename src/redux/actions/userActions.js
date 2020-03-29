@@ -1,4 +1,4 @@
-import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, UPDATE_TICKETS} from '../types';
+import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, UPDATE_TICKETS, EDIT_PROFILE} from '../types';
 import axios from 'axios';
 
 export const loginUser = (userData, history) => (dispatch) => {
@@ -94,9 +94,9 @@ const setAuthorizationHeader = (token) => {
 
 export const editUserDetails = (userDetails) => (dispatch) => {
     dispatch({ type: LOADING_USER });
-    axios
-      .post('/user', userDetails)
-      .then(() => {
+    axios.post('/user', userDetails)
+      .then(res => {
+        dispatch({ type: EDIT_PROFILE, payload: res.data});
         dispatch(getUserData());
       })
       .catch((err) => console.log(err));
