@@ -5,7 +5,7 @@
   "url": "https://biblioshare-s1.firebaseapp.com",
   "tests": [{
     "id": "b6ea980d-7a74-42c9-9c38-4cb023c51b92",
-    "name": "Login y logout",
+    "name": "Post book & search",
     "commands": [{
       "id": "e18fc88e-e04b-4e5f-962c-3ae688be59d0",
       "comment": "",
