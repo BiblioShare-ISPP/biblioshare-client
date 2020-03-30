@@ -42,6 +42,7 @@ export const SET_BOOKS = 'SET_BOOKS';
 export const CHECK_ISBN = 'CHECK_ISBN';
 export const COVER_UPLOADED = 'COVER_UPLOADED';
 export const DELETE_BOOK = 'DELETE_BOOK';
+export const POST_COMMENT = 'POST_COMMENT';
 
 //Request reducer types
 export const SET_REQUESTS = 'SET_REQUESTS';

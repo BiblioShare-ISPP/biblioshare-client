@@ -1,8 +1,9 @@
-import { POST_BOOK,  SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN, DELETE_BOOK, SET_OFFERS} from '../types';
+import { POST_BOOK,  SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN, DELETE_BOOK, SET_OFFERS, POST_COMMENT} from '../types';
 
 const initialState = {
     books: [],
     book: [],
+    comments: [],
     isbn: [],
     loading: false,
     loadingISBN: false,
@@ -26,10 +27,10 @@ export default function (state= initialState, action){
             return{
                 ...state,
                 loading: false,
-                book: action.payload
+                book: action.payload,
+                comments: action.payload.comments
             };
         case POST_BOOK:
-           
             return {
                 ...state,
                 books: [
@@ -37,6 +38,11 @@ export default function (state= initialState, action){
                     ...state.books
                 ]
             };
+        case POST_COMMENT:
+            state.book.comments.unshift(action.payload);
+            return {
+                ...state,
+            }
         case CHECK_ISBN:
             return{
                 ...state,
