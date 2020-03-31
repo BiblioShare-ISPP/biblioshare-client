@@ -115,7 +115,7 @@ class UserDetails extends Component {
                 isHallMember, 
                 hallImage,
                 authenticated,
-                userData
+                userData,
             }
         } = this.props;
     
