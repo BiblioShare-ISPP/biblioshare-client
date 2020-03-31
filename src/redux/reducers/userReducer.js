@@ -1,7 +1,9 @@
 import {
     SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
-    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST
+    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS,  EDIT_PROFILE,
+    AD_IMAGE_UPLOADED_PROFILE
 } from '../types';
+
 
 const initialState = {
     authenticated: false,
@@ -94,6 +96,41 @@ export default function (state = initialState, action) {
 
             return {
                 ...state
+            }
+        
+        case UPDATE_TICKETS:
+            return {
+                ...state,
+                credentials: {
+                    ...state.credentials,
+                    tickets: state.credentials.tickets + action.payload,
+                    }
+                };
+        case EDIT_PROFILE:
+            return {
+                ...state,
+                credentials: {
+                    ...state.credentials,
+                    bio: action.payload.bio,
+                    location: action.payload.location
+                    }
+                    
+                };
+        case AD_IMAGE_UPLOADED_PROFILE:
+            return{
+                ...state,
+                loading:false,
+                credentials: {
+                    ...state.credentials,
+                    imageUrl: action.payload
+                },
+                userData: {
+                    ...state.userData,
+                    user: {
+                        ...state.userData.user,
+                        imageUrl: action.payload
+                    }  
+                }
             }
         default:
             return state;

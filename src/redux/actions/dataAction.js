@@ -1,4 +1,4 @@
-import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, DELETE_BOOK } from '../types';
+import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, DELETE_BOOK, SET_OFFERS, POST_COMMENT } from '../types';
 import axios from 'axios';
 
 
@@ -59,6 +59,26 @@ export const postBook = (newBook) => (dispatch) => {
     });
 };
 
+//Comment book
+export const commentBook = (newComment) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post(`/book/${newComment.bookId}/comment`, newComment)
+    .then((res) => {
+        console.log(res.data)
+        dispatch({
+            type: POST_COMMENT,
+            payload: res.data
+        });
+        dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch((err) => {
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data
+        });
+    });
+};
+
 //Get book
 export const getBookData = (bookId) => (dispatch) => {
     dispatch({ type: LOADING_DATA });
@@ -69,7 +89,8 @@ export const getBookData = (bookId) => (dispatch) => {
             payload: res.data
         });
     })
-    .catch(() => {
+    .catch((error) => {
+        console.error(error);
         dispatch({
             type: SET_BOOK,
             payload: null
@@ -171,3 +192,21 @@ export const deleteBook = (bookId) => (dispatch) => {
     })
     .catch(err => console.log(err));
 }
+
+//Get all books
+export const getOffers = () => dispatch =>{
+    dispatch({ type: LOADING_DATA });
+    axios.get('/offers')
+    .then(res => {
+        dispatch({
+            type: SET_OFFERS,
+            payload: res.data
+        })
+    })
+    .catch(err => {
+        dispatch({
+            type: SET_OFFERS,
+            payload: []
+        })
+    });
+};
