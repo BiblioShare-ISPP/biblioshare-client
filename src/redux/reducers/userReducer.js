@@ -120,6 +120,10 @@ export default function (state = initialState, action) {
             return{
                 ...state,
                 loading:false,
+                credentials: {
+                    ...state.credentials,
+                    imageUrl: action.payload
+                },
                 userData: {
                     ...state.userData,
                     user: {
