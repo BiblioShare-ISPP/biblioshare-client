@@ -120,17 +120,18 @@ class UserDetails extends Component {
         } = this.props;
     
         let tickets;
-        if(authenticated=== true){
-           tickets=  <ConfirmationNumberIcon color="primary" />
-        }
+   
         let isLoggedUser = (handle === userData.user.handle) ? true : false;
+        if(isLoggedUser=== true){
+            tickets=  <ConfirmationNumberIcon color="primary" />
+         }
         let profileMarkup = !(loading && authenticated) ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
                            
                     <div className="image-wrapper">
                         <img src={userData.user.imageUrl} alt="profile" className="profile-image"/>
-                        {isHallMember ? 
+                        {isLoggedUser && isHallMember ? 
                         <img src={hallImage} alt="profile" className="hall-image" />:
                         null}
                         {isLoggedUser ? (
@@ -157,14 +158,14 @@ class UserDetails extends Component {
                     {userData.user.handle}
                     </Typography>             
                         <hr />
-                        { authenticated === true && userData.user.bio}
+                        {userData.user.bio}
                         <hr />
                         {userData.user.location && (
                             <Fragment>
                                 <LocationOn color="primary" />{userData.user.location}
                             </Fragment>)}
                         <hr />
-                        {tickets}{authenticated === true  && (<span>{userData.user.tickets} tickets</span>)}
+                        {tickets}{isLoggedUser === true  && (<span>{userData.user.tickets} tickets</span>)}
                     </div>
                     {isLoggedUser ? (
                         <EditDetails/>
