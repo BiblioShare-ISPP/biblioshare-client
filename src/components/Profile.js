@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
-
+import ProfileSkeleton from '../util/ProfileSkeleton';
 //MUI
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
@@ -110,7 +109,6 @@ class Profile extends Component {
               width: 200,
               height: 200,
               top: '80%',
-              left: '25%',
               border: `2px solid ${theme.palette.background.paper}`,
             },
           }))(Avatar);
@@ -119,7 +117,6 @@ class Profile extends Component {
               width: 200,
               height: 200,
               top: '80%',
-              left: '20%',
               border: `2px solid ${theme.palette.background.paper}`,
             },
           }))(Avatar);
@@ -127,14 +124,14 @@ class Profile extends Component {
             authenticated ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
-                        {isHallMember ? 
+                        <center>{isHallMember ? 
                             <Badge overlap="circle" anchorOrigin={{vertical: 'bottom', horizontal: 'right',}}
                                 badgeContent={<SmallAvatar alt={location} src={hallImage} />}>
                             <BigAvatar alt={handle} src={imageUrl} />
                             </Badge>
                         :
                             <NoHallAvatar alt={handle} src={imageUrl} />
-                        }
+                        }</center>
                         <hr />
                     <div className="profile-details">
                             <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">{handle}</MuiLink>
@@ -168,7 +165,7 @@ class Profile extends Component {
                     </Button>
                 </div>
             </Paper>
-        )) : (<CircularProgress className={classes.progress} />);
+        )) : (<ProfileSkeleton />);
 
         return profileMarkup;
     }
