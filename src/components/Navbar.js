@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, withStyles } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
 
 //Icons
 import HomeIcon from '@material-ui/icons/Home';
@@ -27,10 +28,16 @@ class Navbar extends Component {
         super();
         this.state = {
             keyword: '',
+            notifications: ''
         }
     }
-
-    handleFind = (event) =>{
+    componentDidUpdate(prevProps){
+        if(this.props.user.notifications !== prevProps.user.notifications){
+            this.setState({
+                notifications: this.props.user.notifications,
+            });
+        }
+    };    handleFind = (event) =>{
         let history = createBrowserHistory()
         event.preventDefault();
         this.setState({
@@ -83,7 +90,9 @@ class Navbar extends Component {
                             </Link>
                             <Link to={`/requests/${handle}`}>
                             <CustomBotton tip="Requests">
-                                <Notifications color="secondary"/>
+                                <Badge color="error" badgeContent={this.state.notifications.length} max={9}>
+                                    <Notifications color="secondary"/>
+                                </Badge>
                             </CustomBotton>
                             </Link>
                             <Link to="/myRequests">
@@ -142,6 +151,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
     authenticated: state.user.authenticated,
+    user: state.user,
     handle: state.user.credentials.handle,
     data: state.data,
     authenticatedHall : state.hall.authenticated
