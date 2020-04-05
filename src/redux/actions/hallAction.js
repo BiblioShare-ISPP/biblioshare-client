@@ -1,23 +1,42 @@
-import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED,
-        POST_AD, SET_ERRORS_AD, CLEAR_ERRORS_AD, AD_IMAGE_UPLOADED } from '../types';
+import { SET_HALL, SET_UNAUTHENTICATED_HALL, LOADING_HALL, SET_ERRORS_HALL, CLEAR_ERRORS_HALL, LOADING_UI, LOADING_RESIDENTS, SET_RESIDENTS, ADDING_USER, USER_ADDED,
+        AD_IMAGE_UPLOADED, SET_AD, SET_STATS} from '../types';
 import axios from 'axios';
 
 export const loginHall = (hallData, history) => (dispatch) => {
+    dispatch({ type: CLEAR_ERRORS_HALL});
     dispatch({ type: LOADING_UI });
     axios.post('/hall/login', hallData)
     .then((res) => {
         setAuthorizationHeader(res.data.token);
         dispatch(getHallData());
-        dispatch({ type: CLEAR_ERRORS});
+        dispatch({ type: CLEAR_ERRORS_HALL});
         history.push('/hall/');
     })
     .catch((err) => {
         dispatch({
-            type: SET_ERRORS,
+            type: SET_ERRORS_HALL,
             payload: err.response.data
         });
     });
 };
+
+export const signupHall = (newHallData, history) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post('/hall/signup', newHallData)
+    .then((res) => {
+        setAuthorizationHeader(res.data.token);
+        dispatch(getHallData());
+        dispatch({ type: CLEAR_ERRORS_HALL});
+        history.push('/hall');
+    })
+    .catch((err) => {
+        dispatch({
+            type: SET_ERRORS_HALL,
+            payload: err.response.data
+        });
+    });
+};
+
 
 export const getHallData = () => (dispatch) => {
     dispatch({ type: LOADING_HALL});
@@ -80,15 +99,15 @@ export const postAd = (newAd) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/ad', newAd)
     .then((res) => {
+        console.log(res.data)
         dispatch({
-            type: POST_AD,
+            type: SET_AD,
             payload: res.data
         });
-        dispatch({ type: CLEAR_ERRORS_AD });
     })
     .catch((err) => {
         dispatch({
-            type: SET_ERRORS_AD,
+            type: SET_ERRORS_HALL,
             payload: err.response.data
         });
     });
@@ -101,7 +120,7 @@ export const uploadAdImage = (formData) => (dispatch) => {
     .then((res) => {
         dispatch({
             type: AD_IMAGE_UPLOADED,
-            payload: res.data.coverURL
+            payload: res.data.image
         });
         return res.data.coverURL;
     })
@@ -118,3 +137,19 @@ export const uploadImage = (formData) => (dispatch) => {
       })
       .catch((err) => console.log(err));
   };
+
+
+export const getBookStats = () => (dispatch) =>{
+    axios.get('/booksPerMember')
+    .then((res) => {
+        dispatch({
+            type: SET_STATS,
+            payload: res.data
+        });
+        return res.data.coverURL;
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+
+};

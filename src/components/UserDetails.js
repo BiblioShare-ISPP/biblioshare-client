@@ -110,22 +110,28 @@ class UserDetails extends Component {
         const { 
             classes, 
             user: {
-                credentials: { handle, location, bio},
+                credentials: { handle},
                 loading,
                 isHallMember, 
                 hallImage,
                 authenticated,
-                userData
+                userData,
             }
         } = this.props;
+    
+        let tickets;
+   
         let isLoggedUser = (handle === userData.user.handle) ? true : false;
+        if(isLoggedUser=== true){
+            tickets=  <ConfirmationNumberIcon color="primary" />
+         }
         let profileMarkup = !(loading && authenticated) ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
                            
                     <div className="image-wrapper">
                         <img src={userData.user.imageUrl} alt="profile" className="profile-image"/>
-                        {isHallMember ? 
+                        {isLoggedUser && isHallMember ? 
                         <img src={hallImage} alt="profile" className="hall-image" />:
                         null}
                         {isLoggedUser ? (
@@ -152,14 +158,14 @@ class UserDetails extends Component {
                     {userData.user.handle}
                     </Typography>             
                         <hr />
-                        {bio}
+                        {userData.user.bio}
                         <hr />
-                        {location && (
+                        {userData.user.location && (
                             <Fragment>
-                                <LocationOn color="primary" />{location}
+                                <LocationOn color="primary" />{userData.user.location}
                             </Fragment>)}
                         <hr />
-                        <ConfirmationNumberIcon color="primary" /><span>{userData.user.tickets} tickets</span>
+                        {tickets}{isLoggedUser === true  && (<span>{userData.user.tickets} tickets</span>)}
                     </div>
                     {isLoggedUser ? (
                         <EditDetails/>

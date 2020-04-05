@@ -63,6 +63,9 @@ const styles = {
         position: 'fixed',
         bottom: '10%',
         right: '5%'
+    },
+    small: {
+        color: '#f44336'
     }
 };
 
@@ -73,7 +76,16 @@ class PostAd extends Component{
         image: '',
         errors: {}
     };
+
     componentWillReceiveProps(nextProps){
+        if(!nextProps.UI.errors && this.state.open && !nextProps.UI.loading && !nextProps.UI.adImageUploaded){
+            this.handleClose();
+        }
+        if(nextProps.UI.errors){
+            this.setState({
+                errors: nextProps.UI.errors
+            });
+        }
         if(nextProps.UI.adImageUploaded){
             document.getElementById('coverImg').src = nextProps.UI.adImageUploaded;
             this.setState({
@@ -108,9 +120,19 @@ class PostAd extends Component{
         const fileInput = document.getElementById('coverInput');
         fileInput.click();
     };
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.postAd({ 
+            image: this.state.image,
+            description: this.state.description,
+        });
+    };
+    handleChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
     render(){
         const { errors } = this.state;
-        const { classes, UI: {loading}, hall} = this.props;
+        const { classes, UI: {loading}} = this.props;
 
         return (
             <Fragment>
@@ -125,7 +147,7 @@ class PostAd extends Component{
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
                             <div className={classes.divImage}>
-                                <center><img id="coverImg" alt="Ad image" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/AdImage.png?alt=media" width="100px" /></center>
+                                <center><img id="coverImg" alt="Ad" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/AdImage.png?alt=media" width="100px" /></center>
                                 <center><input type="file" id="coverInput" name="cover" onChange={this.handleImageChange} hidden="hidden" />
                                 <Tooltip title="Upload add image" placement="bottom">
                                     <IconButton className="button" onClick={this.handleUploadCover}>
@@ -134,6 +156,7 @@ class PostAd extends Component{
                                 </Tooltip>
                                 </center>
                             </div>
+                            <small className={classes.small}>{errors.image}</small>
                             <TextField className={classes.input} id="description" name="description" placeholder="Description" InputProps={{startAdornment: ( <InputAdornment position="start"> <DescriptionIcon color="primary" /> </InputAdornment>),}} error={errors.description ? true : false } helperText={errors.description} onChange={this.handleChange} fullWidth/>
                             <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
                                 Submit 

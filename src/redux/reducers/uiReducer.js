@@ -1,4 +1,5 @@
-import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, AD_IMAGE_UPLOADED } from '../types';
+import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, AD_IMAGE_UPLOADED, SET_AD,
+        SET_ERRORS_HALL, CLEAR_ERRORS_HALL } from '../types';
 
 const initialState = {
     loading: false,
@@ -10,6 +11,20 @@ const initialState = {
 
 export default function(state= initialState, action){
     switch(action.type){
+        case SET_ERRORS_HALL:
+            return {
+                ...state,
+                loading:false,
+                errors: action.payload
+            };
+        case CLEAR_ERRORS_HALL:
+            return {
+                ...state,
+                loading: false,
+                coverUploaded: null,
+                adImageUploaded: null,
+                errors: null
+            }
         case SET_ERRORS:
             return {
                 ...state,
@@ -21,6 +36,14 @@ export default function(state= initialState, action){
                 ...state,
                 loading: false,
                 coverUploaded: null,
+                adImageUploaded: null,
+                errors: null
+            }
+        case SET_AD:
+            return{
+                ...state,
+                loading: false,
+                adImageUploaded: null,
                 errors: null
             }
         case LOADING_UI:

@@ -5,6 +5,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import {Link} from 'react-router-dom';
 import RequestButton from './RequestButton';
 import PropTypes from 'prop-types';
+import CustomButton from '../util/CustomButton';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -17,8 +19,16 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import MyButton from '../util/MyButton';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import CreateIcon from '@material-ui/icons/Create';
 
-import { deleteBook } from '../redux/actions/dataAction';
+import { deleteBook, commentBook } from '../redux/actions/dataAction';
 
 const styles = {
     card: {
@@ -38,17 +48,68 @@ const styles = {
     },
     noTickets: {
         float: 'right',
+        margin: '0px 5px 0px 5px'
         
-   }
+   },
+   closeButton: {
+    position: 'absolute',
+    right: '3%',
+    top: '3%'
+    },
+    submitButton: {
+        position: 'relative',
+        margin: '10px 5px 0px 0px'
+    },
 };
 
 class BookDetails extends Component {
+    state = {
+        open: false,
+        body: '',
+        errors: {}
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.UI.errors){
+            this.setState({
+                body: '',
+                errors: nextProps.UI.errors
+            });
+        }
+        if(!nextProps.UI.errors && !nextProps.UI.loading){
+            this.setState({ 
+                body: '',
+                open: false,
+                errors: {}
+            });
+        }
+    }
+    handleOpen = () => {
+        this.setState({ open: true });
+    };
+    handleClose = () => {
+        this.setState({ 
+            open: false,
+            body: '',
+            errors: {}
+        });
+    };
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.commentBook({ 
+            bookId: this.props.book.bookId,
+            body: this.state.body,
+        });
+    };
+    handleChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
     deleteBook = () => {
         this.props.deleteBook(this.props.book.bookId);
     }
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle, tickets }}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle, tickets }},  UI: {loading}} = this.props;
+        const { errors } = this.state;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
             <MyButton  tip="Delete Book" onClick={this.deleteBook}   btnClassName={classes.deleteButton}>
@@ -57,6 +118,23 @@ class BookDetails extends Component {
         ): null
         return (
             <Fragment>
+                <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
+                    <CustomButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
+                        <CloseIcon />
+                    </CustomButton>
+                    <DialogTitle>Post a comment</DialogTitle>
+                    <DialogContent>
+                        <form onSubmit={this.handleSubmit}>
+                            <TextField id="body" name="body" placeholder="Comment" InputProps={{startAdornment: ( <InputAdornment position="start"> <CreateIcon color="primary" /> </InputAdornment>),}} error={errors.body ? true : false } helperText={errors.body} onChange={this.handleChange} fullWidth/>
+                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
+                                Submit 
+                                {loading && (
+                                    <CircularProgress size={30} className={classes.progressSpinner} />
+                                )}
+                            </Button>
+                        </form>
+                    </DialogContent>
+                </Dialog>
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
@@ -67,10 +145,15 @@ class BookDetails extends Component {
                     <Typography variant="body2" color="textSecondary">Posted: {dayjs(userPostDate).fromNow()}</Typography>
                     <Typography variant="body2" color="textSecondary">Place: {location}</Typography>
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
+                    { authenticated ? (
+                        <Button variant="contained" color="primary" className={classes.noTickets} onClick={this.handleOpen}>
+                            Post a comment
+                        </Button>
+                    ) : null}
                     { (!isOwner && authenticated && availability === 'available' && tickets > 1) ? (
                     <RequestButton bookId={bookId} />
                     ) : null}
-                     { (!isOwner && authenticated && availability === 'available' && tickets < 1) ? (
+                    { (!isOwner && authenticated && availability === 'available' && tickets < 1) ? (
                     <Button component={Link} variant="contained" color="primary" className={classes.noTickets} to="/ticket">
                     You don´t have any tickets
                     </Button>
@@ -84,14 +167,17 @@ class BookDetails extends Component {
 BookDetails.propTypes = {
     user: PropTypes.object.isRequired,
     book: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired
 }
 const mapStateToProps = (state) => ({
-    user: state.user
+    user: state.user,
+    UI: state.UI
   });
 
 const mapActionsToProps = {
     deleteBook,
+    commentBook
 }
   
 

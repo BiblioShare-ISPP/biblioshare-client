@@ -22,12 +22,14 @@ import book from './pages/book';
 import login from './pages/login';
 import signup from './pages/signup';
 import request from './pages/request';
-import find from './pages/find';
 import axios from 'axios';
 import myrequest from './pages/myrequest';
 import user from './pages/user';
 import hall from './pages/hall';
 import hallLogin from './pages/hallLogin';
+import hallSignup from './pages/hallSignup';
+import hallStats from './pages/hallStats';
+
 import { logoutHall, getHallData } from './redux/actions/hallAction';
 import tickets from './pages/tickets';
 
@@ -71,12 +73,12 @@ function App() {
               <AuthRoute exact path="/login" component={login}/>
               <AuthRoute exact path="/signup" component={signup}/>
               <AuthRoute exact path="/hall/login" component={hallLogin}/>
-
+              <AuthRoute exact path="/hall/signup" component={hallSignup}/>
               <Route exact path="/hall" component={hall}/>
+              <Route exact path="/hall/stats" component={hallStats}/>
               <Route exact path='/requests/:handle' component={request}/>
               <Route exact path="/myRequests" component={myrequest}/>
               <Route exact path="/books/:bookId" component={book} />
-              <Route exact path="/find/:keyword" component={find} />
               <Route exact path="/users/:handle" component={user} />
               <Route exact path="/ticket" component={tickets} />
             </Switch>

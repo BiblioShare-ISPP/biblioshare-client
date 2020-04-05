@@ -1,6 +1,7 @@
 import {
     SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
-    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS,  EDIT_PROFILE
+    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS,  EDIT_PROFILE,
+    AD_IMAGE_UPLOADED_PROFILE
 } from '../types';
 
 
@@ -13,8 +14,9 @@ const initialState = {
     notifications: [],
     userData: {},
     isHallMember: false,
-    hallImage: ''
-    
+    hallImage: '',
+    image: null,
+    description: null    
 };
 
 export default function (state = initialState, action) {
@@ -114,6 +116,22 @@ export default function (state = initialState, action) {
                     }
                     
                 };
+        case AD_IMAGE_UPLOADED_PROFILE:
+            return{
+                ...state,
+                loading:false,
+                credentials: {
+                    ...state.credentials,
+                    imageUrl: action.payload
+                },
+                userData: {
+                    ...state.userData,
+                    user: {
+                        ...state.userData.user,
+                        imageUrl: action.payload
+                    }  
+                }
+            }
         default:
             return state;
     }
