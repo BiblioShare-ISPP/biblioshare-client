@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import MyButton from '../util/MyButton';
-
+import { withTranslation } from 'react-i18next';
 //MUI Stuff
 
 import Dialog from '@material-ui/core/Dialog';
@@ -53,10 +53,10 @@ class DeleteRequest extends Component {
     }
     render() {
         const { classes } = this.props;
-
+        const { t } = this.props;
         return (
             <Fragment>
-                <MyButton tip="Delete Request" onClick={this.handleOpen} btnClassName={classes.deleteButton}>
+                <MyButton tip={t('deleteRequest')} onClick={this.handleOpen} btnClassName={classes.deleteButton}>
                     <DeleteOutline color="error"/>
                 </MyButton>
                 <Dialog
@@ -66,18 +66,18 @@ class DeleteRequest extends Component {
                     maxWidth="sm"
                 >
                     <DialogTitle title="a">
-                        Are you sure you want to delete this request?
+                    {t('askDeleteRequest')}
                         </DialogTitle>
                     <DialogActions>
 
                         <ThemeProvider theme={theme}>
                             <Button variant="contained" color="primary" className={classes.margin} onClick={this.handleClose}>
-                                Cancel
+                            {t('cancel')}
                         </Button>
                         </ThemeProvider>
                         <ThemeProvider theme={theme1}>
                             <Button variant="contained" color="primary" className={classes.margin} onClick={this.deleteRequest}>
-                                Delete
+                            {t('delete')}
                         </Button>
                         </ThemeProvider>
                     </DialogActions>
@@ -93,4 +93,5 @@ DeleteRequest.propTypes = {
     bookId: PropTypes.string.isRequired
 }
 
-export default connect(null, { deleteRequest })(withStyles(style)(DeleteRequest));
+const DeleteRequest1 = withTranslation()(DeleteRequest);
+export default connect(null, { deleteRequest })(withStyles(style)(DeleteRequest1));

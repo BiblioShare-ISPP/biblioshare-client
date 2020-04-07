@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import BiblioShareIcon from '../images/logo.png';
 import {Link} from 'react-router-dom';
-
+import { withTranslation } from 'react-i18next';
 //MUI
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -89,22 +89,22 @@ class signup extends Component {
     render() {
         const {classes, UI: { loading }} = this.props;
         const {errors} = this.state;
-
+        const { t } = this.props;
         return (
             <Grid container className = {classes.form}>
                 <Grid item sm />
                 <Grid item sm >
                     <img src={BiblioShareIcon} alt="BiblioShare" className={classes.image}/>
                     <form noValidate onSubmit={this.handleSubmit}>
-                        <TextField id="email" name="email" type="email" label="Email" className={classes.textField} helperText={errors.email} error={errors.email ? true : false }
+                        <TextField id="email" name="email" type="email" label={t('email')} className={classes.textField} helperText={errors.email} error={errors.email ? true : false }
                             value={this.state.email} onChange={this.handleChange} fullWidth />
-                        <TextField id="password" name="password" type="password" label="Password" className={classes.textField} helperText={errors.password} error={errors.password ? true : false }
+                        <TextField id="password" name="password" type="password" label={t('password')} className={classes.textField} helperText={errors.password} error={errors.password ? true : false }
                             value={this.state.password} onChange={this.handleChange} fullWidth />
-                        <TextField id="confirmPassword" name="confirmPassword" type="password" label="Confirm Password" className={classes.textField} helperText={errors.confirmPassword} error={errors.confirmPassword ? true : false }
+                        <TextField id="confirmPassword" name="confirmPassword" type="password" label={t('ConfirmPassword')} className={classes.textField} helperText={errors.confirmPassword} error={errors.confirmPassword ? true : false }
                             value={this.state.confirmPassword} onChange={this.handleChange} fullWidth />
-                        <TextField id="handle" name="handle" type="text" label="Handle" className={classes.textField} helperText={errors.handle} error={errors.handle ? true : false }
+                        <TextField id="handle" name="handle" type="text" label={t('handle')} className={classes.textField} helperText={errors.handle} error={errors.handle ? true : false }
                             value={this.state.handle} onChange={this.handleChange} fullWidth />
-                        <Autocomplete freeSolo id="location" name="location" options={spainCities} getOptionLabel={option => option.title} renderInput={params => <TextField {...params} label="Location" margin="normal" />} 
+                        <Autocomplete freeSolo id="location" name="location" options={spainCities} getOptionLabel={option => option.title} renderInput={params => <TextField {...params} label={t('location')} margin="normal" />} 
                             onChange={this.handleAutoComplete} />
                         {errors.location && (
                             <Typography variant="body2" className={classes.customError}>
@@ -116,10 +116,10 @@ class signup extends Component {
                                 {errors.general}
                             </Typography>
                         )}
-                        <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading} >Signup {loading && (
+                        <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading} >{t('signup1')} {loading && (
                             <CircularProgress size={30} className={classes.progress}/>)}</Button>
                         <br />
-                        <small> Already have an account? Log in <Link to="/login"> here</Link></small>
+                        <small>{t('hadAccount')}<Link to="/login"> {t('here')}</Link></small>
                     </form>
                 </Grid>
                 <Grid item sm />
@@ -139,5 +139,5 @@ const mapStateToProps = (state) => ({
     user: state.user,
     UI: state.UI
 });
-
-export default connect(mapStateToProps, {signupUser})(withStyles(styles)(signup));
+const signup1 = withTranslation()(signup)
+export default connect(mapStateToProps, {signupUser})(withStyles(styles)(signup1));

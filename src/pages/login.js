@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import BiblioShareIcon from '../images/logo.png';
 import {Link} from 'react-router-dom';
-
+import { withTranslation } from 'react-i18next';
 //MUI
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -72,26 +72,26 @@ class login extends Component {
     render() {
         const {classes, UI: {loading }} = this.props;
         const {errors} = this.state;
-
+        const { t } = this.props;
         return (
             <Grid container className = {classes.form}>
                 <Grid item sm />
                 <Grid item sm >
                     <img src={BiblioShareIcon} alt="BiblioShare" className={classes.image}/>
                     <form noValidate onSubmit={this.handleSubmit}>
-                        <TextField id="email" name="email" type="email" label="Email" className={classes.textField} helperText={errors.email} error={errors.email ? true : false }
+                        <TextField id="email" name="email" type="email" label={t('email')} className={classes.textField} helperText={errors.email} error={errors.email ? true : false }
                             value={this.state.email} onChange={this.handleChange} fullWidth />
-                        <TextField id="password" name="password" type="password" label="Password" className={classes.textField} helperText={errors.password} error={errors.password ? true : false }
+                        <TextField id="password" name="password" type="password" label={t('password')} className={classes.textField} helperText={errors.password} error={errors.password ? true : false }
                             value={this.state.password} onChange={this.handleChange} fullWidth />
                         {errors.general && (
                             <Typography variant="body2" className={classes.customError}>
                                 {errors.general}
                             </Typography>
                         )}
-                        <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading} >Login {loading && (
+                        <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading} >{t('login1')} {loading && (
                             <CircularProgress size={30} className={classes.progress}/>)}</Button>
                         <br />
-                        <small> Don't have an account? Sign up <Link to="/signup"> here</Link></small>
+                        <small> {t('noAccount')} <Link to="/signup"> {t('here')}</Link></small>
                     </form>
                 </Grid>
                 <Grid item sm />
@@ -114,5 +114,5 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
     loginUser   
 };
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(login));
+const login1 = withTranslation()(login)
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(login1));

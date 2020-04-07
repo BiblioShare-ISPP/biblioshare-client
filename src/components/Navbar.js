@@ -7,7 +7,7 @@ import PostBook from './PostBook';
 import PostAd from './PostAd';
 import {findBooks, getBooks} from '../redux/actions/dataAction';
 import { createBrowserHistory } from 'history'
-
+import { withTranslation } from 'react-i18next';
 //MUI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -31,6 +31,7 @@ class Navbar extends Component {
             notifications: ''
         }
     }
+    
     componentDidUpdate(prevProps){
         if(this.props.user.notifications !== prevProps.user.notifications){
             this.setState({
@@ -55,10 +56,11 @@ class Navbar extends Component {
             [event.target.name]: event.target.value
         })      
       };
-
+    
     render() {
         const { authenticated,handle,authenticatedHall } = this.props;
         const { classes } = this.props;
+        const { t,i18n } = this.props;
         return (
             <AppBar>
                 <Toolbar className="nav-container">
@@ -72,7 +74,7 @@ class Navbar extends Component {
                                 <InputBase
                                     name="keyword"
                                     onChange={this.handleChange}
-                                    placeholder="Search…"
+                                    placeholder={t('search')}
                                     classes={{
                                         root: classes.inputRoot,
                                         input: classes.inputInput,
@@ -84,53 +86,65 @@ class Navbar extends Component {
                             </div>
                             <PostBook/>
                             <Link to="/">
-                                <CustomBotton onClick={this.handleHome} tip="Home">
+                                <CustomBotton onClick={this.handleHome} tip={t('home1')}>
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
                             <Link to={`/requests/${handle}`}>
-                            <CustomBotton tip="Requests">
+                            <CustomBotton tip={t('requests')}>
                                 <Badge color="error" badgeContent={this.state.notifications.length} max={9}>
                                     <Notifications color="secondary"/>
                                 </Badge>
                             </CustomBotton>
                             </Link>
                             <Link to="/myRequests">
-                            <CustomBotton tip="My requests">
+                            <CustomBotton tip={t('myrequests')}>
                                 <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
                             </Link>
+                            <div>
+                            <button onClick={() => i18n.changeLanguage('es')}>es</button>
+                            <button onClick={() => i18n.changeLanguage('en')}>en</button>
+                            </div>
                         </Fragment>
                     ) : (
                         <Fragment>
                             {authenticatedHall ? (
                                 <Fragment>
                                 <Link to="/hall">
-                                    <CustomBotton tip="Home">
+                                    <CustomBotton tip={t('home1')}>
                                         <HomeIcon color="secondary"/>
                                     </CustomBotton>
                                 </Link>
                                 <Link to="/hall/stats">
-                                    <CustomBotton tip="Stats">
+                                    <CustomBotton tip={t('stats')}>
                                         <EqualizerIcon color="secondary"/>
                                     </CustomBotton>
                                 </Link>
                                 <PostAd/>
+                                <div>
+                                <button onClick={() => i18n.changeLanguage('es')}>es</button>
+                                <button onClick={() => i18n.changeLanguage('en')}>en</button>
+                                </div>
                             </Fragment>
                             ) : (
                                 <Fragment>
                                     <Button color="inherit" component={Link} to="/login">
-                                        Login
+                                    {t('login')}
                                     </Button>
                                     <Button color="inherit" component={Link} to="/">
-                                        Home
+                                    {t('home')}
                                     </Button>
                                     <Button color="inherit" component={Link} to="/signup">
-                                        Signup
+                                    {t('signup')}
                                     </Button>
                                     <Button color="inherit" component={Link} to="/hall/login">
-                                        Halls
+                                    {t('hall')}
                                     </Button>
+                                    <div>
+                                    <button onClick={() => i18n.changeLanguage('es')}>es</button>
+                                    <button onClick={() => i18n.changeLanguage('en')}>en</button>
+                                    </div>
                             </Fragment>
                             )}
                         </Fragment>
@@ -196,5 +210,5 @@ const styles = theme => ({
         },
       },
 });
-
-export default connect(mapStateToProps,{findBooks, getBooks})(withStyles(styles)(Navbar));
+const Navbar1 = withTranslation()(Navbar)
+export default  connect(mapStateToProps,{findBooks, getBooks})(withStyles(styles)(Navbar1));

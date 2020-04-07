@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import RequestButton from './RequestButton';
 import PropTypes from 'prop-types';
 import CustomButton from '../util/CustomButton';
-
+import { withTranslation } from 'react-i18next';
 // Redux
 import { connect } from 'react-redux';
 
@@ -110,24 +110,25 @@ class BookDetails extends Component {
         dayjs.extend(relativeTime);
         const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle, tickets }},  UI: {loading}} = this.props;
         const { errors } = this.state;
+        const { t } = this.props;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
-            <MyButton  tip="Delete Book" onClick={this.deleteBook}   btnClassName={classes.deleteButton}>
+            <MyButton  tip={t('deleteBook')} onClick={this.deleteBook}   btnClassName={classes.deleteButton}>
                     <a  btnClassName={classes.iconDelete} href={`/users/${owner}`}><DeleteOutline color="error"/> </a>
             </MyButton>
         ): null
         return (
             <Fragment>
                 <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
-                    <CustomButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
+                    <CustomButton tip={t('close')} onClick={this.handleClose} tipClassName={classes.closeButton}>
                         <CloseIcon />
                     </CustomButton>
-                    <DialogTitle>Post a comment</DialogTitle>
+                    <DialogTitle>{t('postComment')}</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
-                            <TextField id="body" name="body" placeholder="Comment" InputProps={{startAdornment: ( <InputAdornment position="start"> <CreateIcon color="primary" /> </InputAdornment>),}} error={errors.body ? true : false } helperText={errors.body} onChange={this.handleChange} fullWidth/>
+                            <TextField id="body" name="body" placeholder={t('Comment')} InputProps={{startAdornment: ( <InputAdornment position="start"> <CreateIcon color="primary" /> </InputAdornment>),}} error={errors.body ? true : false } helperText={errors.body} onChange={this.handleChange} fullWidth/>
                             <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
-                                Submit 
+                                {t('Submit')}
                                 {loading && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
@@ -141,13 +142,13 @@ class BookDetails extends Component {
                     {deleteButton}
                     <Typography variant="h5" color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
-                    <Typography variant="body2" color="primary">Status: {availability}</Typography>
-                    <Typography variant="body2" color="textSecondary">Posted: {dayjs(userPostDate).fromNow()}</Typography>
-                    <Typography variant="body2" color="textSecondary">Place: {location}</Typography>
+                    <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>
+                    <Typography variant="body2" color="textSecondary">{t('posted')}: {dayjs(userPostDate).fromNow()}</Typography>
+                    <Typography variant="body2" color="textSecondary">{t('place')}: {location}</Typography>
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
-                    { authenticated ? (
+                    { authenticated ? ( 
                         <Button variant="contained" color="primary" className={classes.noTickets} onClick={this.handleOpen}>
-                            Post a comment
+                           {t('postComment')}
                         </Button>
                     ) : null}
                     { (!isOwner && authenticated && availability === 'available' && tickets > 1) ? (
@@ -155,7 +156,7 @@ class BookDetails extends Component {
                     ) : null}
                     { (!isOwner && authenticated && availability === 'available' && tickets < 1) ? (
                     <Button component={Link} variant="contained" color="primary" className={classes.noTickets} to="/ticket">
-                    You don´t have any tickets
+                    {t('noTickets')}
                     </Button>
                     ) : null}
                 </CardContent>
@@ -180,5 +181,5 @@ const mapActionsToProps = {
     commentBook
 }
   
-
-export default connect(mapStateToProps,mapActionsToProps)(withStyles(styles)(BookDetails));
+const BookDetails1 = withTranslation()(BookDetails)
+export default connect(mapStateToProps,mapActionsToProps)(withStyles(styles)(BookDetails1));
