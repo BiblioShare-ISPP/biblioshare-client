@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import HallProfile from '../components/HallProfile';
-
+import { withTranslation } from 'react-i18next';
 //Redux
 import {connect} from 'react-redux';
 import { getResidents, addUserToHall} from '../redux/actions/hallAction';
@@ -62,9 +62,10 @@ class hall extends Component {
     };
     render() {
         const {classes, hall:{loadingResidents, residents, credentials:{members, image, description, accounts}}} = this.props;
+        const { t } = this.props;
         let allResidents = !loadingResidents ? ((residents.length === 0) ? (
                 <ListItem button>
-                    <ListItemText>There arent any BiblioShare user in {this.state.location}</ListItemText>
+                    <ListItemText>{t('noUsers')} {this.state.location}</ListItemText>
                 </ListItem>
             ) : (
                 residents.map((resident, index) => (
@@ -88,7 +89,7 @@ class hall extends Component {
                     </div>
                 </Grid>
                 <Grid item sm={8} xs={12}>
-                    <Typography variant="h4" color="primary">Users</Typography>
+                    <Typography variant="h4" color="primary">{t('Users')}</Typography>
                     <br />
                     <List dense className={classes.root}>
                         {allResidents}
@@ -111,6 +112,5 @@ const mapStateToProps = state => ({
 
 });
 
-
-
-export default connect(mapStateToProps, {getResidents, addUserToHall})(withStyles(styles)(hall));
+const hall1 = withTranslation()(hall);
+export default connect(mapStateToProps, {getResidents, addUserToHall})(withStyles(styles)(hall1));

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CustomButton from '../util/CustomButton';
-
+import { withTranslation } from 'react-i18next';
 //MUI
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -271,35 +271,35 @@ class PostBook extends Component{
     render(){
         const { errors } = this.state;
         const { classes, UI: {loading, loadingISBN}} = this.props;
-
+        const { t } = this.props;
         return (
             <Fragment>
-                <CustomButton onClick={this.handleOpen} tip="Post a book">
+                <CustomButton onClick={this.handleOpen} tip={t('postBook')}>
                     <MenuBookIcon color="secondary" />
                 </CustomButton>
                 <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
-                    <CustomButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
+                    <CustomButton tip={t('close')} onClick={this.handleClose} tipClassName={classes.closeButton}>
                         <CloseIcon />
                     </CustomButton>
-                    <DialogTitle>Post a book</DialogTitle>
+                    <DialogTitle>{t('postBook')}</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
                             <div className={classes.divImage}>
                                 <img id="coverImg" alt="Book cover" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/no-cover.jpg?alt=media" width="100px" />
                                 <input type="file" id="coverInput" name="cover" onChange={this.handleImageChange} hidden="hidden" />
-                                <Tooltip title="Upload a cover image" placement="bottom">
+                                <Tooltip title={t('UploadCoverImage')} placement="bottom">
                                     <IconButton className="button" onClick={this.handleUploadCover}>
                                         <ImageSearchIcon color="primary" /> 
                                     </IconButton>
                                 </Tooltip>
                             </div>
-                            <TextField className={classes.input} id="title" name="title" placeholder="Title" InputProps={{startAdornment: ( <InputAdornment position="start"> <MenuBookIcon color="primary" /> </InputAdornment>),}} error={errors.title ? true : false } helperText={errors.title} onChange={this.handleChange} fullWidth/>
-                            <TextField className={classes.input} id="author" name="author" placeholder="Author" InputProps={{startAdornment: ( <InputAdornment position="start"> <AccountCircle color="primary" /> </InputAdornment>),}} error={errors.author ? true : false } helperText={errors.author} onChange={this.handleChange} fullWidth/>
+                            <TextField className={classes.input} id="title" name="title" placeholder={t('title')} InputProps={{startAdornment: ( <InputAdornment position="start"> <MenuBookIcon color="primary" /> </InputAdornment>),}} error={errors.title ? true : false } helperText={errors.title} onChange={this.handleChange} fullWidth/>
+                            <TextField className={classes.input} id="author" name="author" placeholder={t('author')} InputProps={{startAdornment: ( <InputAdornment position="start"> <AccountCircle color="primary" /> </InputAdornment>),}} error={errors.author ? true : false } helperText={errors.author} onChange={this.handleChange} fullWidth/>
                             <p>{errors.location}</p>
                             <Button variant="contained" className={classes.submitButton} color="secondary" onClick={this.handleISBNOpen}>
-                                Search by ISBN
+                            {t('SearchByISBN')} 
                             </Button><Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
-                                Submit 
+                            {t('Submit')}  
                                 {loading && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
@@ -308,29 +308,29 @@ class PostBook extends Component{
                     </DialogContent>
                 </Dialog>
                 <Dialog open={this.state.openISBN} onClose={this.handleISBNClose} fullWidth maxWidth="sm">
-                    <CustomButton tip="Close" onClick={this.handleISBNClose} tipClassName={classes.closeButton}>
+                    <CustomButton tip={t('close')} onClick={this.handleISBNClose} tipClassName={classes.closeButton}>
                         <CloseIcon />
                     </CustomButton>
-                    <DialogTitle>Search Book by ISBN</DialogTitle>
+                    <DialogTitle>{t('SearchBookByISBN')}</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.checkISBN}>
-                           <TextField id="isbn" name="isbn" type="text" label="ISBN matches with barcode" placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
+                           <TextField id="isbn" name="isbn" type="text" label={t('ISBNMatchesWithBarcode')} placeholder="ISBN" onChange={this.handleChange} error={errors.isbn ? true : false } helperText={errors.isbn} className={classes.textField} InputProps={{startAdornment: ( <InputAdornment position="start"> <Icon icon={barcodeIcon} /> </InputAdornment>),}} fullWidth />
                            <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loadingISBN}>
-                                CHECK ISBN 
+                           {t('CheckISBN')} 
                                 {loadingISBN && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
                             </Button><Button variant="contained" color="primary" className={classes.submitButton} onClick={this.handleCamera}>
-                                START CAMERA
+                            {t('StartCamera')}
                             </Button>
                         </form>
                     </DialogContent>
                 </Dialog>
                 <Dialog open={this.state.camera} onClose={this.handleCameraClose} fullWidth maxWidth="sm">
-                    <CustomButton tip="Close" onClick={this.handleCameraClose} tipClassName={classes.closeButton}>
+                    <CustomButton tip={t('close')} onClick={this.handleCameraClose} tipClassName={classes.closeButton}>
                         <CloseIcon />
                     </CustomButton>
-                    <DialogTitle>Scan the barcode</DialogTitle>
+                    <DialogTitle>{t('ScanTheBarcode')}</DialogTitle>
                     <DialogContent>
                         <div className="camara">
                             <Scanner onDetected={this.onDetected}/>
@@ -364,5 +364,5 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps= { postBook, checkISBN, uploadImage};
 
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PostBook));
+const PostBook1 = withTranslation()(PostBook);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PostBook1));

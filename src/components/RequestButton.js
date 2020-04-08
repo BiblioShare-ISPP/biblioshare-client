@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import { withTranslation } from 'react-i18next';
 // REdux
 import { connect } from 'react-redux';
 import { requestBook } from '../redux/actions/requestAction';
@@ -32,13 +32,14 @@ export class RequestButton extends Component {
 
   render() {
     const { classes } = this.props;
+    const { t } = this.props;
     const requestButton = this.requestedBook() ? (
       <Button variant="contained" color="primary" className={classes.requestButton} disabled>
-          Book requested
+          {t('BookRequested')}
       </Button>
     ) : (
       <Button variant="contained" color="primary" className={classes.requestButton} onClick={this.requestBook}>
-        Request book
+        {t('RequestBook')}
       </Button>
     );
     return requestButton;
@@ -59,4 +60,5 @@ const mapActionsToProps = {
   requestBook
 };
 
-export default connect(mapStateToProps,mapActionsToProps)(withStyles(styles)(RequestButton));
+const RequestButton1 = withTranslation()(RequestButton);
+export default connect(mapStateToProps,mapActionsToProps)(withStyles(styles)(RequestButton1));

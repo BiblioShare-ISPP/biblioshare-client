@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import DeleteRequest from './DeleteRequest';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
+import { withTranslation } from 'react-i18next';
 //MUI
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -70,6 +70,7 @@ class Request extends Component {
     render() {
         dayjs.extend(relativeTime);
         const { classes, request: { title, cover, bookId, bookOwner, userHandle, status, createdAt },user: {authenticated,credentials: { handle } }} = this.props;
+        const { t } = this.props;
         let button;
         const deleteButton = authenticated && userHandle === handle && status === 'pending' ? (
             <DeleteRequest bookId={bookId}/>
@@ -79,23 +80,23 @@ class Request extends Component {
                     
             <ThemeProvider theme={theme}>
                 <Button variant="contained" color="primary" className={classes.margin} onClick={this.acceptedRequest}>
-                    Accepted
+                {t('Accepted')}
                 </Button>
             </ThemeProvider>
             <ThemeProvider theme={theme1}>
                 <Button variant="contained" color="primary" className={classes.margin} onClick={this.rejectedRequest}>
-                    Rejected
+                {t('Rejected')}
                 </Button>
             </ThemeProvider>
             </div>
         }
         let owner;
         if(bookOwner !== this.props.user.credentials.handle){
-           owner = <Typography variant="body2" color="textSecondary">Owner: {bookOwner}</Typography>
+           owner = <Typography variant="body2" color="textSecondary">{t('Owner')}: {bookOwner}</Typography>
         }
         let applicant;
         if(bookOwner === this.props.user.credentials.handle){
-            applicant = <Typography variant="body2" color="textSecondary">Applicant: {userHandle}</Typography>
+            applicant = <Typography variant="body2" color="textSecondary">{t('Applicant')}: {userHandle}</Typography>
          }
         return (
             <Card className={classes.card}>
@@ -105,8 +106,8 @@ class Request extends Component {
                     <Typography variant="h5" color="textPrimary" component={Link} to={`/books/${bookId}`}>{title}</Typography>
                     {owner} 
                     {applicant}
-                    <Typography variant="body2" color="textSecondary">Posted: {dayjs(createdAt).fromNow()}</Typography>
-                    <Typography variant="body2" color="primary">Status: {status}</Typography> 
+                    <Typography variant="body2" color="textSecondary">{t('posted')}: {dayjs(createdAt).fromNow()}</Typography>
+                    <Typography variant="body2" color="primary">{t('status')}: {status}</Typography> 
                     {deleteButton}
                     {button}
                         
@@ -138,5 +139,5 @@ const mapActionsToProps = {
     
 }
 
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Request));
+const Request1 = withTranslation()(Request);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Request1));
