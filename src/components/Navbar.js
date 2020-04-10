@@ -44,7 +44,16 @@ class Navbar extends Component {
             loading: true
         });
         this.props.findBooks(this.state.keyword);
-        history.push(`/find/${this.state.keyword}`);
+        console.log(window.location.pathname);
+        var array = window.location.pathname.split("/");
+        if((window.location.pathname.split("/").length - 1)===1 && array[1]===""){
+            console.log(1);
+            history.push(`/find/${this.state.keyword}`);
+        }else{
+            console.log(2);
+            window.location.href = `/find/${this.state.keyword}`;
+        }
+        
     };
     handleHome = () =>{
         this.props.getBooks();
