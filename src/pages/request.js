@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-
+import { withTranslation } from 'react-i18next';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import Request from '../components/Request';
@@ -30,7 +30,7 @@ class request extends Component {
                 margin: '20% 50%',
             }
         };
-
+        const { t } = this.props;
         const  {requests, loading }= this.props.requests;
         const user = this.props.user.authenticated;
         const handle = this.props.handle;
@@ -49,8 +49,8 @@ class request extends Component {
                 <Request key={request.requestId} request={request}/>)): 
                 <Card >
                 <CardContent >
-                     <Typography variant="h5" color="textPrimary" component="h2" ><InfoIcon />Information</Typography>
-                    <Typography variant="h5" color="textSecondary" component="h5">There aren´t any request for you</Typography>
+                     <Typography variant="h5" color="textPrimary" component="h2" ><InfoIcon />{t('Information')}</Typography>
+                    <Typography variant="h5" color="textSecondary" component="h5">{t('noRequestForYou')}</Typography>
             
                 </CardContent>
             </Card >)):
@@ -100,4 +100,5 @@ const mapActionsToProps = {
     getRequestsByUser
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(request);
+const request1 = withTranslation()(request);
+export default connect(mapStateToProps, mapActionsToProps)(request1);

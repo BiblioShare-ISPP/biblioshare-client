@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ButtonAddCounts from './ButtonAddCounts';
+import { withTranslation } from 'react-i18next';
 //MUI
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -100,7 +101,7 @@ class HallProfile extends Component {
                 authenticated
             }
         } = this.props;
-
+        const { t } = this.props;
         let profileMarkup = !loading ? (
             authenticated ? (
             <Paper className={classes.paper}>
@@ -115,7 +116,7 @@ class HallProfile extends Component {
                                 onChange={this.handleImageChange}
                             />
                             <MyButton
-                                tip="Edit Profile Picture"
+                                tip={t('editProfilePicture')}
                                 onClick={this.handleEditPicture}
                                 btnClassName={classes.button}
                                 >
@@ -127,16 +128,16 @@ class HallProfile extends Component {
                     </div>
                         <hr />
                     <div className="profile-details">
-                            <Typography variant="h5" color="primary">{location} city hall</Typography>
+                            <Typography variant="h5" color="primary">{location} {t('cityHall')}</Typography>
                         <hr />
                         {location && (
                             <Fragment>
                                 <LocationOn color="primary" />{location}
                             </Fragment>)}
                         <hr />
-                        <AccountCircleIcon color="primary" /><span>{accounts} accounts remaining</span>
+                        <AccountCircleIcon color="primary" /><span>{accounts} {t('accountsRemaining')}</span>
                     </div>
-                    <Tooltip title="Logout" placement="top">
+                    <Tooltip title={t('logout')} placement="top">
                         <IconButton onClick={this.handleLogout}>
                             <ExitToAppIcon color="primary" /> 
                         </IconButton>
@@ -164,5 +165,5 @@ HallProfile.propTypes = {
     classes: PropTypes.object.isRequired,
     uploadImage: PropTypes.func.isRequired,
 };
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(HallProfile));
+const HallProfile1 = withTranslation()(HallProfile);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(HallProfile1));

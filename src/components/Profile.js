@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import ProfileSkeleton from '../util/ProfileSkeleton';
+import { withTranslation } from 'react-i18next';
 //MUI
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -95,6 +96,7 @@ class Profile extends Component {
                 authenticated
             }
         } = this.props;
+        const { t } = this.props;
         const SmallAvatar = withStyles(theme => ({
             root: {
               width: 50,
@@ -145,7 +147,7 @@ class Profile extends Component {
                         <hr />
                         <ConfirmationNumberIcon color="primary" /><span>{tickets} tickets</span>
                     </div>
-                    <Tooltip title="Logout" placement="top">
+                    <Tooltip title={t('logout')} placement="top">
                         <IconButton onClick={this.handleLogout}>
                             <ExitToAppIcon color="primary" />
                         </IconButton>
@@ -155,13 +157,13 @@ class Profile extends Component {
         ) : (
             <Paper className={classes.paper}>
                 <Typography variant="body2" align="center">
-                    No profile found, please login</Typography>
+                {t('NoProfileFound')} </Typography>
                 <div className={classes.buttons}>
                     <Button variant="contained" color="primary" component={Link} to="/login">
-                        Login
+                    {t('login1')}
                     </Button>
                     <Button variant="contained" color="secondary" component={Link} to="/signup">
-                        Signup
+                    {t('signup1')}
                     </Button>
                 </div>
             </Paper>
@@ -182,5 +184,5 @@ Profile.propTypes = {
     user: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
 };
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile));
+const Profile1 = withTranslation()(Profile);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile1));

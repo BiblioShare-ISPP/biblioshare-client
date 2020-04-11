@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-
+import { withTranslation } from 'react-i18next';
 import Book from '../components/Book';
 import Profile from '../components/Profile';
 import BookSkeleton from '../util/BookSkeleton';
@@ -30,6 +30,7 @@ class home extends Component {
     };
     render() {
         const {classes, data: {books, loading}, user: {isHallMember, description, image}} = this.props;
+        const { t } = this.props;
         let recentBooksMarkup = loading ? (<BookSkeleton />) : (
             books.map((book) => 
                 <Book key={book.bookId} book={book}/>)
@@ -48,7 +49,7 @@ class home extends Component {
                 </Grid>
                 <Grid item sm={8} xs={12}>
                     {recentBooksMarkup.length===0 ?
-                        (<Paper className={classes.paper}><p>No books found...</p></Paper>):recentBooksMarkup}
+                        (<Paper className={classes.paper}><p>{t('noBook')}</p></Paper>):recentBooksMarkup}
                 </Grid>
             </Grid>
         )
@@ -65,5 +66,5 @@ const mapStateToProps = state => ({
     data: state.data,
     user: state.user
 });
-
-export default connect(mapStateToProps, {getBooks})(withStyles(styles)(home));
+const home1 = withTranslation()(home)
+export default connect(mapStateToProps, {getBooks})(withStyles(styles)(home1));

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CustomButton from '../util/CustomButton';
-
+import { withTranslation } from 'react-i18next';
 //MUI
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -133,17 +133,17 @@ class PostAd extends Component{
     render(){
         const { errors } = this.state;
         const { classes, UI: {loading}} = this.props;
-
+        const { t } = this.props;
         return (
             <Fragment>
-                <CustomButton onClick={this.handleOpen} tip="Post an ad">
+                <CustomButton onClick={this.handleOpen} tip={t('postAdd')}>
                     <AddAlertIcon color="secondary" />
                 </CustomButton>
                 <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
-                    <CustomButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
+                    <CustomButton tip={t('close')} onClick={this.handleClose} tipClassName={classes.closeButton}>
                         <CloseIcon />
                     </CustomButton>
-                    <DialogTitle>Post an add</DialogTitle>
+                    <DialogTitle>{t('postAdd')}</DialogTitle>
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
                             <div className={classes.divImage}>
@@ -157,9 +157,9 @@ class PostAd extends Component{
                                 </center>
                             </div>
                             <small className={classes.small}>{errors.image}</small>
-                            <TextField className={classes.input} id="description" name="description" placeholder="Description" InputProps={{startAdornment: ( <InputAdornment position="start"> <DescriptionIcon color="primary" /> </InputAdornment>),}} error={errors.description ? true : false } helperText={errors.description} onChange={this.handleChange} fullWidth/>
+                            <TextField className={classes.input} id="description" name="description" placeholder={t('description')} InputProps={{startAdornment: ( <InputAdornment position="start"> <DescriptionIcon color="primary" /> </InputAdornment>),}} error={errors.description ? true : false } helperText={errors.description} onChange={this.handleChange} fullWidth/>
                             <Button type="submit" variant="contained" color="primary" className={classes.submitButton} disabled={loading}>
-                                Submit 
+                                {t('Submit')} 
                                 {loading && (
                                     <CircularProgress size={30} className={classes.progressSpinner} />
                                 )}
@@ -186,5 +186,5 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps= { postAd, uploadAdImage};
 
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PostAd));
+const PostAd1 = withTranslation()(PostAd);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PostAd1));

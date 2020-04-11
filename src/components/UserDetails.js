@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
-
+import { withTranslation } from 'react-i18next';
 //MUI
 
 import Paper from '@material-ui/core/Paper';
@@ -118,7 +118,7 @@ class UserDetails extends Component {
                 userData,
             }
         } = this.props;
-    
+        const { t } = this.props;
         let tickets;
    
         let isLoggedUser = (handle === userData.user.handle) ? true : false;
@@ -143,7 +143,7 @@ class UserDetails extends Component {
                                 onChange={this.handleImageChange}
                             />
                             <MyButton
-                                tip="Edit Profile Picture"
+                                tip= {t('editProfilePicture')}
                                 onClick={this.handleEditPicture}
                                 btnClassName={classes.button}
                                 >
@@ -172,7 +172,7 @@ class UserDetails extends Component {
                     ) : null}
                 </div>
                 { isLoggedUser ? (
-                    <MuiLink component={Link} to={`/ticket`} color="primary" variant="h5">Buy tickets</MuiLink>
+                    <MuiLink component={Link} to={`/ticket`} color="primary" variant="h5">{t('buyTickets')}</MuiLink>
                 ): null}
             </Paper>
         ): (<CircularProgress className={classes.progress} />);
@@ -193,5 +193,5 @@ UserDetails.propTypes = {
     uploadImage: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(UserDetails));
+const UserDetails1 = withTranslation()(UserDetails)
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(UserDetails1));
