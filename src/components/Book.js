@@ -70,7 +70,7 @@ class Book extends Component {
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                     <Typography className={classes.date} variant="body2" color="textSecondary">{t('posted')}: {dayjs(userPostDate).fromNow()} from {location}</Typography>
                     { (!isOwner && authenticated && availability === 'available' && tickets > price) ? (
-                    <RequestButton bookId={bookId} />
+                    <RequestButton bookId={bookId} price={price}/>
                     ) : null}
                     { (!isOwner && authenticated && availability === 'available' && tickets < price) ? (
                     <ColorButton component={Link} variant="contained" className={classes.noTickets} to="/ticket">

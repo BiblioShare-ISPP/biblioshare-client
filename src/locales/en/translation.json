@@ -63,7 +63,7 @@
         "Owner": "Owner",
         "Applicant":"Applicant",
         "BookRequested": "Book requested",
-        "RequestBook": "Request book",
+        "RequestBook": "Request ",
         "noComment":"There arent any comment yet...",
         "Comments": "Comments",
         "noUsers":"There arent any BiblioShare user in",
