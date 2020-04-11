@@ -76,5 +76,7 @@
         "noRequest" : "No tienes ninguna petición",
         "Warning":"Precaución",
         "AuthorizationRequired":"Autorización requerida",
-        "noRequestForYou":"No hay solicitudes para ti"
+        "noRequestForYou":"No hay solicitudes para ti",
+        "language": "Cambiar idioma",
+        "currentLanguage": "Español"
 }

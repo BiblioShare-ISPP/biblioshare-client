@@ -76,6 +76,8 @@
         "noRequest" : "You don´t  have request to any book",
         "Warning":"Warning",
         "AuthorizationRequired":"Authorization required",
-        "noRequestForYou":"There aren´t any request for you"
+        "noRequestForYou":"There aren´t any request for you",
+        "language": "Change language",
+        "currentLanguage": "English"
 
 }

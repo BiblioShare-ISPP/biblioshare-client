@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomBotton from '../util/CustomButton';
+import CustomButtonText from '../util/CustomButtonText';
 import PostBook from './PostBook';
 import PostAd from './PostAd';
 import {findBooks, getBooks} from '../redux/actions/dataAction';
@@ -28,7 +29,8 @@ class Navbar extends Component {
         super();
         this.state = {
             keyword: '',
-            notifications: ''
+            notifications: '',
+            webLanguage: 'en',
         }
     }
     
@@ -38,7 +40,8 @@ class Navbar extends Component {
                 notifications: this.props.user.notifications,
             });
         }
-    };    handleFind = (event) =>{
+    };    
+    handleFind = (event) =>{
         let history = createBrowserHistory()
         event.preventDefault();
         this.setState({
@@ -56,11 +59,20 @@ class Navbar extends Component {
             [event.target.name]: event.target.value
         })      
       };
+    handleChangeLanguage = () => {
+        if(this.state.webLanguage==='en'){
+            this.props.i18n.changeLanguage('es');
+            this.setState({webLanguage: 'es'});
+        }else{
+            this.props.i18n.changeLanguage('en');
+            this.setState({webLanguage: 'en'});
+        }
+    };
     
     render() {
         const { authenticated,handle,authenticatedHall } = this.props;
         const { classes } = this.props;
-        const { t,i18n } = this.props;
+        const { t } = this.props;
         return (
             <AppBar>
                 <Toolbar className="nav-container">
@@ -102,10 +114,7 @@ class Navbar extends Component {
                                 <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
                             </Link>
-                            <div>
-                            <button onClick={() => i18n.changeLanguage('es')}>es</button>
-                            <button onClick={() => i18n.changeLanguage('en')}>en</button>
-                            </div>
+                            <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
                         </Fragment>
                     ) : (
                         <Fragment>
@@ -122,10 +131,7 @@ class Navbar extends Component {
                                     </CustomBotton>
                                 </Link>
                                 <PostAd/>
-                                <div>
-                                <button onClick={() => i18n.changeLanguage('es')}>es</button>
-                                <button onClick={() => i18n.changeLanguage('en')}>en</button>
-                                </div>
+                                <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
                             </Fragment>
                             ) : (
                                 <Fragment>
@@ -141,10 +147,7 @@ class Navbar extends Component {
                                     <Button color="inherit" component={Link} to="/hall/login">
                                     {t('hall')}
                                     </Button>
-                                    <div>
-                                    <button onClick={() => i18n.changeLanguage('es')}>es</button>
-                                    <button onClick={() => i18n.changeLanguage('en')}>en</button>
-                                    </div>
+                                    <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
                             </Fragment>
                             )}
                         </Fragment>

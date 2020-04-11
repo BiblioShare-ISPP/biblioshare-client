@@ -274,9 +274,6 @@ class PostBook extends Component{
         const { t } = this.props;
         return (
             <Fragment>
-                <CustomButton onClick={this.handleOpen} tip={t('postBook')}>
-                    <MenuBookIcon color="secondary" />
-                </CustomButton>
                 <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
                     <CustomButton tip={t('close')} onClick={this.handleClose} tipClassName={classes.closeButton}>
                         <CloseIcon />
