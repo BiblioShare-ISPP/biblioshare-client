@@ -31,14 +31,14 @@ export class RequestButton extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, price } = this.props;
     const requestButton = this.requestedBook() ? (
       <Button variant="contained" color="primary" className={classes.requestButton} disabled>
           Book requested
       </Button>
     ) : (
       <Button variant="contained" color="primary" className={classes.requestButton} onClick={this.requestBook}>
-        Request book
+        Request book x{price} tickets
       </Button>
     );
     return requestButton;
@@ -48,6 +48,7 @@ export class RequestButton extends Component {
 RequestButton.propTypes = {
   user: PropTypes.object.isRequired,
   bookId: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   requestBook: PropTypes.func.isRequired,
 };
 
