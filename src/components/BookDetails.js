@@ -27,6 +27,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CreateIcon from '@material-ui/icons/Create';
+import { red } from '@material-ui/core/colors';
 
 import { deleteBook, commentBook } from '../redux/actions/dataAction';
 
@@ -61,6 +62,15 @@ const styles = {
         margin: '10px 5px 0px 0px'
     },
 };
+const ColorButton = withStyles((theme) => ({
+    root: {
+      color: theme.palette.getContrastText(red[300]),
+      backgroundColor: red[300],
+      '&:hover': {
+        backgroundColor: red[500],
+      },
+    },
+}))(Button);
 
 class BookDetails extends Component {
     state = {
@@ -108,7 +118,7 @@ class BookDetails extends Component {
     }
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability},  user: {authenticated,credentials: { handle, tickets }},  UI: {loading}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, price},  user: {authenticated,credentials: { handle, tickets }},  UI: {loading}} = this.props;
         const { errors } = this.state;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
@@ -151,12 +161,12 @@ class BookDetails extends Component {
                         </Button>
                     ) : null}
                     { (!isOwner && authenticated && availability === 'available' && tickets > 1) ? (
-                    <RequestButton bookId={bookId} />
+                    <RequestButton bookId={bookId} price={price}/>
                     ) : null}
-                    { (!isOwner && authenticated && availability === 'available' && tickets < 1) ? (
-                    <Button component={Link} variant="contained" color="primary" className={classes.noTickets} to="/ticket">
-                    You don´t have any tickets
-                    </Button>
+                    { (!isOwner && authenticated && availability === 'available' && tickets < price) ? (
+                    <ColorButton component={Link} variant="contained" className={classes.noTickets} to="/ticket">
+                    Buy tickets
+                    </ColorButton>
                     ) : null}
                 </CardContent>
             </Card>

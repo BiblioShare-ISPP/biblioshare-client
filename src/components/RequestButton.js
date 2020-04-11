@@ -5,7 +5,10 @@ import withStyles from '@material-ui/core/styles/withStyles';
 // REdux
 import { connect } from 'react-redux';
 import { requestBook } from '../redux/actions/requestAction';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
+
+//Icons
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 
 const styles = {
     requestButton: {
@@ -38,7 +41,7 @@ export class RequestButton extends Component {
       </Button>
     ) : (
       <Button variant="contained" color="primary" className={classes.requestButton} onClick={this.requestBook}>
-        Request book x{price} tickets
+        <Typography variant="body1" color="secondary">Request {price} </Typography><ConfirmationNumberIcon color="secondary" />
       </Button>
     );
     return requestButton;
