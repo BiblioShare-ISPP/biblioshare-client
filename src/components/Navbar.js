@@ -3,33 +3,45 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomBotton from '../util/CustomButton';
+import CustomButtonText from '../util/CustomButtonText';
 import PostBook from './PostBook';
 import PostAd from './PostAd';
 import {findBooks, getBooks} from '../redux/actions/dataAction';
 import { createBrowserHistory } from 'history'
-
+import { withTranslation } from 'react-i18next';
 //MUI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, withStyles } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
 
 //Icons
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import AppBarCollapseOut from './AppBar/AppBarCollapsedOut';
+import AppBarCollapseLogged from './AppBar/AppBarCollapsedLogged';
 
 class Navbar extends Component {
     constructor(){
         super();
         this.state = {
             keyword: '',
+            notifications: '',
+            webLanguage: 'en',
         }
     }
-
+    
+    componentDidUpdate(prevProps){
+        if(this.props.user.notifications !== prevProps.user.notifications){
+            this.setState({
+                notifications: this.props.user.notifications,
+            });
+        }
+    };    
     handleFind = (event) =>{
         let history = createBrowserHistory()
         event.preventDefault();
@@ -37,7 +49,16 @@ class Navbar extends Component {
             loading: true
         });
         this.props.findBooks(this.state.keyword);
-        history.push(`/find/${this.state.keyword}`);
+        console.log(window.location.pathname);
+        var array = window.location.pathname.split("/");
+        if((window.location.pathname.split("/").length - 1)===1 && array[1]===""){
+            console.log(1);
+            history.push(`/find/${this.state.keyword}`);
+        }else{
+            console.log(2);
+            window.location.href = `/find/${this.state.keyword}`;
+        }
+        
     };
     handleHome = () =>{
         this.props.getBooks();
@@ -48,10 +69,20 @@ class Navbar extends Component {
             [event.target.name]: event.target.value
         })      
       };
-
+    handleChangeLanguage = () => {
+        if(this.state.webLanguage==='en'){
+            this.props.i18n.changeLanguage('es');
+            this.setState({webLanguage: 'es'});
+        }else{
+            this.props.i18n.changeLanguage('en');
+            this.setState({webLanguage: 'en'});
+        }
+    };
+    
     render() {
         const { authenticated,handle,authenticatedHall } = this.props;
         const { classes } = this.props;
+        const { t } = this.props;
         return (
             <AppBar>
                 <Toolbar className="nav-container">
@@ -65,7 +96,7 @@ class Navbar extends Component {
                                 <InputBase
                                     name="keyword"
                                     onChange={this.handleChange}
-                                    placeholder="Search…"
+                                    placeholder={t('search')}
                                     classes={{
                                         root: classes.inputRoot,
                                         input: classes.inputInput,
@@ -77,52 +108,43 @@ class Navbar extends Component {
                             </div>
                             <PostBook/>
                             <Link to="/">
-                                <CustomBotton onClick={this.handleHome} tip="Home">
+                                <CustomBotton onClick={this.handleHome} tip={t('home1')}>
                                     <HomeIcon color="secondary"/>
                                 </CustomBotton>
                             </Link>
                             <Link to={`/requests/${handle}`}>
-                            <CustomBotton tip="Requests">
-                                <Notifications color="secondary"/>
+                            <CustomBotton tip={t('requests')}>
+                                <Badge color="error" badgeContent={this.state.notifications.length} max={9}>
+                                    <Notifications color="secondary"/>
+                                </Badge>
                             </CustomBotton>
                             </Link>
                             <Link to="/myRequests">
-                            <CustomBotton tip="My requests">
+                            <CustomBotton tip={t('myrequests')}>
                                 <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
                             </Link>
+                            <AppBarCollapseLogged t={t}/>
                         </Fragment>
                     ) : (
                         <Fragment>
                             {authenticatedHall ? (
                                 <Fragment>
                                 <Link to="/hall">
-                                    <CustomBotton tip="Home">
+                                    <CustomBotton tip={t('home1')}>
                                         <HomeIcon color="secondary"/>
                                     </CustomBotton>
                                 </Link>
                                 <Link to="/hall/stats">
-                                    <CustomBotton tip="Stats">
+                                    <CustomBotton tip={t('stats')}>
                                         <EqualizerIcon color="secondary"/>
                                     </CustomBotton>
                                 </Link>
                                 <PostAd/>
+                                <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
                             </Fragment>
                             ) : (
-                                <Fragment>
-                                    <Button color="inherit" component={Link} to="/login">
-                                        Login
-                                    </Button>
-                                    <Button color="inherit" component={Link} to="/">
-                                        Home
-                                    </Button>
-                                    <Button color="inherit" component={Link} to="/signup">
-                                        Signup
-                                    </Button>
-                                    <Button color="inherit" component={Link} to="/hall/login">
-                                        Halls
-                                    </Button>
-                            </Fragment>
+                                <AppBarCollapseOut t={t}/>
                             )}
                         </Fragment>
                     )}
@@ -142,11 +164,15 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
     authenticated: state.user.authenticated,
+    user: state.user,
     handle: state.user.credentials.handle,
     data: state.data,
     authenticatedHall : state.hall.authenticated
 });
-
+const mapActionsToProps = {
+    findBooks,
+    getBooks
+}
 const styles = theme => ({
     search: {
         position: 'relative',
@@ -186,5 +212,5 @@ const styles = theme => ({
         },
       },
 });
-
-export default connect(mapStateToProps,{findBooks, getBooks})(withStyles(styles)(Navbar));
+const Navbar1 = withTranslation()(Navbar)
+export default  connect(mapStateToProps,mapActionsToProps)(withStyles(styles)(Navbar1));

@@ -71,7 +71,7 @@ export default function (state = initialState, action) {
                 ...state,
                 credentials: {
                     ...state.credentials,
-                    tickets: state.credentials.tickets + 1
+                    tickets: state.credentials.tickets + action.payload.price
                 }
             };
         case DELETE_BOOK:

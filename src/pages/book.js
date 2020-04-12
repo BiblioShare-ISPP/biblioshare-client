@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import withStyles from '@material-ui/core/styles/withStyles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
+import { withTranslation } from 'react-i18next';
 //Data actions
 import {getBookData} from '../redux/actions/dataAction';
 
@@ -48,6 +48,7 @@ class book extends Component {
         dayjs.extend(relativeTime);
         const { book,comments, loading} = this.props.data;
         const {classes} = this.props;
+        const { t } = this.props;
         return (
             <Grid container spacing={6}>
                 {loading ? (<CircularProgress className={classes.progressBook}/>): (
@@ -55,12 +56,12 @@ class book extends Component {
                         <BookDetails book={book} />
                     </Grid>)}
                 <Grid item xs={12}>
-                <Typography variant="h5" color="primary">Comments: </Typography>
+                <Typography variant="h5" color="primary">{t('Comments')}: </Typography>
                     {loading ? (<CircularProgress className={classes.progressBook}/>) : ((comments.length === 0) ? (
                         <Fragment>
                             <List className={classes.list}>
                                 <ListItem>
-                                    <ListItemText>There arent any comment yet...</ListItemText>
+                                    <ListItemText>{t('noComment')}</ListItemText>
                                 </ListItem>
                             </List>
                         </Fragment>
@@ -92,5 +93,5 @@ book.propTypes = {
 const mapStateToProps = state =>({
     data: state.data
 });
-
-export default connect(mapStateToProps, {getBookData})(withStyles(styles)(book));
+const book1 = withTranslation()(book);
+export default connect(mapStateToProps, {getBookData})(withStyles(styles)(book1));

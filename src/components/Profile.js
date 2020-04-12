@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
-
+import ProfileSkeleton from '../util/ProfileSkeleton';
+import { withTranslation } from 'react-i18next';
 //MUI
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
@@ -96,6 +96,7 @@ class Profile extends Component {
                 authenticated
             }
         } = this.props;
+        const { t } = this.props;
         const SmallAvatar = withStyles(theme => ({
             root: {
               width: 50,
@@ -110,7 +111,6 @@ class Profile extends Component {
               width: 200,
               height: 200,
               top: '80%',
-              left: '25%',
               border: `2px solid ${theme.palette.background.paper}`,
             },
           }))(Avatar);
@@ -119,7 +119,6 @@ class Profile extends Component {
               width: 200,
               height: 200,
               top: '80%',
-              left: '20%',
               border: `2px solid ${theme.palette.background.paper}`,
             },
           }))(Avatar);
@@ -127,14 +126,14 @@ class Profile extends Component {
             authenticated ? (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
-                        {isHallMember ? 
+                        <center>{isHallMember ? 
                             <Badge overlap="circle" anchorOrigin={{vertical: 'bottom', horizontal: 'right',}}
                                 badgeContent={<SmallAvatar alt={location} src={hallImage} />}>
                             <BigAvatar alt={handle} src={imageUrl} />
                             </Badge>
                         :
                             <NoHallAvatar alt={handle} src={imageUrl} />
-                        }
+                        }</center>
                         <hr />
                     <div className="profile-details">
                             <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">{handle}</MuiLink>
@@ -148,7 +147,7 @@ class Profile extends Component {
                         <hr />
                         <ConfirmationNumberIcon color="primary" /><span>{tickets} tickets</span>
                     </div>
-                    <Tooltip title="Logout" placement="top">
+                    <Tooltip title={t('logout')} placement="top">
                         <IconButton onClick={this.handleLogout}>
                             <ExitToAppIcon color="primary" />
                         </IconButton>
@@ -158,17 +157,17 @@ class Profile extends Component {
         ) : (
             <Paper className={classes.paper}>
                 <Typography variant="body2" align="center">
-                    No profile found, please login</Typography>
+                {t('NoProfileFound')} </Typography>
                 <div className={classes.buttons}>
                     <Button variant="contained" color="primary" component={Link} to="/login">
-                        Login
+                    {t('login1')}
                     </Button>
                     <Button variant="contained" color="secondary" component={Link} to="/signup">
-                        Signup
+                    {t('signup1')}
                     </Button>
                 </div>
             </Paper>
-        )) : (<CircularProgress className={classes.progress} />);
+        )) : (<ProfileSkeleton />);
 
         return profileMarkup;
     }
@@ -185,5 +184,5 @@ Profile.propTypes = {
     user: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
 };
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile));
+const Profile1 = withTranslation()(Profile);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile1));

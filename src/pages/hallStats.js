@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import { withTranslation } from 'react-i18next';
 //Material
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -57,7 +57,7 @@ class hallStats extends Component {
     render() {
         const {classes, hall:{loadingResidents, loadingStats, residents, credentials:{location, members}, stats}} = this.props;
         const residentStats = !loadingResidents ? ({labels: ['Hall members',`${location} Residents`],datasets: [{data: [members.length, (residents.length - members.length)],backgroundColor: ['#FF6384','#FFCE56'],hoverBackgroundColor: ['#FF6384','#FFCE56']}]}) : null;
-
+        const { t } = this.props;
         const bookStats = !loadingStats ? ({
             datasets: [{
               data: stats.map(function(stat){return stat.books;}),
@@ -72,8 +72,8 @@ class hallStats extends Component {
             <Grid container spacing={1}>
                 <Grid item sm={6} xs={12}>
                     <Paper elevation={3}>
-                        <Typography className={classes.statTitle} variant="h5" color="primary">BiblioShare users</Typography>
-                        <Typography className={classes.statTitle} variant="body1" color="primary">Number of {location}'s residents who are member of the hall</Typography>
+                        <Typography className={classes.statTitle} variant="h5" color="primary">{t('BiblioShareUsers')}</Typography>
+                        <Typography className={classes.statTitle} variant="body1" color="primary">{t('NumberOfResidentsWhoAreMemberOfTheHall')} </Typography>
                         <br />
                         {allResidents}
                         <br />
@@ -82,8 +82,8 @@ class hallStats extends Component {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                     <Paper elevation={3}>
-                    <Typography className={classes.statTitle} variant="h5" color="primary">Books per member</Typography>
-                    <Typography className={classes.statTitle} variant="body1" color="primary">Number of books posted by hall member</Typography>
+                    <Typography className={classes.statTitle} variant="h5" color="primary">{t('BooksPerMember')}</Typography>
+                    <Typography className={classes.statTitle} variant="body1" color="primary">{t('NumberOfBooksPostedByHallMember')}</Typography>
                     <br />
                     {bookPerMember}
                     <br />
@@ -106,5 +106,5 @@ const mapStateToProps = state => ({
 });
 
 
-
-export default connect(mapStateToProps, {getResidents, getBookStats})(withStyles(styles)(hallStats));
+const hallStats1 = withTranslation()(hallStats);
+export default connect(mapStateToProps, {getResidents, getBookStats})(withStyles(styles)(hallStats1));

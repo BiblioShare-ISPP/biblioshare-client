@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import MyButton from '../util/MyButton';
+import { withTranslation } from 'react-i18next';
 // Redux stuff
 import { connect } from 'react-redux';
 import { editUserDetails } from '../redux/actions/userActions';
@@ -73,10 +74,11 @@ class EditDetails extends Component {
   render() {
     const { classes } = this.props;
     const {errors} = this.state;
+    const { t } = this.props;
     return (
       <Fragment>
         <MyButton
-          tip="Edit Details"
+          tip={t('editProfile')}
           onClick={this.handleOpen}
           btnClassName={classes.button}
         >
@@ -88,7 +90,7 @@ class EditDetails extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <DialogTitle>Edit your details</DialogTitle>
+          <DialogTitle>{t('editDetails')}</DialogTitle>
           <DialogContent>
             <form>
               <TextField
@@ -97,7 +99,7 @@ class EditDetails extends Component {
                 label="Bio"
                 multiline
  
-                placeholder="A short bio about yourself"
+                placeholder= {t('bio')}
                 className={classes.textField}
                 value={this.state.bio}
                 onChange={this.handleChange}
@@ -113,10 +115,10 @@ class EditDetails extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+            {t('cancel')}
             </Button>
             <Button onClick={this.handleSubmit} color="primary">
-              Save
+            {t('save')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -134,7 +136,8 @@ const mapStateToProps = (state) => ({
   credentials: state.user.credentials
 });
 
+const EditDetails1 = withTranslation()(EditDetails);
 export default connect(
   mapStateToProps,
   { editUserDetails }
-)(withStyles(styles)(EditDetails));
+)(withStyles(styles)(EditDetails1));

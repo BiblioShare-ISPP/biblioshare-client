@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CustomButton from '../util/CustomButton';
-
+import { withTranslation } from 'react-i18next';
 //MUI
 
 import Dialog from '@material-ui/core/Dialog';
@@ -63,18 +63,19 @@ class ButtonAddCounts extends Component{
             
         };
         const { classes} = this.props;
+        const { t } = this.props;
         return (
             <Fragment>
-                <CustomButton onClick={this.handleOpen} tip="Buy accounts" tipClassName={classes.addButton}>
+                <CustomButton onClick={this.handleOpen} tip={t('buyAccount')} tipClassName={classes.addButton}>
                     <GroupAddIcon color="primary" style={{ fontSize: 30 }}/>
                 </CustomButton>
                 <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
-                    <CustomButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
-                        <CloseIcon />
+                    <CustomButton tip={t('close')} onClick={this.handleClose} tipClassName={classes.closeButton}>
+                        <CloseIcon /> 
                     </CustomButton>
-                    <DialogTitle>Buy Accounts</DialogTitle>
+                    <DialogTitle>{t('buyAccount')}</DialogTitle>
                     <DialogContent>
-                    <Typography variant="h5"  color="primary">200 accounts</Typography>
+                    <Typography variant="h5"  color="primary">{t('200Account')}</Typography>
                     <Typography variant="h6" color="textSecondary">200€</Typography>
                     <br/>
                         <PaypalCheckoutButton order={order} user={this.props.hall.credentials.location}/>
@@ -95,5 +96,5 @@ const mapStateToProps = (state) => ({
   });
 
 
-
-export default connect(mapStateToProps)(withStyles(styles)(ButtonAddCounts));
+const ButtonAddCounts1 = withTranslation()(ButtonAddCounts)
+export default connect(mapStateToProps)(withStyles(styles)(ButtonAddCounts1));

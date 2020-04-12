@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import MyButton from '../util/MyButton';
-
+import { withTranslation } from 'react-i18next';
 //MUI Stuff
 
 import Dialog from '@material-ui/core/Dialog';
@@ -52,10 +52,10 @@ class DeleteBook extends Component {
     }
     render() {
         const { classes } = this.props;
-
+        const { t } = this.props;
         return (
             <Fragment>
-                <MyButton tip="Delete Book" onClick={this.handleOpen} btnClassName={classes.deleteButton}>
+                <MyButton tip={t('deleteBook')} onClick={this.handleOpen} btnClassName={classes.deleteButton}>
                     <DeleteOutline color="error"/>
                 </MyButton>
                 <Dialog
@@ -65,18 +65,18 @@ class DeleteBook extends Component {
                     maxWidth="sm"
                 >
                     <DialogTitle title="a">
-                        Are you sure you want to delete this book?
+                    {t('askDeleteBook')}
                         </DialogTitle>
                     <DialogActions>
 
                         <ThemeProvider theme={theme}>
                             <Button variant="contained" color="primary" className={classes.margin} onClick={this.handleClose}>
-                                Cancel
+                            {t('cancel')}
                         </Button>
                         </ThemeProvider>
                         <ThemeProvider theme={theme1}>
                             <Button variant="contained" color="primary" className={classes.margin} onClick={this.deleteBook}>
-                                Delete
+                            {t('delete')}
                         </Button>
                         </ThemeProvider>
                     </DialogActions>
@@ -92,4 +92,5 @@ DeleteBook.propTypes = {
     bookId: PropTypes.string.isRequired
 }
 
-export default connect(null, { deleteBook })(withStyles(style)(DeleteBook));
+const DeleteBook1 = withTranslation()(DeleteBook)
+export default connect(null, { deleteBook })(withStyles(style)(DeleteBook1));
