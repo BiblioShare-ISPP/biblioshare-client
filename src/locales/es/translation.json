@@ -78,5 +78,6 @@
         "AuthorizationRequired":"Autorización requerida",
         "noRequestForYou":"No hay solicitudes para ti",
         "language": "Cambiar idioma",
-        "currentLanguage": "Español"
+        "currentLanguage": "Español",
+        "ChangeAvailable": "Poner disponible"
 }

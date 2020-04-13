@@ -15,9 +15,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { red } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Redux
 import { connect } from 'react-redux';
+
+//Actions
+import {changeToAvailable } from '../redux/actions/dataAction';
 
 const styles = {
     card: {
@@ -37,7 +41,10 @@ const styles = {
     },
    noTickets: {
         float: 'right', 
-   }
+   },
+   progressSpinner: {
+    position: 'absolute'
+}
 };
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -51,19 +58,31 @@ const ColorButton = withStyles((theme) => ({
 
 class Book extends Component {
 
+    changeToAvailable = () => {
+        this.props.changeToAvailable(this.props.book.bookId);
+    };
+
+
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, price}, user: {authenticated,credentials: { handle,tickets }}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, price}, user: {authenticated,credentials: { handle,tickets }}, UI: {loading}} = this.props;
         const { t } = this.props;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
             <DeleteBook bookId={bookId}/>
-        ): null
+        ): null;
+        const changeToAvailable = authenticated && owner === handle && availability === 'provided' ? (
+            <div className={classes.buttons}>  
+                <Button variant="contained" color="primary" className={classes.noTickets} disabled={loading} onClick={this.changeToAvailable}>
+                {t('ChangeAvailable')}{loading && (<CircularProgress size={30} className={classes.progressSpinner} />)}
+                </Button>
+            </div>
+        ): null; 
         return (
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
-                    {deleteButton}
+                    {deleteButton}{changeToAvailable}
                     <Typography variant="h5" component={Link} to={`/books/${bookId}`} color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
                     <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>
@@ -90,8 +109,11 @@ Book.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user
-  });
-  
+    user: state.user,
+    UI: state.UI,
+});
+
+const mapActionsToProps= { changeToAvailable };
+
 const Book1 = withTranslation()(Book)
-export default connect(mapStateToProps)(withStyles(styles)(Book1));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Book1));

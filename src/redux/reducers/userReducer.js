@@ -1,7 +1,7 @@
 import {
     SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
     REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS,  EDIT_PROFILE,
-    AD_IMAGE_UPLOADED_PROFILE
+    AD_IMAGE_UPLOADED_PROFILE, CHANGE_AVAILABLE
 } from '../types';
 
 
@@ -60,6 +60,17 @@ export default function (state = initialState, action) {
                     }
                 ]
             }
+        case CHANGE_AVAILABLE:
+            if(typeof state.userData.books !== "undefined"){
+                let indexBooks = state.userData.books.findIndex(
+                    (book) => book.bookId === action.payload
+                );
+            
+                state.userData.books[indexBooks].availability = 'available';
+            }
+            return {
+                ...state,       
+            };
         case SET_PROFILE:
             return {
                 ...state,

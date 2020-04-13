@@ -78,6 +78,6 @@
         "AuthorizationRequired":"Authorization required",
         "noRequestForYou":"There aren´t any request for you",
         "language": "Change language",
-        "currentLanguage": "English"
-
+        "currentLanguage": "English",
+        "ChangeAvailable": "Set available"
 }
