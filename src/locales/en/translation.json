@@ -63,7 +63,7 @@
         "Owner": "Owner",
         "Applicant":"Applicant",
         "BookRequested": "Book requested",
-        "RequestBook": "Request ",
+        "RequestBook": "Request book",
         "noComment":"There arent any comment yet...",
         "Comments": "Comments",
         "noUsers":"There arent any BiblioShare user in",
@@ -77,7 +77,6 @@
         "Warning":"Warning",
         "AuthorizationRequired":"Authorization required",
         "noRequestForYou":"There aren´t any request for you",
-        "language": "Change language",
-        "currentLanguage": "English"
+        "SearchByHandle": " Search by handle ..."
 
 }

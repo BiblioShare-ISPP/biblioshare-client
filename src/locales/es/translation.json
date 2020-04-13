@@ -63,7 +63,7 @@
         "Owner": "Propietario",
         "Applicant":"Solicitante",
         "BookRequested": "Libro solicitado",
-        "RequestBook": "Solicitar ",
+        "RequestBook": "Solicitar libro",
         "noComment":"No hay comentarios todavía...",
         "Comments": "Comentarios",
         "noUsers":"No hay usuarios de BiblioShare en",
@@ -77,6 +77,5 @@
         "Warning":"Precaución",
         "AuthorizationRequired":"Autorización requerida",
         "noRequestForYou":"No hay solicitudes para ti",
-        "language": "Cambiar idioma",
-        "currentLanguage": "Español"
+        "SearchByHandle": " Buscar por usuario ..."
 }
