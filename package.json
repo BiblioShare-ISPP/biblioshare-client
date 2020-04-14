@@ -2,6 +2,7 @@
   "name": "biblioshare-client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://europe-west1-ispp-99815.cloudfunctions.net/api",
   "dependencies": {
     "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
@@ -13,6 +14,7 @@
     "browser-image-compression": "^1.0.9",
     "chart.js": "^2.9.3",
     "dayjs": "^1.8.23",
+    "http-proxy-middleware": "^1.0.3",
     "i18next": "^19.3.4",
     "jwt-decode": "^2.2.0",
     "paypal-checkout": "^4.0.311",
@@ -50,7 +52,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://europe-west1-ispp-99815.cloudfunctions.net/api",
   "devDependencies": {
     "@iconify/icons-mdi": "^1.0.83",
     "@iconify/react": "^1.1.3"
