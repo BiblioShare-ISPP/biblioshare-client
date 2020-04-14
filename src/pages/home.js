@@ -25,14 +25,32 @@ const styles = {
     }
 }
 class home extends Component {
+    state = {
+        location: '',
+    };
     componentDidMount(){
         this.props.getBooks();
+    }
+    componentDidUpdate(prevProps){
+        if(prevProps.user.credentials !== this.props.user.credentials){
+            this.setState({
+                location: this.props.user.credentials.location,
+            });
+        }
     };
     render() {
         const {classes, data: {books, loading}, user: {isHallMember, description, image}} = this.props;
         const { t } = this.props;
+        let filteredBooks = books.filter((b) => {
+            if(typeof this.state.location !== "undefined"){
+                return b.location.toLowerCase().indexOf(this.state.location.toLowerCase()) !== -1;
+            }
+            else{
+                return true;
+            }
+        });
         let recentBooksMarkup = loading ? (<BookSkeleton />) : (
-            books.map((book) => 
+            filteredBooks.map((book) => 
                 <Book key={book.bookId} book={book}/>)
         );
         return (
