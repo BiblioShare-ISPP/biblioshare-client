@@ -51,12 +51,13 @@ export default function (state= initialState, action){
                 ]
             };
         case CHANGE_AVAILABLE:
-            let indexBooks = state.books.findIndex(
-                (book) => book.bookId === action.payload
-            );
-        
-            state.books[indexBooks].availability = 'available';
-        
+            if(state.books.length > 0){
+                let indexBooks = state.books.findIndex(
+                    (b) => b.bookId === action.payload
+                );
+                state.books[indexBooks].availability = 'available';    
+            }
+
             return {
                 ...state,
             };
