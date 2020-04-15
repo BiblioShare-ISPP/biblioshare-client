@@ -282,7 +282,7 @@ class PostBook extends Component{
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
                             <div className={classes.divImage}>
-                                <img id="coverImg" alt="Book cover" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/no-cover.jpg?alt=media" width="100px" />
+                                <img id="coverImg" alt="Book cover" src="https://firebasestorage.googleapis.com/v0/b/biblioshare-s3.appspot.com/o/no-cover.jpg?alt=media" width="100px" />
                                 <input type="file" id="coverInput" name="cover" onChange={this.handleImageChange} hidden="hidden" />
                                 <Tooltip title={t('UploadCoverImage')} placement="bottom">
                                     <IconButton className="button" onClick={this.handleUploadCover}>
