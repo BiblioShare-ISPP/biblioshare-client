@@ -36,7 +36,7 @@ import tickets from './pages/tickets';
 
 const theme = createMuiTheme(themeFile);
 
-axios.defaults.baseURL = 'https://europe-west1-ispp-99815.cloudfunctions.net/api';
+axios.defaults.baseURL = 'https://europe-west1-biblioshare-s3.cloudfunctions.net/api';
 
 const token = localStorage.FBIdToken;
 if(token){
