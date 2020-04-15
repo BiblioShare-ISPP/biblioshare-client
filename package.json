@@ -2,7 +2,7 @@
   "name": "biblioshare-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://europe-west1-ispp-99815.cloudfunctions.net/api",
+  "proxy": "https://europe-west1-biblioshare-s3.cloudfunctions.net/api",
   "dependencies": {
     "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
