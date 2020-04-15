@@ -147,7 +147,7 @@ class PostAd extends Component{
                     <DialogContent>
                         <form onSubmit={this.handleSubmit}>
                             <div className={classes.divImage}>
-                                <center><img id="coverImg" alt="Ad" src="https://firebasestorage.googleapis.com/v0/b/ispp-99815.appspot.com/o/AdImage.png?alt=media" width="100px" /></center>
+                                <center><img id="coverImg" alt="Ad" src="https://firebasestorage.googleapis.com/v0/b/biblioshare-s3.appspot.com/o/AdImage.png?alt=media" width="100px" /></center>
                                 <center><input type="file" id="coverInput" name="cover" onChange={this.handleImageChange} hidden="hidden" />
                                 <Tooltip title="Upload add image" placement="bottom">
                                     <IconButton className="button" onClick={this.handleUploadCover}>
