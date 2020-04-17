@@ -32,6 +32,8 @@ const styles = {
 class home extends Component {
     state = {
         location: '',
+        onlyLocation: false,
+        availables: false,
     };
     componentDidMount(){
         this.props.getBooks();
@@ -76,8 +78,8 @@ class home extends Component {
                 <Grid item sm={8} xs={12}>
                     {authenticated ? (
                         <FormGroup row>
-                            <FormControlLabel control={<Switch checked={this.state.checkedB} onChange={this.handleChange} name="availables" color="primary"/>} label="Only availabes"/>
-                            <FormControlLabel control={<Switch checked={this.state.checkedB} onChange={this.handleChange} name="location" color="primary"/>} label="Only my location"/>
+                            <FormControlLabel control={<Switch checked={this.state.availables} onChange={this.handleChange} name="availables" color="primary"/>} label="Only availabes"/>
+                            <FormControlLabel control={<Switch checked={this.state.onlyLocation} onChange={this.handleChange} name="onlyLocation" color="primary"/>} label="Only my location"/>
                         </FormGroup>
                     ) :(null)}
 
