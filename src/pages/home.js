@@ -13,6 +13,11 @@ import BookSkeleton from '../util/BookSkeleton';
 import {connect} from 'react-redux';
 import {getBooks} from '../redux/actions/dataAction';
 
+//MUI
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 const styles = {
     progressBook: {
         margin: '50px 50%'
@@ -38,8 +43,11 @@ class home extends Component {
             });
         }
     };
+    handleChange = (event) => {
+        this.setState({ ...this.state, [event.target.name]: event.target.checked });
+    };
     render() {
-        const {classes, data: {books, loading}, user: {isHallMember, description, image}} = this.props;
+        const {classes, data: {books, loading}, user: {authenticated,isHallMember, description, image}} = this.props;
         const { t } = this.props;
         let filteredBooks = books.filter((b) => {
             if(typeof this.state.location !== "undefined"){
@@ -66,6 +74,13 @@ class home extends Component {
                     null}
                 </Grid>
                 <Grid item sm={8} xs={12}>
+                    {authenticated ? (
+                        <FormGroup row>
+                            <FormControlLabel control={<Switch checked={this.state.checkedB} onChange={this.handleChange} name="availables" color="primary"/>} label="Only availabes"/>
+                            <FormControlLabel control={<Switch checked={this.state.checkedB} onChange={this.handleChange} name="location" color="primary"/>} label="Only my location"/>
+                        </FormGroup>
+                    ) :(null)}
+
                     {recentBooksMarkup.length===0 ?
                         (<Paper className={classes.paper}><p>{t('noBook')}</p></Paper>):recentBooksMarkup}
                 </Grid>
