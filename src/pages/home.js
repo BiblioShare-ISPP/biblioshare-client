@@ -13,6 +13,11 @@ import BookSkeleton from '../util/BookSkeleton';
 import {connect} from 'react-redux';
 import {getBooks} from '../redux/actions/dataAction';
 
+//MUI
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 const styles = {
     progressBook: {
         margin: '50px 50%'
@@ -27,6 +32,8 @@ const styles = {
 class home extends Component {
     state = {
         location: '',
+        onlyLocation: false,
+        onlyAvailables: false
     };
     componentDidMount(){
         this.props.getBooks();
@@ -38,12 +45,19 @@ class home extends Component {
             });
         }
     };
+    handleChange = (event) => {
+        this.setState({ ...this.state, [event.target.name]: event.target.checked });
+    };
     render() {
-        const {classes, data: {books, loading}, user: {isHallMember, description, image}} = this.props;
+        const {classes, data: {books, loading}, user: {authenticated,isHallMember, description, image}} = this.props;
         const { t } = this.props;
         let filteredBooks = books.filter((b) => {
-            if(typeof this.state.location !== "undefined"){
+            if(this.state.onlyLocation === true && this.state.onlyAvailables === false){
                 return b.location.toLowerCase().indexOf(this.state.location.toLowerCase()) !== -1;
+            } else if(this.state.onlyLocation === false && this.state.onlyAvailables === true){
+                return b.availability === "available";
+            } else if(this.state.onlyLocation === true && this.state.onlyAvailables === true){
+                return b.location.toLowerCase().indexOf(this.state.location.toLowerCase()) !== -1 && b.availability === "available";
             }
             else{
                 return true;
@@ -66,6 +80,13 @@ class home extends Component {
                     null}
                 </Grid>
                 <Grid item sm={8} xs={12}>
+                    {authenticated ? (
+                        <FormGroup row>
+                            <FormControlLabel control={<Switch checked={this.state.onlyAvailables} onChange={this.handleChange} name="onlyAvailables" color="primary"/>} label={t('onlyAvailables')}/>
+                            <FormControlLabel control={<Switch checked={this.state.onlyLocation} onChange={this.handleChange} name="onlyLocation" color="primary"/>} label={t('onlyLocation')}/>
+                        </FormGroup>
+                    ) :(null)}
+
                     {recentBooksMarkup.length===0 ?
                         (<Paper className={classes.paper}><p>{t('noBook')}</p></Paper>):recentBooksMarkup}
                 </Grid>

@@ -22,21 +22,23 @@ export const getBooks = () => dispatch =>{
 
 //Find books
 export const findBooks = (query) => dispatch =>{
-    dispatch({ type: LOADING_DATA });
-    axios.get(`/search/${query}`)
-    .then(res => {
-        dispatch({
-            type: SET_BOOKS,
-            payload: res.data
-        });
-    })
-    .catch(err => {
-        console.error(err);
-        dispatch({
-            type: SET_BOOKS,
-            payload: []
+    if(query.length > 0){
+        dispatch({ type: LOADING_DATA });
+        axios.get(`/search/${query}`)
+        .then(res => {
+            dispatch({
+                type: SET_BOOKS,
+                payload: res.data
+            });
         })
-    });
+        .catch(err => {
+            console.error(err);
+            dispatch({
+                type: SET_BOOKS,
+                payload: []
+            })
+        });
+    }
 };
 
 //Post a book
@@ -64,7 +66,6 @@ export const commentBook = (newComment) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post(`/book/${newComment.bookId}/comment`, newComment)
     .then((res) => {
-        console.log(res.data)
         dispatch({
             type: POST_COMMENT,
             payload: res.data
@@ -198,7 +199,6 @@ export const getBooksByUser = (userHandle) => (dispatch) => {
 };
 
 export const deleteBook = (bookId) => (dispatch) => {
-    console.log(bookId)
     axios.delete(`/book/${bookId}`)
     
     .then(() => {

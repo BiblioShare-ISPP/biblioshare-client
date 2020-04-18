@@ -7,7 +7,12 @@ import { withTranslation } from 'react-i18next';
 
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 //Icons
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
@@ -17,9 +22,11 @@ import MuiLink from '@material-ui/core/Link';
 //Redux
 import {connect} from 'react-redux';
 import {logoutUser} from '../redux/actions/userActions';
+import {deleteProfile} from '../redux/actions/userActions';
 import EditDetails from './EditDetails';
 import { uploadImage } from '../redux/actions/userActions';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import MyButton from '../util/MyButton';
 
 
@@ -93,6 +100,13 @@ const styles = (theme) => ({
 });
 
 class UserDetails extends Component {
+    constructor(){
+        super();
+        this.state = {
+            open: false
+        }
+    }
+
     handleLogout = () => {
         this.props.logoutUser();
     };
@@ -102,10 +116,23 @@ class UserDetails extends Component {
         formData.append('image', image, image.name);
         this.props.uploadImage(formData);
       };
-      handleEditPicture = () => {
+    handleEditPicture = () => {
         const fileInput = document.getElementById('imageInput');
         fileInput.click();
       };
+    handleClickOpen = (event) => {
+        this.setState({
+            open: true
+        })
+      };
+    handleClose = (event) => {
+        this.setState({
+            open: false
+        })
+      };
+    handleAccept = (event) => {
+        this.props.deleteProfile();
+    }
     render() {
         const { 
             classes, 
@@ -168,7 +195,35 @@ class UserDetails extends Component {
                         {tickets}{isLoggedUser === true  && (<span>{userData.user.tickets} tickets</span>)}
                     </div>
                     {isLoggedUser ? (
-                        <EditDetails/>
+                        <Fragment>
+                            <Dialog
+                                open={this.state.open}
+                                onClose={this.handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">{t('deleteProfileHeader')}</DialogTitle>
+                                <DialogContent>
+                                <DialogContentText id="alert-dialog-description">{t('deleteProfileBody')}</DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                <Button onClick={this.handleClose} color="primary" autoFocus>
+                                    {t('cancel')}
+                                </Button>
+                                <Button onClick={this.handleAccept} color="primary">
+                                    {t('agree')}
+                                </Button>
+                                </DialogActions>
+                            </Dialog>
+                            <EditDetails/>
+                            <MyButton
+                                    tip= {t('deleteProfile')}
+                                    onClick={this.handleClickOpen}
+                                    btnClassName={classes.button}
+                            >
+                                    <DeleteIcon color="primary" />
+                            </MyButton>
+                        </Fragment>
                     ) : null}
                 </div>
                 { isLoggedUser ? (
@@ -185,10 +240,11 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
-const mapActionsToProps= { logoutUser, uploadImage };
+const mapActionsToProps= { logoutUser, uploadImage, deleteProfile };
 
 UserDetails.propTypes = {
     logoutUser: PropTypes.func.isRequired,
+    deleteProfile: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     uploadImage: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired

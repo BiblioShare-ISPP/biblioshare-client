@@ -116,12 +116,22 @@ export const editUserDetails = (userDetails) => (dispatch) => {
       .catch((err) => console.log(err));
   };
 
-
   export const updateTickets = (handle,tickets) => (dispatch) => {
-    console.log('entro')
     axios.post(`/user/${handle}/${tickets}`)
     .then((res) => {
         dispatch({ type: UPDATE_TICKETS, payload: tickets})
     })
     .catch(err => console.log(err));
 }
+
+export const deleteProfile = () => (dispatch) => {
+    dispatch({ type: LOADING_PROFILE });
+    axios.get(`/deleteUser`)
+    .then((res) => {
+        dispatch(logoutUser());
+        window.location.href = `/login`;
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
