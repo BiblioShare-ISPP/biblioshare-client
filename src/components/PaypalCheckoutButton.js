@@ -47,7 +47,6 @@ const PaypalCheckoutButton = ({ order , user}) => {
     };
 
     const onAuthorize = (data, actions) => {
-        console.log(user.credentials.handle)
         return actions.payment.execute()
             .then(()=>{
                 if(user.credentials.handle !== undefined){

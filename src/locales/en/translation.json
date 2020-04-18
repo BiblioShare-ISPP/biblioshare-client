@@ -80,6 +80,8 @@
         "language": "Change language",
         "currentLanguage": "English",
         "ChangeAvailable": "Make available",
+        "onlyAvailables": "Only availables",
+        "onlyLocation": "Only in my location",
         "deleteProfile": "Delete Profile",
         "deleteProfileHeader": "Delete Profile",
         "deleteProfileBody": "Are you sure you want to delete your profile? All your tickets will be lost",

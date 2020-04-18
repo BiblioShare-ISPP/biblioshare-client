@@ -214,7 +214,6 @@ class PostBook extends Component{
         let formData = await imageCompression(image, options)
             .then(function (compressedImage) {
                 const formData = new FormData();
-                console.log(compressedImage)
                 formData.append('cover', compressedImage, image.name);
                 return formData;
             })
