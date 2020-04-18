@@ -32,6 +32,8 @@ const styles = {
 class home extends Component {
     state = {
         location: '',
+        onlyLocation: false,
+        onlyAvailables: false
     };
     componentDidMount(){
         this.props.getBooks();
@@ -50,8 +52,12 @@ class home extends Component {
         const {classes, data: {books, loading}, user: {authenticated,isHallMember, description, image}} = this.props;
         const { t } = this.props;
         let filteredBooks = books.filter((b) => {
-            if(typeof this.state.location !== "undefined"){
+            if(this.state.onlyLocation === true && this.state.onlyAvailables === false){
                 return b.location.toLowerCase().indexOf(this.state.location.toLowerCase()) !== -1;
+            } else if(this.state.onlyLocation === false && this.state.onlyAvailables === true){
+                return b.availability === "available";
+            } else if(this.state.onlyLocation === true && this.state.onlyAvailables === true){
+                return b.location.toLowerCase().indexOf(this.state.location.toLowerCase()) !== -1 && b.availability === "available";
             }
             else{
                 return true;
@@ -76,8 +82,8 @@ class home extends Component {
                 <Grid item sm={8} xs={12}>
                     {authenticated ? (
                         <FormGroup row>
-                            <FormControlLabel control={<Switch checked={this.state.checkedB} onChange={this.handleChange} name="availables" color="primary"/>} label="Only availabes"/>
-                            <FormControlLabel control={<Switch checked={this.state.checkedB} onChange={this.handleChange} name="location" color="primary"/>} label="Only my location"/>
+                            <FormControlLabel control={<Switch checked={this.state.onlyAvailables} onChange={this.handleChange} name="onlyAvailables" color="primary"/>} label={t('onlyAvailables')}/>
+                            <FormControlLabel control={<Switch checked={this.state.onlyLocation} onChange={this.handleChange} name="onlyLocation" color="primary"/>} label={t('onlyLocation')}/>
                         </FormGroup>
                     ) :(null)}
 

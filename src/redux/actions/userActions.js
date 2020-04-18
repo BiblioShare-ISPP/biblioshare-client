@@ -118,7 +118,6 @@ export const editUserDetails = (userDetails) => (dispatch) => {
 
 
   export const updateTickets = (handle,tickets) => (dispatch) => {
-    console.log('entro')
     axios.post(`/user/${handle}/${tickets}`)
     .then((res) => {
         dispatch({ type: UPDATE_TICKETS, payload: tickets})

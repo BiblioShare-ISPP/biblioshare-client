@@ -80,6 +80,8 @@
         "language": "Change language",
         "currentLanguage": "English",
         "ChangeAvailable": "Make available",
+        "onlyAvailables": "Only availables",
+        "onlyLocation": "Only in my location",
         "acceptThe": "I accept the ",
         "termsAndConditions": "terms of use and privacy policy",
         "termsTitle": "Terms, conditions and privacy policy",

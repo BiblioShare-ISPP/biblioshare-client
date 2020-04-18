@@ -4,9 +4,17 @@ import BookSkeleton from '../util/BookSkeleton';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import Book from '../components/Book';
 import Profile from '../components/Profile';
+
+//MUI
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
+
 
 //Redux
 import {connect} from 'react-redux';
@@ -21,6 +29,8 @@ const styles = (theme) => ({
 class find extends Component {
     state = {
         location: '',
+        onlyLocation: false,
+        onlyAvailables: false
     };
     componentDidMount(){
         const keyword = this.props.match.params.keyword
@@ -33,11 +43,19 @@ class find extends Component {
             });
         }
     };
+    handleChange = (event) => {
+        this.setState({ ...this.state, [event.target.name]: event.target.checked });
+    };
     render() {
-        const {data: {books, loading}, classes} = this.props;
+        const {classes, data: {books, loading}, user: {authenticated,isHallMember, description, image}} = this.props;
+        const { t } = this.props;
         let filteredBooks = books.filter((b) => {
-            if(typeof this.state.location !== "undefined"){
+            if(this.state.onlyLocation === true && this.state.onlyAvailables === false){
                 return b.location.toLowerCase().indexOf(this.state.location.toLowerCase()) !== -1;
+            } else if(this.state.onlyLocation === false && this.state.onlyAvailables === true){
+                return b.availability === "available";
+            } else if(this.state.onlyLocation === true && this.state.onlyAvailables === true){
+                return b.location.toLowerCase().indexOf(this.state.location.toLowerCase()) !== -1 && b.availability === "available";
             }
             else{
                 return true;
@@ -48,10 +66,24 @@ class find extends Component {
             <Grid container spacing={6}>
                 <Grid item sm={4} xs={12}>
                     <Profile/>
+                    {isHallMember ? (
+                        <div className={classes.ad}>
+                            <Typography variant="h5" color="primary">{description}</Typography>
+                            <img alt="Ad" src={image} width="100%"/>
+                        </div>
+                    ):
+                    null}
                 </Grid>
                 <Grid item sm={8} xs={12}>
-                {recentBooksMarkup.length===0 ?
-                    (<Paper className={classes.paper}><p>No results found...</p></Paper>):recentBooksMarkup}
+                    {authenticated ? (
+                        <FormGroup row>
+                            <FormControlLabel control={<Switch checked={this.state.onlyAvailables} onChange={this.handleChange} name="onlyAvailables" color="primary"/>} label={t('onlyAvailables')}/>
+                            <FormControlLabel control={<Switch checked={this.state.onlyLocation} onChange={this.handleChange} name="onlyLocation" color="primary"/>} label={t('onlyLocation')}/>
+                        </FormGroup>
+                    ) :(null)}
+
+                    {recentBooksMarkup.length===0 ?
+                        (<Paper className={classes.paper}><p>{t('noBook')}</p></Paper>):recentBooksMarkup}
                 </Grid>
             </Grid>
         )
@@ -69,5 +101,5 @@ const mapStateToProps = state => ({
     data: state.data,
     user: state.user
 });
-
-export default connect(mapStateToProps,{findBooks})(withStyles(styles)(find));
+const find1 = withTranslation()(find)
+export default connect(mapStateToProps,{findBooks})(withStyles(styles)(find1));
