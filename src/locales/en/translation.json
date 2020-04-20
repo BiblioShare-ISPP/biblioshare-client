@@ -85,6 +85,7 @@
         "deleteProfile": "Delete Profile",
         "deleteProfileHeader": "Delete Profile",
         "deleteProfileBody": "Are you sure you want to delete your profile? All your tickets will be lost",
+        "SearchByHandle": "Search",
         "agree": "Accept",
         "acceptThe": "I accept the ",
         "termsAndConditions": "terms of use and privacy policy",
