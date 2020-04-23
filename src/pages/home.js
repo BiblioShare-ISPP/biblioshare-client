@@ -12,6 +12,7 @@ import BookSkeleton from '../util/BookSkeleton';
 //Redux
 import {connect} from 'react-redux';
 import {getBooks} from '../redux/actions/dataAction';
+import {geoLocateUser} from '../redux/actions/userActions';
 
 //MUI
 import FormGroup from '@material-ui/core/FormGroup';
@@ -30,11 +31,18 @@ const styles = {
     }
 }
 class home extends Component {
-    state = {
-        location: '',
-        onlyLocation: false,
-        onlyAvailables: false
-    };
+    constructor(){
+        super();
+        this.state = {
+            location: '',
+            onlyLocation: false,
+            onlyAvailables: false,
+            lng: '',
+            lat: ''
+        };
+        this.displayLocationInfo = this.displayLocationInfo.bind(this);
+    }
+
     componentDidMount(){
         this.props.getBooks();
     }
@@ -43,8 +51,24 @@ class home extends Component {
             this.setState({
                 location: this.props.user.credentials.location,
             });
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(this.displayLocationInfo);
+            }
+        }
+        if(this.state.lat !== ""){
+            this.props.geoLocateUser(this.state.lng, this.state.lat);
         }
     };
+    displayLocationInfo(position) {
+        const lng = position.coords.longitude;
+        const lat = position.coords.latitude;
+        console.log(`longitude: ${ lng } | latitude: ${ lat }`);
+        this.setState({
+            lng: lng,
+            lat: lat
+        });
+    };
+
     handleChange = (event) => {
         this.setState({ ...this.state, [event.target.name]: event.target.checked });
     };
@@ -97,6 +121,7 @@ class home extends Component {
 
 home.propTypes = {
     getBooks: PropTypes.func.isRequired,
+    geoLocateUser: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired
 };
@@ -105,5 +130,11 @@ const mapStateToProps = state => ({
     data: state.data,
     user: state.user
 });
+
+const mapActionsToProps = {
+    getBooks,
+    geoLocateUser,
+}
+
 const home1 = withTranslation()(home)
-export default connect(mapStateToProps, {getBooks})(withStyles(styles)(home1));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(home1));

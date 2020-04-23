@@ -18,10 +18,10 @@ const reducers = combineReducers({
     hall: hallReducer
 });
 
-
 const store = createStore(reducers, initialState, compose(
     applyMiddleware(...middleware))
 );
+
 
 /*
 const store = createStore(reducers, initialState, compose(
