@@ -56,7 +56,7 @@ class book extends Component {
             strokeColor: "#1976d2",
             fillColor: '#63a4ff',
         };
-        const MyMapComponent = (typeof(book.geo) === "undefined") ?(null): (withScriptjs(withGoogleMap((props) =>
+        const MyMapComponent = ((typeof(book.geo) === "undefined") || Object.entries(book.geo).length === 0) ?(null): (withScriptjs(withGoogleMap((props) =>
         <GoogleMap defaultZoom={14} defaultCenter={{ lat: book.geo.lat, lng: book.geo.lng }}>
             {props.isMarkerShown && <Circle defaultCenter={{ lat: book.geo.lat, lng: book.geo.lng }} radius={1000} options={options}/>}
         </GoogleMap>)));
