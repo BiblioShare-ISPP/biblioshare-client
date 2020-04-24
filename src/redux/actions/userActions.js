@@ -66,6 +66,21 @@ export const updateUser = (newUserData, history) => (dispatch) => {
     });
 };
 
+export const geoLocateUser = (lng, lat) => (dispatch) => {
+    const userGeoLocation = {
+        lng: lng,
+        lat: lat
+    };
+    axios.post('/geo', userGeoLocation)
+    .then((res) => {
+        //Se ha enviado la localizacion del usuario.
+        console.log('Se ha enviado');
+    })
+    .catch((err) => {
+        console.error(err);
+    })
+};
+
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     delete axios.defaults.headers.common['Authorization'];
