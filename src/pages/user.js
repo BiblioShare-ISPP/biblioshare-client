@@ -24,9 +24,13 @@ class user extends Component{
         this.props.getProfileData(handle);
     }
     render(){
-        const {classes, user: {loadingProfile, userData}} = this.props;
+        const {classes, user: {loadingProfile, userData, desiredBooks}} = this.props;
         let recentBooksMarkup = (loadingProfile) ? (<CircularProgress className={classes.progressBook}/>) : (
             userData.books.map((book) => 
+                <Book key={book.bookId} book={book}/>)
+        );
+        let recentdesiredBooksMarkup = (loadingProfile) ? (<CircularProgress className={classes.progressBook}/>) : (
+            desiredBooks.map((book) => 
                 <Book key={book.bookId} book={book}/>)
         );
         return (        
@@ -37,6 +41,8 @@ class user extends Component{
                  <UserDetails/> )}
                  <br/>
                  {recentBooksMarkup}
+                 <br/>
+                 {recentdesiredBooksMarkup}
        
             </Grid>
             </Grid>

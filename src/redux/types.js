@@ -45,6 +45,7 @@ export const COVER_UPLOADED = 'COVER_UPLOADED';
 export const DELETE_BOOK = 'DELETE_BOOK';
 export const POST_COMMENT = 'POST_COMMENT';
 export const CHANGE_AVAILABLE = 'CHANGE_AVAILABLE';
+export const DESIRED_BOOK = 'DESIRED_BOOK';
 
 //Request reducer types
 export const SET_REQUESTS = 'SET_REQUESTS';

@@ -1,4 +1,4 @@
-import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, UPDATE_TICKETS, EDIT_PROFILE, AD_IMAGE_UPLOADED_PROFILE} from '../types';
+import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, UPDATE_TICKETS, EDIT_PROFILE, AD_IMAGE_UPLOADED_PROFILE,DESIRED_BOOK} from '../types';
 import axios from 'axios';
 
 export const loginUser = (userData, history) => (dispatch) => {
@@ -150,3 +150,15 @@ export const deleteProfile = () => (dispatch) => {
         console.log(err);
     });
 };
+
+export const addDesiredBook = (bookId) => (dispatch) => {
+    axios
+      .get(`/book/${bookId}/addWish`)
+      .then((res) => {
+        dispatch({
+          type: DESIRED_BOOK,
+          payload: res.data
+        });
+      })
+      .catch((err) => console.log(err));
+  };

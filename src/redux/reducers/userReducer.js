@@ -1,7 +1,7 @@
 import {
     SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
-    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS,  EDIT_PROFILE,
-    AD_IMAGE_UPLOADED_PROFILE, CHANGE_AVAILABLE
+    REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS, EDIT_PROFILE,
+    AD_IMAGE_UPLOADED_PROFILE, CHANGE_AVAILABLE, DESIRED_BOOK
 } from '../types';
 
 
@@ -13,10 +13,11 @@ const initialState = {
     requests: [],
     notifications: [],
     userData: {},
+    desiredBooks : [],
     isHallMember: false,
     hallImage: '',
     image: null,
-    description: null    
+    description: null
 };
 
 export default function (state = initialState, action) {
@@ -61,15 +62,15 @@ export default function (state = initialState, action) {
                 ]
             }
         case CHANGE_AVAILABLE:
-            if(typeof state.userData.books !== "undefined"){
+            if (typeof state.userData.books !== "undefined") {
                 let indexBooks = state.userData.books.findIndex(
                     (book) => book.bookId === action.payload
                 );
-            
+
                 state.userData.books[indexBooks].availability = 'available';
             }
             return {
-                ...state,       
+                ...state,
             };
         case SET_PROFILE:
             return {
@@ -108,15 +109,15 @@ export default function (state = initialState, action) {
             return {
                 ...state
             }
-        
+
         case UPDATE_TICKETS:
             return {
                 ...state,
                 credentials: {
                     ...state.credentials,
                     tickets: state.credentials.tickets + action.payload,
-                    }
-                };
+                }
+            };
         case EDIT_PROFILE:
             return {
                 ...state,
@@ -124,13 +125,13 @@ export default function (state = initialState, action) {
                     ...state.credentials,
                     bio: action.payload.bio,
                     location: action.payload.location
-                    }
-                    
-                };
+                }
+
+            };
         case AD_IMAGE_UPLOADED_PROFILE:
-            return{
+            return {
                 ...state,
-                loading:false,
+                loading: false,
                 credentials: {
                     ...state.credentials,
                     imageUrl: action.payload
@@ -140,9 +141,16 @@ export default function (state = initialState, action) {
                     user: {
                         ...state.userData.user,
                         imageUrl: action.payload
-                    }  
+                    }
                 }
             }
+        case DESIRED_BOOK:
+            state.desiredBooks.unshift(action.payload);
+            
+            return {
+                ...state,
+            }
+
         default:
             return state;
     }
