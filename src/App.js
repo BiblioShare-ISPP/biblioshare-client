@@ -29,13 +29,14 @@ import hall from './pages/hall';
 import hallLogin from './pages/hallLogin';
 import hallSignup from './pages/hallSignup';
 import hallStats from './pages/hallStats';
+import find from './pages/find';
 
 import { logoutHall, getHallData } from './redux/actions/hallAction';
 import tickets from './pages/tickets';
 
 const theme = createMuiTheme(themeFile);
 
-axios.defaults.baseURL = 'https://europe-west1-ispp-99815.cloudfunctions.net/api';
+axios.defaults.baseURL = 'https://europe-west1-biblioshare-s3.cloudfunctions.net/api';
 
 const token = localStorage.FBIdToken;
 if(token){
@@ -78,6 +79,7 @@ function App() {
               <Route exact path="/hall/stats" component={hallStats}/>
               <Route exact path='/requests/:handle' component={request}/>
               <Route exact path="/myRequests" component={myrequest}/>
+              <Route exact path="/find/:keyword" component={find}/>
               <Route exact path="/books/:bookId" component={book} />
               <Route exact path="/users/:handle" component={user} />
               <Route exact path="/ticket" component={tickets} />

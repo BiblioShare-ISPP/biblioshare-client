@@ -1,4 +1,4 @@
-import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, DELETE_BOOK, SET_OFFERS, POST_COMMENT } from '../types';
+import {LOADING_UI, POST_BOOK, SET_ERRORS, CLEAR_ERRORS, LOADING_DATA, SET_BOOKS, SET_BOOK, CHECK_ISBN, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, DELETE_BOOK, SET_OFFERS, POST_COMMENT, CHANGE_AVAILABLE } from '../types';
 import axios from 'axios';
 
 
@@ -22,21 +22,23 @@ export const getBooks = () => dispatch =>{
 
 //Find books
 export const findBooks = (query) => dispatch =>{
-    dispatch({ type: LOADING_DATA });
-    axios.get(`/search/${query}`)
-    .then(res => {
-        dispatch({
-            type: SET_BOOKS,
-            payload: res.data
-        });
-    })
-    .catch(err => {
-        console.error(err);
-        dispatch({
-            type: SET_BOOKS,
-            payload: []
+    if(query.length > 0){
+        dispatch({ type: LOADING_DATA });
+        axios.get(`/search/${query}`)
+        .then(res => {
+            dispatch({
+                type: SET_BOOKS,
+                payload: res.data
+            });
         })
-    });
+        .catch(err => {
+            console.error(err);
+            dispatch({
+                type: SET_BOOKS,
+                payload: []
+            })
+        });
+    }
 };
 
 //Post a book
@@ -64,7 +66,6 @@ export const commentBook = (newComment) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post(`/book/${newComment.bookId}/comment`, newComment)
     .then((res) => {
-        console.log(res.data)
         dispatch({
             type: POST_COMMENT,
             payload: res.data
@@ -96,6 +97,20 @@ export const getBookData = (bookId) => (dispatch) => {
             payload: null
         })
     });
+};
+
+//Change to available
+
+export const changeToAvailable = (bookId) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.get(`/book/${bookId}/available`)
+    .then((res) => {
+        dispatch({
+            type:CHANGE_AVAILABLE,
+            payload: res.data
+        });
+    })
+    .catch( err => console.log(err));
 };
 
 //Upload cover
@@ -184,7 +199,6 @@ export const getBooksByUser = (userHandle) => (dispatch) => {
 };
 
 export const deleteBook = (bookId) => (dispatch) => {
-    console.log(bookId)
     axios.delete(`/book/${bookId}`)
     
     .then(() => {

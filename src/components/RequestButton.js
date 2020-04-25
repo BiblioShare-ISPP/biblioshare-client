@@ -5,7 +5,10 @@ import { withTranslation } from 'react-i18next';
 // REdux
 import { connect } from 'react-redux';
 import { requestBook } from '../redux/actions/requestAction';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
+
+//Icons
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 
 const styles = {
     requestButton: {
@@ -31,7 +34,7 @@ export class RequestButton extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, price } = this.props;
     const { t } = this.props;
     const requestButton = this.requestedBook() ? (
       <Button variant="contained" color="primary" className={classes.requestButton} disabled>
@@ -39,7 +42,7 @@ export class RequestButton extends Component {
       </Button>
     ) : (
       <Button variant="contained" color="primary" className={classes.requestButton} onClick={this.requestBook}>
-        {t('RequestBook')}
+        <Typography variant="body1" color="secondary">{t('RequestBook')} {price} </Typography><ConfirmationNumberIcon color="secondary" />
       </Button>
     );
     return requestButton;
@@ -49,6 +52,7 @@ export class RequestButton extends Component {
 RequestButton.propTypes = {
   user: PropTypes.object.isRequired,
   bookId: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   requestBook: PropTypes.func.isRequired,
 };
 

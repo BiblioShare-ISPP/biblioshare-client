@@ -66,6 +66,21 @@ export const updateUser = (newUserData, history) => (dispatch) => {
     });
 };
 
+export const geoLocateUser = (lng, lat) => (dispatch) => {
+    const userGeoLocation = {
+        lng: lng,
+        lat: lat
+    };
+    axios.post('/geo', userGeoLocation)
+    .then((res) => {
+        //Se ha enviado la localizacion del usuario.
+        console.log('Se ha enviado');
+    })
+    .catch((err) => {
+        console.error(err);
+    })
+};
+
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     delete axios.defaults.headers.common['Authorization'];
@@ -116,12 +131,22 @@ export const editUserDetails = (userDetails) => (dispatch) => {
       .catch((err) => console.log(err));
   };
 
-
   export const updateTickets = (handle,tickets) => (dispatch) => {
-    console.log('entro')
     axios.post(`/user/${handle}/${tickets}`)
     .then((res) => {
         dispatch({ type: UPDATE_TICKETS, payload: tickets})
     })
     .catch(err => console.log(err));
 }
+
+export const deleteProfile = () => (dispatch) => {
+    dispatch({ type: LOADING_PROFILE });
+    axios.get(`/deleteUser`)
+    .then((res) => {
+        dispatch(logoutUser());
+        window.location.href = `/login`;
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};

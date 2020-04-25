@@ -1,74 +1,48 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Typography from '@material-ui/core/Typography';
+import BookSkeleton from '../util/BookSkeleton';
 import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+
 import Book from '../components/Book';
 import Profile from '../components/Profile';
-import BookSkeleton from '../util/BookSkeleton';
-
-//Redux
-import {connect} from 'react-redux';
-import {getBooks} from '../redux/actions/dataAction';
-import {geoLocateUser} from '../redux/actions/userActions';
 
 //MUI
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
 
-const styles = {
-    progressBook: {
-        margin: '50px 50%'
-    },
-    ad: {
-        margin: '10px'
-    },
+
+//Redux
+import {connect} from 'react-redux';
+import {findBooks} from '../redux/actions/dataAction';
+
+const styles = (theme) => ({
     paper: {
         padding: 20
     }
-}
-class home extends Component {
-    constructor(){
-        super();
-        this.state = {
-            location: '',
-            onlyLocation: false,
-            onlyAvailables: false,
-            lng: '',
-            lat: ''
-        };
-        this.displayLocationInfo = this.displayLocationInfo.bind(this);
-    }
+})
 
+class find extends Component {
+    state = {
+        location: '',
+        onlyLocation: false,
+        onlyAvailables: false
+    };
     componentDidMount(){
-        this.props.getBooks();
+        const keyword = this.props.match.params.keyword
+        this.props.findBooks(keyword);
     }
     componentDidUpdate(prevProps){
         if(prevProps.user.credentials !== this.props.user.credentials){
             this.setState({
                 location: this.props.user.credentials.location,
             });
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(this.displayLocationInfo);
-            }
-        }
-        if(this.state.lat !== ""){
-            this.props.geoLocateUser(this.state.lng, this.state.lat);
         }
     };
-    displayLocationInfo(position) {
-        const lng = position.coords.longitude;
-        const lat = position.coords.latitude;
-        console.log(`longitude: ${ lng } | latitude: ${ lat }`);
-        this.setState({
-            lng: lng,
-            lat: lat
-        });
-    };
-
     handleChange = (event) => {
         this.setState({ ...this.state, [event.target.name]: event.target.checked });
     };
@@ -87,10 +61,7 @@ class home extends Component {
                 return true;
             }
         });
-        let recentBooksMarkup = loading ? (<BookSkeleton />) : (
-            filteredBooks.map((book) => 
-                <Book key={book.bookId} book={book}/>)
-        );
+        let recentBooksMarkup = loading ? (<BookSkeleton />) : (filteredBooks.map((book) => <Book key={book.bookId} book={book}/>));
         return (
             <Grid container spacing={6}>
                 <Grid item sm={4} xs={12}>
@@ -119,22 +90,16 @@ class home extends Component {
     }
 }
 
-home.propTypes = {
-    getBooks: PropTypes.func.isRequired,
-    geoLocateUser: PropTypes.func.isRequired,
+find.propTypes = {
+    findBooks: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
     data: state.data,
     user: state.user
 });
-
-const mapActionsToProps = {
-    getBooks,
-    geoLocateUser,
-}
-
-const home1 = withTranslation()(home)
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(home1));
+const find1 = withTranslation()(find)
+export default connect(mapStateToProps,{findBooks})(withStyles(styles)(find1));

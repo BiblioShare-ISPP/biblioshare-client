@@ -99,7 +99,6 @@ export const postAd = (newAd) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/ad', newAd)
     .then((res) => {
-        console.log(res.data)
         dispatch({
             type: SET_AD,
             payload: res.data

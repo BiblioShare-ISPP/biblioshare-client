@@ -1,4 +1,4 @@
-import { POST_BOOK,  SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN, DELETE_BOOK, SET_OFFERS, POST_COMMENT} from '../types';
+import { POST_BOOK,  SET_BOOKS, SET_BOOK, LOADING_DATA, CHECK_ISBN, DELETE_BOOK, SET_OFFERS, POST_COMMENT, CHANGE_AVAILABLE} from '../types';
 
 const initialState = {
     books: [],
@@ -50,14 +50,25 @@ export default function (state= initialState, action){
                     action.payload
                 ]
             };
-        case DELETE_BOOK:
-            
-            let index = state.books.findIndex(book => book.bookId === action.payload);
-            state.books.splice(index,1);
-            
-            return {
-                ...state
+        case CHANGE_AVAILABLE:
+            if(state.books.length > 0){
+                let indexBooks = state.books.findIndex(
+                    (b) => b.bookId === action.payload
+                );
+                state.books[indexBooks].availability = 'available';    
             }
+
+            return {
+                ...state,
+            };
+        case DELETE_BOOK:
+        
+        let index = state.books.findIndex(book => book.bookId === action.payload);
+        state.books.splice(index,1);
+        
+        return {
+            ...state
+        }
         case SET_OFFERS:
             return{
                 ...state,

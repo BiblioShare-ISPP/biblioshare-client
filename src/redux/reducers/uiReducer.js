@@ -1,5 +1,5 @@
 import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, ISBN_CHECKED, CHECKING_ISBN, ISBN_ERRORS, COVER_UPLOADED, AD_IMAGE_UPLOADED, SET_AD,
-        SET_ERRORS_HALL, CLEAR_ERRORS_HALL } from '../types';
+        SET_ERRORS_HALL, CLEAR_ERRORS_HALL, CHANGE_AVAILABLE } from '../types';
 
 const initialState = {
     loading: false,
@@ -80,6 +80,11 @@ export default function(state= initialState, action){
                 ...state,
                 loadingISBN: false,
                 errors: null
+            };
+        case CHANGE_AVAILABLE:
+            return {
+                ...state,
+                loading: false
             };
         default:
             return state;

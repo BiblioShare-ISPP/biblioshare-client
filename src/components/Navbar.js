@@ -12,7 +12,6 @@ import { withTranslation } from 'react-i18next';
 //MUI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, withStyles } from '@material-ui/core/styles';
@@ -23,6 +22,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import AppBarCollapseOut from './AppBar/AppBarCollapsedOut';
+import AppBarCollapseLogged from './AppBar/AppBarCollapsedLogged';
 
 class Navbar extends Component {
     constructor(){
@@ -48,7 +49,15 @@ class Navbar extends Component {
             loading: true
         });
         this.props.findBooks(this.state.keyword);
-        history.push(`/find/${this.state.keyword}`);
+        var array = window.location.pathname.split("/");
+        if((window.location.pathname.split("/").length - 1)===1 && array[1]===""){
+            history.push(`/find/${this.state.keyword}`);
+        }else{
+            if(this.state.keyword.length > 0){
+                window.location.href = `/find/${this.state.keyword}`;
+            }
+        }
+        
     };
     handleHome = () =>{
         this.props.getBooks();
@@ -114,7 +123,7 @@ class Navbar extends Component {
                                 <LocalLibraryIcon color="secondary"/>
                             </CustomBotton>
                             </Link>
-                            <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
+                            <AppBarCollapseLogged t={t}/>
                         </Fragment>
                     ) : (
                         <Fragment>
@@ -134,21 +143,7 @@ class Navbar extends Component {
                                 <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
                             </Fragment>
                             ) : (
-                                <Fragment>
-                                    <Button color="inherit" component={Link} to="/login">
-                                    {t('login')}
-                                    </Button>
-                                    <Button color="inherit" component={Link} to="/">
-                                    {t('home')}
-                                    </Button>
-                                    <Button color="inherit" component={Link} to="/signup">
-                                    {t('signup')}
-                                    </Button>
-                                    <Button color="inherit" component={Link} to="/hall/login">
-                                    {t('hall')}
-                                    </Button>
-                                    <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
-                            </Fragment>
+                                <AppBarCollapseOut t={t}/>
                             )}
                         </Fragment>
                     )}
@@ -173,7 +168,10 @@ const mapStateToProps = state => ({
     data: state.data,
     authenticatedHall : state.hall.authenticated
 });
-
+const mapActionsToProps = {
+    findBooks,
+    getBooks
+}
 const styles = theme => ({
     search: {
         position: 'relative',
@@ -214,4 +212,4 @@ const styles = theme => ({
       },
 });
 const Navbar1 = withTranslation()(Navbar)
-export default  connect(mapStateToProps,{findBooks, getBooks})(withStyles(styles)(Navbar1));
+export default  connect(mapStateToProps,mapActionsToProps)(withStyles(styles)(Navbar1));
