@@ -24,15 +24,12 @@ class user extends Component{
         this.props.getProfileData(handle);
     }
     render(){
-        const {classes, user: {loadingProfile, userData, desiredBooks}} = this.props;
+        const {classes, user: {loadingProfile, userData}} = this.props;
         let recentBooksMarkup = (loadingProfile) ? (<CircularProgress className={classes.progressBook}/>) : (
             userData.books.map((book) => 
                 <Book key={book.bookId} book={book}/>)
         );
-        let recentdesiredBooksMarkup = (loadingProfile) ? (<CircularProgress className={classes.progressBook}/>) : (
-            desiredBooks.map((book) => 
-                <Book key={book.bookId} book={book}/>)
-        );
+       
         return (        
             <Grid container spacing={3}  justify="center"> 
            
@@ -42,7 +39,7 @@ class user extends Component{
                  <br/>
                  {recentBooksMarkup}
                  <br/>
-                 {recentdesiredBooksMarkup}
+                 
        
             </Grid>
             </Grid>

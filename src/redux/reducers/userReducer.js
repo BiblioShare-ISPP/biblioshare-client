@@ -1,7 +1,7 @@
 import {
     SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE,
     REQUEST_BOOK, ACCEPTED_REQUEST, DELETE_BOOK, POST_BOOK, DELETE_REQUEST, UPDATE_TICKETS, EDIT_PROFILE,
-    AD_IMAGE_UPLOADED_PROFILE, CHANGE_AVAILABLE, DESIRED_BOOK
+    AD_IMAGE_UPLOADED_PROFILE, CHANGE_AVAILABLE, DESIRED_BOOK, DELETE_DESIRED_BOOK
 } from '../types';
 
 
@@ -13,7 +13,7 @@ const initialState = {
     requests: [],
     notifications: [],
     userData: {},
-    desiredBooks : [],
+    desireds : [],
     isHallMember: false,
     hallImage: '',
     image: null,
@@ -145,11 +145,20 @@ export default function (state = initialState, action) {
                 }
             }
         case DESIRED_BOOK:
-            state.desiredBooks.unshift(action.payload);
+            state.desireds.unshift(action.payload);
             
             return {
                 ...state,
             }
+        
+        case DELETE_DESIRED_BOOK:
+
+            let index6 = state.desireds.findIndex(book => book.bookId === action.payload.bookId);
+            state.desireds.splice(index6, 1);
+    
+            return {
+                ...state
+                }
 
         default:
             return state;

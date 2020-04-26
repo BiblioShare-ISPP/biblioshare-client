@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import Book from '../components/Book';
+import DesiredBook from '../components/DesiredBook';
 import Profile from '../components/Profile';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -16,12 +16,12 @@ import {connect} from 'react-redux';
 class desiredBook extends Component {
     
     render() {        
-        const desiredBooks = this.props.user.desiredBooks;
+        const desireds = this.props.user.desireds;
         const { t } = this.props;
         const authenticated= this.props.user.authenticated;
-        let recentDesiredBooksMarkup = authenticated  ? ( desiredBooks[0]  ?(
-            desiredBooks.map((desiredBook) => 
-                <Book key={desiredBook.bookId} desiredBook={desiredBook}/>)) : 
+        let recentDesiredBooksMarkup = authenticated  ? ( desireds[0]  ?(
+            desireds.map((book) => 
+                <DesiredBook key={book.bookId} book={book}/>)) : 
                 <Card >
                 <CardContent >
                      <Typography variant="h5" color="textPrimary" component="h2" ><InfoIcon />{t('Information')}</Typography>

@@ -198,6 +198,8 @@
         "noDesiredBooks": "No hay ningún libro en tu lista de deseados",
         "wishList": "Lista deseados",
         "DesiredBook": "Añadido a deseados",
-        "AddWishList": "Añadir a deseados"
+        "AddWishList": "Añadir a deseados",
+        "Added": "Añadido",
+        "askDeleteDesiredBook": "¿Estás seguro que quieres borrar este libro de tus deseados?"
 
 }

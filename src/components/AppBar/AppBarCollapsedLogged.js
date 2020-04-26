@@ -4,7 +4,9 @@ import { withStyles } from "@material-ui/core/styles";
 import ButtonAppBarCollapseLogged from "./ButtonAppBarCollapsedLogged";
 import CustomButtonText from '../../util/CustomButtonText';
 import { withTranslation } from 'react-i18next';
-
+import {Link} from 'react-router-dom';
+import CustomBotton from '../../util/CustomButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 const styles = theme => ({
   root: {
     position: "relative",
@@ -45,12 +47,24 @@ class AppBarCollapseLogged extends Component {
         return(
             <div className={classes.root}>
             <ButtonAppBarCollapseLogged>
+            <MenuItem><Link to="/wishList">
+                            <CustomBotton tip={t('wishList')}>
+                                <FavoriteIcon color="primary"/>
+                            </CustomBotton>
+                            </Link></MenuItem>
                 <MenuItem><CustomButtonText tip={t('language')} text={t('currentLanguage') } onClick={this.handleChangeLanguage}/></MenuItem>
+                
             </ButtonAppBarCollapseLogged>
             <div className={classes.buttonBar} id="appbar-collapse">
+            <Link to="/wishList">
+                            <CustomBotton tip={t('wishList')}>
+                                <FavoriteIcon color="secondary"/>
+                            </CustomBotton>
+            </Link>
             <Fragment>
               <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
             </Fragment>
+           
             </div>
           </div>
         );

@@ -9,7 +9,7 @@ import { Button, Typography } from '@material-ui/core';
 
 //Icons
 import FavoriteIcon from '@material-ui/icons/Favorite';
-
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 const styles = {
     buttonWish: {
        float: 'right'
@@ -19,8 +19,8 @@ const styles = {
 export class ButtonWish extends Component {
   desiredBook = () => {
     if (
-      this.props.user.desiredBooks &&
-      this.props.user.desiredBooks.find(
+      this.props.user.desireds &&
+      this.props.user.desireds.find(
         (book) => book.bookId === this.props.bookId
       )
     ){
@@ -38,11 +38,11 @@ export class ButtonWish extends Component {
     const { t } = this.props;
     const ButtonWish = this.desiredBook() ? (
       <Button variant="contained" color="primary" className={classes.buttonWish} disabled>
-          {t('DesiredBook')}
-      </Button>
+         <FavoriteIcon color="primary" />
+      </Button>  
     ) : (
-      <Button variant="contained" color="primary" className={classes.buttonWish} onClick={this.addDesiredBook}>
-        <Typography variant="body1" color="secondary">+ </Typography><FavoriteIcon color="secondary" />
+      <Button  variant="contained" color="primary" className={classes.buttonWish} onClick={this.addDesiredBook}>
+        <Typography variant="body1" color="secondary">+ </Typography><FavoriteBorderIcon color="secondary" />
       </Button>
     );
     return ButtonWish;

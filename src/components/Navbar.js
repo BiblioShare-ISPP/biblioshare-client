@@ -24,7 +24,7 @@ import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import AppBarCollapseOut from './AppBar/AppBarCollapsedOut';
 import AppBarCollapseLogged from './AppBar/AppBarCollapsedLogged';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+
 class Navbar extends Component {
     constructor(){
         super();
@@ -121,11 +121,6 @@ class Navbar extends Component {
                             <Link to="/myRequests">
                             <CustomBotton tip={t('myrequests')}>
                                 <LocalLibraryIcon color="secondary"/>
-                            </CustomBotton>
-                            </Link>
-                            <Link to="/wishList">
-                            <CustomBotton tip={t('wishList')}>
-                                <FavoriteIcon color="secondary"/>
                             </CustomBotton>
                             </Link>
                             <AppBarCollapseLogged t={t}/>

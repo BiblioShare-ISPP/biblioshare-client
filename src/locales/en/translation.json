@@ -198,5 +198,7 @@
         "noDesiredBooks": "There is no book on your wish list",
         "wishList": "Wish list",
         "DesiredBook": "Added to desired",
-        "AddWishList": "Add to desired"
+        "AddWishList": "Add to desired",
+        "Added": "Added",
+        "askDeleteDesiredBook": "Are you sure you want to delete this book of your desired?"
 }

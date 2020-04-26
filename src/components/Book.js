@@ -97,9 +97,9 @@ class Book extends Component {
                     {t('noTickets')}
                     </ColorButton>
                     ) : null}
-                     { (!isOwner && authenticated && availability === 'provided') ? (
-                    <ButtonWish bookId={bookId}/>
-                    ) : null}
+                     {authenticated? (!isOwner  && availability === 'provided') ? (
+                    <ButtonWish bookId={bookId} />
+                    ) : null: null }
                 </CardContent>
             </Card>
         );
