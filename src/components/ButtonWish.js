@@ -35,7 +35,6 @@ export class ButtonWish extends Component {
 
   render() {
     const { classes } = this.props;
-    const { t } = this.props;
     const ButtonWish = this.desiredBook() ? (
       <Button variant="contained" color="primary" className={classes.buttonWish} disabled>
          <FavoriteIcon color="primary" />
