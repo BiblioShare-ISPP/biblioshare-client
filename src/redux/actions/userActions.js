@@ -1,4 +1,4 @@
-import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, UPDATE_TICKETS, EDIT_PROFILE, AD_IMAGE_UPLOADED_PROFILE} from '../types';
+import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, SET_PROFILE, LOADING_PROFILE, UPDATE_TICKETS, EDIT_PROFILE, AD_IMAGE_UPLOADED_PROFILE,DESIRED_BOOK, DELETE_DESIRED_BOOK} from '../types';
 import axios from 'axios';
 
 export const loginUser = (userData, history) => (dispatch) => {
@@ -74,7 +74,6 @@ export const geoLocateUser = (lng, lat) => (dispatch) => {
     axios.post('/geo', userGeoLocation)
     .then((res) => {
         //Se ha enviado la localizacion del usuario.
-        console.log('Se ha enviado');
     })
     .catch((err) => {
         console.error(err);
@@ -150,3 +149,29 @@ export const deleteProfile = () => (dispatch) => {
         console.log(err);
     });
 };
+
+export const addDesiredBook = (bookId) => (dispatch) => {
+   
+    axios
+      .get(`/wish/${bookId}`)
+      .then((res) => {
+        dispatch({
+          type: DESIRED_BOOK,
+          payload: res.data
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  export const removeDesiredBook = (bookId) => (dispatch) => {
+   
+    axios
+      .get(`/unwish/${bookId}`)
+      .then((res) => {
+        dispatch({
+          type: DELETE_DESIRED_BOOK,
+          payload: res.data
+        });
+      })
+      .catch((err) => console.log(err));
+  };

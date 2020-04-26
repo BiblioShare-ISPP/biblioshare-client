@@ -29,6 +29,7 @@ class user extends Component{
             userData.books.map((book) => 
                 <Book key={book.bookId} book={book}/>)
         );
+       
         return (        
             <Grid container spacing={3}  justify="center"> 
            
@@ -37,6 +38,8 @@ class user extends Component{
                  <UserDetails/> )}
                  <br/>
                  {recentBooksMarkup}
+                 <br/>
+                 
        
             </Grid>
             </Grid>

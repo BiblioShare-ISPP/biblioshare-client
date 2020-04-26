@@ -30,9 +30,11 @@ import hallLogin from './pages/hallLogin';
 import hallSignup from './pages/hallSignup';
 import hallStats from './pages/hallStats';
 import find from './pages/find';
+import desiredBook from './pages/desiredBook';
 
 import { logoutHall, getHallData } from './redux/actions/hallAction';
 import tickets from './pages/tickets';
+import terms from './pages/terms';
 
 const theme = createMuiTheme(themeFile);
 
@@ -79,10 +81,12 @@ function App() {
               <Route exact path="/hall/stats" component={hallStats}/>
               <Route exact path='/requests/:handle' component={request}/>
               <Route exact path="/myRequests" component={myrequest}/>
+              <Route exact path="/wishList" component={desiredBook}/>
               <Route exact path="/find/:keyword" component={find}/>
               <Route exact path="/books/:bookId" component={book} />
               <Route exact path="/users/:handle" component={user} />
               <Route exact path="/ticket" component={tickets} />
+              <Route exact path="/terms" component={terms} />
             </Switch>
         </div>
         </Router>
