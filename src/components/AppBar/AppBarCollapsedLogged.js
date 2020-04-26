@@ -6,9 +6,10 @@ import ButtonAppBarCollapseLogged from "./ButtonAppBarCollapsedLogged";
 import CustomButtonText from '../../util/CustomButtonText';
 import CustomButtonTextTerms from '../../util/CustomButtonTextTerms';
 import { withTranslation } from 'react-i18next';
-import SubjectIcon from '@material-ui/icons/Subject';
+import {Link} from 'react-router-dom';
 import CustomBotton from '../../util/CustomButton';
-
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import SubjectIcon from '@material-ui/icons/Subject';
 const styles = theme => ({
   root: {
     position: "relative",
@@ -49,10 +50,20 @@ class AppBarCollapseLogged extends Component {
         return(
             <div className={classes.root}>
             <ButtonAppBarCollapseLogged>
+            <MenuItem><Link to="/wishList">
+                            <CustomBotton tip={t('wishList')}>
+                                <FavoriteIcon color="primary"/>
+                            </CustomBotton>
+                            </Link></MenuItem>
                 <MenuItem><CustomButtonText tip={t('language')} text={t('currentLanguage') } onClick={this.handleChangeLanguage}/></MenuItem>
                 <MenuItem><Link to="/terms"><CustomButtonTextTerms tip={t('terms')} text={t('terms') }/></Link></MenuItem>
             </ButtonAppBarCollapseLogged>
             <div className={classes.buttonBar} id="appbar-collapse">
+            <Link to="/wishList">
+                            <CustomBotton tip={t('wishList')}>
+                                <FavoriteIcon color="secondary"/>
+                            </CustomBotton>
+            </Link>
             <Fragment>
               <Link to="/terms">
                 <CustomBotton tip={t('terms')}>
@@ -61,6 +72,7 @@ class AppBarCollapseLogged extends Component {
               </Link>
               <CustomButtonText tip={t('language')} text={t('currentLanguage')} onClick={this.handleChangeLanguage} />
             </Fragment>
+           
             </div>
           </div>
         );

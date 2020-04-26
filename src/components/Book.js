@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import PropTypes from 'prop-types';
 import RequestButton from './RequestButton';
+import ButtonWish from './ButtonWish'
 import DeleteBook from './DeleteBook';
 import { withTranslation } from 'react-i18next';
 //MUI
@@ -96,6 +97,9 @@ class Book extends Component {
                     {t('noTickets')}
                     </ColorButton>
                     ) : null}
+                     {authenticated? (!isOwner  && availability === 'provided') ? (
+                    <ButtonWish bookId={bookId} />
+                    ) : null: null }
                 </CardContent>
             </Card>
         );

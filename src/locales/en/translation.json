@@ -195,6 +195,11 @@
         "bp89": "If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us at biblioshareispp@gmail.com.",
         "hp9": "Children's Information",
         "bp91": "Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.",
-        "bp92": "Biblioshare does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records."
-
+        "bp92": "Biblioshare does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.",
+        "noDesiredBooks": "There is no book on your wish list",
+        "wishList": "Wish list",
+        "DesiredBook": "Added to desired",
+        "AddWishList": "Add to desired",
+        "Added": "Added",
+        "askDeleteDesiredBook": "Are you sure you want to delete this book of your desired?"
 }
