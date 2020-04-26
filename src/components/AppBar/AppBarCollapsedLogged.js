@@ -6,7 +6,7 @@ import ButtonAppBarCollapseLogged from "./ButtonAppBarCollapsedLogged";
 import CustomButtonText from '../../util/CustomButtonText';
 import CustomButtonTextTerms from '../../util/CustomButtonTextTerms';
 import { withTranslation } from 'react-i18next';
-import {Link} from 'react-router-dom';
+
 import CustomBotton from '../../util/CustomButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import SubjectIcon from '@material-ui/icons/Subject';
