@@ -79,6 +79,7 @@
         "AuthorizationRequired":"Authorization required",
         "noRequestForYou":"There aren´t any request for you",
         "language": "Change language",
+        "terms": "Terms & Conditions",
         "currentLanguage": "English",
         "ChangeAvailable": "Make available",
         "onlyAvailables": "Only availables",

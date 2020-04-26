@@ -74,7 +74,6 @@ export const geoLocateUser = (lng, lat) => (dispatch) => {
     axios.post('/geo', userGeoLocation)
     .then((res) => {
         //Se ha enviado la localizacion del usuario.
-        console.log('Se ha enviado');
     })
     .catch((err) => {
         console.error(err);
