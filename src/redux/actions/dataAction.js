@@ -92,10 +92,7 @@ export const getBookData = (bookId) => (dispatch) => {
     })
     .catch((error) => {
         console.error(error);
-        dispatch({
-            type: SET_BOOK,
-            payload: null
-        })
+        window.location.href = "/error";
     });
 };
 
