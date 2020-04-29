@@ -201,6 +201,8 @@
         "DesiredBook": "Añadido a deseados",
         "AddWishList": "Añadir a deseados",
         "Added": "Añadido",
-        "askDeleteDesiredBook": "¿Estás seguro que quieres borrar este libro de tus deseados?"
+        "askDeleteDesiredBook": "¿Estás seguro que quieres borrar este libro de tus deseados?",
+        "error": "No se ha encontrado la pagina buscada",
+        "goback": "Por favor vuelve a "
 
 }

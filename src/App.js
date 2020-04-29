@@ -31,6 +31,7 @@ import hallSignup from './pages/hallSignup';
 import hallStats from './pages/hallStats';
 import find from './pages/find';
 import desiredBook from './pages/desiredBook';
+import error from './pages/error';
 
 import { logoutHall, getHallData } from './redux/actions/hallAction';
 import tickets from './pages/tickets';
@@ -87,6 +88,7 @@ function App() {
               <Route exact path="/users/:handle" component={user} />
               <Route exact path="/ticket" component={tickets} />
               <Route exact path="/terms" component={terms} />
+              <Route exact path="/error" component={error} />
             </Switch>
         </div>
         </Router>
