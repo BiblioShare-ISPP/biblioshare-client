@@ -201,5 +201,7 @@
         "DesiredBook": "Added to desired",
         "AddWishList": "Add to desired",
         "Added": "Added",
-        "askDeleteDesiredBook": "Are you sure you want to delete this book of your desired?"
+        "askDeleteDesiredBook": "Are you sure you want to delete this book of your desired?",
+        "error": "The page was not found",
+        "goback": "Please go back"
 }
