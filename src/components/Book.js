@@ -65,7 +65,7 @@ class Book extends Component {
 
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, price}, user: {authenticated,credentials: { handle,tickets }}, UI: {loading}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, price, tags}, user: {authenticated,credentials: { handle,tickets }}, UI: {loading}} = this.props;
         const { t } = this.props;
         let isOwner = (owner === handle) ? true : false;
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
@@ -78,11 +78,23 @@ class Book extends Component {
                 </Button>
             </div>
         ): null; 
+        let showTags = false;
+        let translatedTags = "";
+        if(tags){
+            showTags = tags.length > 0 ? true : false;
+            for(let i = 0; i < tags.length; i++){
+                let last = i === (tags.length - 1) ? "" : ", ";
+                translatedTags = translatedTags + t(tags[i]).toUpperCase() + last;
+            }
+        }
         return (
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
                     {deleteButton}{changeToAvailable}
+                    {showTags ? ( 
+                        <Typography variant="body2" color="textSecondary">{translatedTags}</Typography>
+                    ) : null}
                     <Typography variant="h5" component={Link} to={`/books/${bookId}`} color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
                     <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>

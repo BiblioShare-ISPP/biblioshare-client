@@ -194,6 +194,24 @@
         "bp89": "Si hace una solicitud, tenemos un mes para responderle. Si desea ejercer cualquiera de estos derechos, por favor contáctenos en biblioshareispp@gmail.com.",
         "hp9": "Información para niños",
         "bp91": "Otra parte de nuestra prioridad es añadir protección para los niños mientras usan Internet. Animamos a los padres y tutores a que observen, participen y/o controlen y guíen su actividad en línea.",
-        "bp92": "Biblioshare no recopila a sabiendas ninguna Información de Identificación Personal de niños menores de 13 años. Si cree que su hijo proporcionó este tipo de información en nuestro sitio web, le recomendamos encarecidamente que se ponga en contacto con nosotros inmediatamente y haremos todo lo posible para eliminar rápidamente dicha información de nuestros registros."
-
+        "bp92": "Biblioshare no recopila a sabiendas ninguna Información de Identificación Personal de niños menores de 13 años. Si cree que su hijo proporcionó este tipo de información en nuestro sitio web, le recomendamos encarecidamente que se ponga en contacto con nosotros inmediatamente y haremos todo lo posible para eliminar rápidamente dicha información de nuestros registros.",
+        "FilterGenres": "Filtrar por géneros",
+        "Genres": "Géneros",
+        "Drama": "Drama",
+        "Comedy": "Comedia",
+        "Tragedy": "Tragedia",
+        "Fiction": "Ficción",
+        "Fantasy": "Fantasia",
+        "Folklore": "Folklore",
+        "Historical": "Histórico",
+        "Mystery": "Misterio",
+        "Realistic-Fiction": "Ficción realista",
+        "Romance": "Romance",
+        "Science-Fiction": "Ciencia-Ficción",
+        "Thriller": "Intriga",
+        "Biography": "Biografía",
+        "Autobiography": "Autobiografía",
+        "Narrative": "Narrativo",
+        "Lyric": "Lírica",
+        "Poetry": "Poesía"
 }
