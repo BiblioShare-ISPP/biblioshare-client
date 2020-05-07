@@ -18,6 +18,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 //Icons
 import { Icon } from '@iconify/react';
@@ -88,6 +89,7 @@ class PostBook extends Component{
         cover: '',
         isbn: '',
         camera: false,
+        tags: [],
         reads: [],
         errors: {}
     };
@@ -100,6 +102,7 @@ class PostBook extends Component{
                 author: '',
                 cover: '',
                 isbn: '',
+                tags: [],
                 errors: nextProps.UI.errors
             });
         }
@@ -109,6 +112,7 @@ class PostBook extends Component{
                 title: '',
                 cover: '',
                 isbn: '',
+                tags: [],
                 books: nextProps.data.books.length,
                 reads: []
             });
@@ -122,6 +126,7 @@ class PostBook extends Component{
                 title: '',
                 cover: '',
                 isbn: '',
+                tags: [],
                 books: nextProps.data.books.length,
                 reads: []
             });
@@ -170,7 +175,8 @@ class PostBook extends Component{
             title: '',
             author: '',
             cover: '',
-            isbn: ''
+            isbn: '',
+            tags: []
         });
         this.titleISBN = '';
         this.authorISBN = '';
@@ -182,7 +188,8 @@ class PostBook extends Component{
             title: '',
             author: '',
             cover: '',
-            isbn: ''
+            isbn: '',
+            tags: []
         });
         this.titleISBN = '';
         this.authorISBN = '';
@@ -193,10 +200,15 @@ class PostBook extends Component{
     };
     handleSubmit = (event) => {
         event.preventDefault();
+        let tags = [];
+        for(var i in this.state.tags){
+            tags.push(this.state.tags[i].tag);
+        }
         this.props.postBook({ 
             title: this.state.title,
             author: this.state.author,
-            cover: this.state.cover
+            cover: this.state.cover,
+            tags: tags
         });
         this.titleISBN = '';
         this.authorISBN = '';
@@ -267,10 +279,33 @@ class PostBook extends Component{
             reads: []
         });
     };
+    handleTagsChange = (event,values) => {
+        this.setState({tags: values});
+        console.log(this.state.tags)
+    };
     render(){
         const { errors } = this.state;
         const { classes, UI: {loading, loadingISBN}} = this.props;
         const { t } = this.props;
+        const genres = [
+            {tag: 'Drama', title: t('Drama')},
+            {tag: 'Comedy', title: t('Comedy')},
+            {tag: 'Tragedy', title: t('Tragedy')},
+            {tag: 'Fiction', title: t('Fiction')},
+            {tag: 'Realistic-Fiction', title: t('Realistic-Fiction')},
+            {tag: 'Science-Fiction', title: t('Science-Fiction')},
+            {tag: 'Fantasy', title: t('Fantasy')},
+            {tag: 'Folklore', title: t('Folklore')},
+            {tag: 'Historical', title: t('Historical')},
+            {tag: 'Mystery', title: t('Mystery')},
+            {tag: 'Romance', title: t('Romance')},
+            {tag: 'Thriller', title: t('Thriller')},
+            {tag: 'Biography', title: t('Biography')},
+            {tag: 'Autobiography', title: t('Autobiography')},
+            {tag: 'Narrative', title: t('Narrative')},
+            {tag: 'Lyric', title: t('Lyric')},
+            {tag: 'Poetry', title: t('Poetry')}
+        ]
         return (
             <Fragment>
                 <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
@@ -291,6 +326,17 @@ class PostBook extends Component{
                             </div>
                             <TextField className={classes.input} id="title" name="title" placeholder={t('title')} InputProps={{startAdornment: ( <InputAdornment position="start"> <MenuBookIcon color="primary" /> </InputAdornment>),}} error={errors.title ? true : false } helperText={errors.title} onChange={this.handleChange} fullWidth/>
                             <TextField className={classes.input} id="author" name="author" placeholder={t('author')} InputProps={{startAdornment: ( <InputAdornment position="start"> <AccountCircle color="primary" /> </InputAdornment>),}} error={errors.author ? true : false } helperText={errors.author} onChange={this.handleChange} fullWidth/>
+                            <Autocomplete
+                                multiple
+                                limitTags={2}
+                                id="multiple-limit-tags"
+                                options={genres}
+                                getOptionLabel={(option) => option.title}
+                                onChange={this.handleTagsChange}
+                                renderInput={(params) => (
+                                <TextField {...params} className={classes.input} label={t('Genres')}/>
+                                )}
+                            />
                             <p>{errors.location}</p>
                             <Button variant="contained" className={classes.submitButton} color="secondary" onClick={this.handleISBNOpen}>
                             {t('SearchByISBN')} 
