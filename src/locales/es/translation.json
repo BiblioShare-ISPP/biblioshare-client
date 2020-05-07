@@ -203,6 +203,24 @@
         "Added": "Añadido",
         "askDeleteDesiredBook": "¿Estás seguro que quieres borrar este libro de tus deseados?",
         "error": "No se ha encontrado la pagina buscada",
-        "goback": "Por favor vuelve a "
-
+        "goback": "Por favor vuelve a ",
+        "FilterGenres": "Filtrar por géneros",
+        "Genres": "Géneros",
+        "Drama": "Drama",
+        "Comedy": "Comedia",
+        "Tragedy": "Tragedia",
+        "Fiction": "Ficción",
+        "Fantasy": "Fantasia",
+        "Folklore": "Folklore",
+        "Historical": "Histórico",
+        "Mystery": "Misterio",
+        "Realistic-Fiction": "Ficción realista",
+        "Romance": "Romance",
+        "Science-Fiction": "Ciencia-Ficción",
+        "Thriller": "Intriga",
+        "Biography": "Biografía",
+        "Autobiography": "Autobiografía",
+        "Narrative": "Narrativo",
+        "Lyric": "Lírica",
+        "Poetry": "Poesía"
 }

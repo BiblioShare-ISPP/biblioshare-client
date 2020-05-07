@@ -118,10 +118,20 @@ class BookDetails extends Component {
     }
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, price},  user: {authenticated,credentials: { handle, tickets }},  UI: {loading}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage, userPostDate, location, availability, price, tags},  user: {authenticated,credentials: { handle, tickets }},  UI: {loading}} = this.props;
         const { errors } = this.state;
         const { t } = this.props;
         let isOwner = (owner === handle) ? true : false;
+        let showTags = false;
+        let translatedTags = "";
+        if(tags){
+            showTags = tags.length > 0 ? true : false;
+            for(let i = 0; i < tags.length; i++){
+                let last = i === (tags.length - 1) ? "" : ", ";
+                translatedTags = translatedTags + t(tags[i]).toUpperCase() + last;
+                console.log(translatedTags)
+            }
+        }
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
             <MyButton  tip={t('deleteBook')} onClick={this.deleteBook}   btnClassName={classes.deleteButton}>
                     <a  btnClassName={classes.iconDelete} href={`/users/${owner}`}><DeleteOutline color="error"/> </a>
@@ -150,6 +160,9 @@ class BookDetails extends Component {
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
                     {deleteButton}
+                    {showTags ? ( 
+                        <Typography variant="body2" color="textSecondary">{translatedTags}</Typography>
+                    ) : null}
                     <Typography variant="h5" color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
                     <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>

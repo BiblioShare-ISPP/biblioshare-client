@@ -64,7 +64,7 @@ class book extends Component {
         return (
             <Fragment>
             <Grid container spacing={6}>
-                {loading ? (<CircularProgress className={classes.progressBook}/>): (
+                {loading ? null : (
                     <Grid item xs={12}>
                         <BookDetails book={book} />
                     </Grid>)}
