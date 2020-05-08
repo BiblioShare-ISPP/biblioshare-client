@@ -20,8 +20,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import YouTubeIcon from '@material-ui/icons/YouTube';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import InstagramIcon from '@material-ui/icons/Instagram';
 
-const styles = {
+const styles  = theme => ({
     progressBook: {
         margin: '50px 50%'
     },
@@ -30,8 +34,16 @@ const styles = {
     },
     paper: {
         padding: 20
+    },
+    socials: {
+        [theme.breakpoints.down("xs")]: {
+            display: "none"
+        },
+    },
+    icons: {
+        margin:'0px 10px 0px 10px'
     }
-}
+});
 class home extends Component {
     constructor(){
         super();
@@ -136,6 +148,9 @@ class home extends Component {
                         <div className={classes.ad}>
                             <Typography variant="h5" color="primary">{description}</Typography>
                             <img alt="Ad" src={image} width="100%"/>
+                            <div className={classes.socials}>
+                                <center><a target="_blank" href="https://www.youtube.com/channel/UCuu9luzMlXQkq6jX0BBxw8Q"><YouTubeIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" href="https://twitter.com/BiblioShareUS"><TwitterIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" href=""><FacebookIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" href="https://www.instagram.com/biblioshareus/"><InstagramIcon fontSize="large" color="primary" className={classes.icons}/></a></center>
+                            </div>
                         </div>
                     ):
                     null}
