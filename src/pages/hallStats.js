@@ -69,6 +69,7 @@ class hallStats extends Component {
         let allResidents = !loadingResidents ? (<Doughnut data={residentStats} />) :(<CircularProgress className={classes.progress} />);
         let bookPerMember = !loadingStats ? (<Polar data={bookStats} />) : (<CircularProgress className={classes.progress} />);
         return (
+            
             <Grid container spacing={1}>
                 <Grid item sm={6} xs={12}>
                     <Paper elevation={3}>
@@ -91,6 +92,7 @@ class hallStats extends Component {
                 </Grid>
             </Grid>
         )
+    
     }
 }
 

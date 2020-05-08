@@ -7,6 +7,7 @@ import RequestButton from './RequestButton';
 import PropTypes from 'prop-types';
 import CustomButton from '../util/CustomButton';
 import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 // Redux
 import { connect } from 'react-redux';
 
@@ -165,7 +166,15 @@ class BookDetails extends Component {
                     ) : null}
                     <Typography variant="h5" color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
-                    <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>
+                    { (i18next.language === 'en') ? (
+                     <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>
+                    ) : null}
+                    { (i18next.language === 'es' && availability === 'available' ) ? (
+                     <Typography variant="body2" color="primary">{t('status')}: Disponible</Typography>
+                    ) : null}
+                    { (i18next.language === 'es' && availability === 'provided' ) ? (
+                     <Typography variant="body2" color="primary">{t('status')}: Prestado</Typography>
+                    ) : null}
                     <Typography variant="body2" color="textSecondary">{t('posted')}: {dayjs(userPostDate).fromNow()}</Typography>
                     <Typography variant="body2" color="textSecondary">{t('place')}: {location}</Typography>
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>

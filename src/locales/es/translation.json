@@ -222,5 +222,9 @@
         "Autobiography": "Autobiografía",
         "Narrative": "Narrativo",
         "Lyric": "Lírica",
-        "Poetry": "Poesía"
+        "Poetry": "Poesía",
+        "WishList": "Lista De Deseados",
+        "Statistics": "Estadísticas",
+        "RequestDone":"Peticiones realizadas",
+        "RequestsReceived": "Peticiones recibidas"
 }

@@ -47,6 +47,7 @@ class desiredBook extends Component {
                 </Grid>
 
                 <Grid item sm={8} xs={12}>
+                <Typography variant="h4" color="primary">{t('WishList')}</Typography>
                     {recentDesiredBooksMarkup}
                    
                 </Grid>

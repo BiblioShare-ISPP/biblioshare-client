@@ -8,6 +8,7 @@ import RequestButton from './RequestButton';
 import ButtonWish from './ButtonWish'
 import DeleteBook from './DeleteBook';
 import { withTranslation } from 'react-i18next';
+
 //MUI
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -23,6 +24,8 @@ import { connect } from 'react-redux';
 
 //Actions
 import {changeToAvailable } from '../redux/actions/dataAction';
+import i18next from 'i18next';
+
 
 const styles = {
     card: {
@@ -88,6 +91,8 @@ class Book extends Component {
                 translatedTags = translatedTags + t(tags[i]).toUpperCase() + last;
             }
         }
+        ;
+
         return (
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
@@ -98,7 +103,16 @@ class Book extends Component {
                     ) : null}
                     <Typography variant="h5" component={Link} to={`/books/${bookId}`} color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
-                    <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>
+                    { (i18next.language === 'en') ? (
+                     <Typography variant="body2" color="primary">{t('status')}: {availability}</Typography>
+                    ) : null}
+                    { (i18next.language === 'es' && availability === 'available' ) ? (
+                     <Typography variant="body2" color="primary">{t('status')}: Disponible</Typography>
+                    ) : null}
+                    { (i18next.language === 'es' && availability === 'provided' ) ? (
+                     <Typography variant="body2" color="primary">{t('status')}: Prestado</Typography>
+                    ) : null}
+                   
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
                     <Typography className={classes.date} variant="body2" color="textSecondary">{t('posted')}: {dayjs(userPostDate).fromNow()} from {location}</Typography>
                     { (!isOwner && authenticated && availability === 'available' && tickets > price) ? (
