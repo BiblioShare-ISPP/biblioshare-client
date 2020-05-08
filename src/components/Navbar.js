@@ -79,7 +79,7 @@ class Navbar extends Component {
     };
     
     render() {
-        const { authenticated,handle,authenticatedHall } = this.props;
+        const { authenticated, loading,handle,authenticatedHall } = this.props;
         const { classes } = this.props;
         const { t } = this.props;
         return (
@@ -105,7 +105,7 @@ class Navbar extends Component {
                                 />
                                 </form>
                             </div>
-                            <PostBook/>
+                            {loading ? (null) : <PostBook/>}
                             <Link to="/">
                                 <CustomBotton onClick={this.handleHome} tip={t('home1')}>
                                     <HomeIcon color="secondary"/>
@@ -163,6 +163,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
     authenticated: state.user.authenticated,
+    loading: state.user.loading,
     user: state.user,
     handle: state.user.credentials.handle,
     data: state.data,
