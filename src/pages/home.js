@@ -39,6 +39,7 @@ const styles  = theme => ({
         [theme.breakpoints.down("xs")]: {
             display: "none"
         },
+        margin: '10px 0px 0px 0px'
     },
     icons: {
         margin:'0px 10px 0px 10px'
@@ -148,12 +149,12 @@ class home extends Component {
                         <div className={classes.ad}>
                             <Typography variant="h5" color="primary">{description}</Typography>
                             <img alt="Ad" src={image} width="100%"/>
-                            <div className={classes.socials}>
-                                <center><a target="_blank" href="https://www.youtube.com/channel/UCuu9luzMlXQkq6jX0BBxw8Q"><YouTubeIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" href="https://twitter.com/BiblioShareUS"><TwitterIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" href=""><FacebookIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" href="https://www.instagram.com/biblioshareus/"><InstagramIcon fontSize="large" color="primary" className={classes.icons}/></a></center>
-                            </div>
                         </div>
                     ):
                     null}
+                    <div className={classes.socials}>
+                        <center><a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/channel/UCuu9luzMlXQkq6jX0BBxw8Q"><YouTubeIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/BiblioShareUS"><TwitterIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="/"><FacebookIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/biblioshareus/"><InstagramIcon fontSize="large" color="primary" className={classes.icons}/></a></center>
+                    </div>
                 </Grid>
                 <Grid item sm={8} xs={12}>
                     {authenticated ? (
