@@ -53,7 +53,7 @@ class hallStats extends Component {
                 stats: this.props.hall.stats
             });
         }
-    };
+    }
     render() {
         const {classes, hall:{loadingResidents, loadingStats, residents, credentials:{location, members}, stats}} = this.props;
         const residentStats = !loadingResidents ? ({labels: ['Hall members',`${location} Residents`],datasets: [{data: [members.length, (residents.length - members.length)],backgroundColor: ['#FF6384','#FFCE56'],hoverBackgroundColor: ['#FF6384','#FFCE56']}]}) : null;

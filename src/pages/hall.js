@@ -85,7 +85,7 @@ class hall extends Component {
                 location: this.props.hall.credentials.location
             });
         }
-    };
+    }
     handleCheck = value => () => {
         let newMember = this.state.members;
         newMember.push(value);

@@ -73,7 +73,6 @@ class AppBarCollapseOut extends Component {
           </div>
         );
     }
-
-};
+}
 const AppBarCollapseOut1 = withTranslation()(AppBarCollapseOut)
 export default withStyles(styles)(withStyles(styles)(AppBarCollapseOut1));

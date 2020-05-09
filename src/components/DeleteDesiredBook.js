@@ -37,20 +37,12 @@ const theme = createMuiTheme({
   });
 
 class DeleteDesiredBook extends Component {
-    desiredBook = () => {
-        if (
-          this.props.user.desireds &&
-          this.props.user.desireds.find(
-            (book) => book.bookId === this.props.bookId
-          )
-        ){
-          return true;
-        }else {
-          return false;
-        }
-      };
     state = {
-        open: false
+      open: false
+    };
+    desiredBook = () => {
+      let value = this.props.user.desireds && this.props.user.desireds.find((book) => book.bookId === this.props.bookId) ? true : false;
+      return value
     };
     handleOpen = () => {
         this.setState({ open: true });

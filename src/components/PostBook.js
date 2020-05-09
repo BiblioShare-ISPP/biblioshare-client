@@ -225,9 +225,9 @@ class PostBook extends Component{
           }
         let formData = await imageCompression(image, options)
             .then(function (compressedImage) {
-                const formData = new FormData();
-                formData.append('cover', compressedImage, image.name);
-                return formData;
+                const data = new FormData();
+                data.append('cover', compressedImage, image.name);
+                return data;
             })
             .catch((error)=>{
                 console.log(error.message);

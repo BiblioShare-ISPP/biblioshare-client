@@ -44,7 +44,7 @@ class find extends Component {
                 location: this.props.user.credentials.location,
             });
         }
-    };
+    }
     handleChange = (event) => {
         this.setState({ ...this.state, [event.target.name]: event.target.checked });
     };

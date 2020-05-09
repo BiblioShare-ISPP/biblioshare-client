@@ -72,7 +72,6 @@ class AppBarCollapseLogged extends Component {
           </div>
         );
     }
-
-};
+}
 const AppBarCollapseLogged1 = withTranslation()(AppBarCollapseLogged)
 export default withStyles(styles)(withStyles(styles)(AppBarCollapseLogged1));

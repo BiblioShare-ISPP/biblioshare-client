@@ -18,16 +18,8 @@ const styles = {
 
 export class RequestButton extends Component {
   requestedBook = () => {
-    if (
-      this.props.user.requests &&
-      this.props.user.requests.find(
-        (request) => request.bookId === this.props.bookId
-      )
-    ){
-      return true;
-    }else {
-      return false;
-    }
+    let value = this.props.user.requests && this.props.user.requests.find((request) => request.bookId === this.props.bookId) ? true : false;
+    return value;
   };
   requestBook = () => {
     this.props.requestBook(this.props.bookId);
