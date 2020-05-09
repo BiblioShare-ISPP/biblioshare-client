@@ -53,7 +53,7 @@ class hallStats extends Component {
                 stats: this.props.hall.stats
             });
         }
-    };
+    }
     render() {
         const {classes, hall:{loadingResidents, loadingStats, residents, credentials:{location, members}, stats}} = this.props;
         const residentStats = !loadingResidents ? ({labels: ['Hall members',`${location} Residents`],datasets: [{data: [members.length, (residents.length - members.length)],backgroundColor: ['#FF6384','#FFCE56'],hoverBackgroundColor: ['#FF6384','#FFCE56']}]}) : null;
@@ -69,6 +69,7 @@ class hallStats extends Component {
         let allResidents = !loadingResidents ? (<Doughnut data={residentStats} />) :(<CircularProgress className={classes.progress} />);
         let bookPerMember = !loadingStats ? (<Polar data={bookStats} />) : (<CircularProgress className={classes.progress} />);
         return (
+            
             <Grid container spacing={1}>
                 <Grid item sm={6} xs={12}>
                     <Paper elevation={3}>
@@ -91,6 +92,7 @@ class hallStats extends Component {
                 </Grid>
             </Grid>
         )
+    
     }
 }
 

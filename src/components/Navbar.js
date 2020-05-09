@@ -41,7 +41,7 @@ class Navbar extends Component {
                 notifications: this.props.user.notifications,
             });
         }
-    };    
+    }   
     handleFind = (event) =>{
         let history = createBrowserHistory()
         event.preventDefault();

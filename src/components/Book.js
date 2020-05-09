@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import PropTypes from 'prop-types';
 import RequestButton from './RequestButton';
-import ButtonWish from './ButtonWish'
 import DeleteBook from './DeleteBook';
 import { withTranslation } from 'react-i18next';
 //MUI
@@ -72,7 +71,7 @@ class Book extends Component {
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
             <DeleteBook bookId={bookId}/>
         ): null;
-        const changeToAvailable = authenticated && owner === handle && availability === 'provided' ? (
+        const changeStatus = authenticated && owner === handle && availability === 'provided' ? (
             <div className={classes.buttons}>  
                 <Button variant="contained" color="primary" className={classes.noTickets} disabled={loading} onClick={this.changeToAvailable}>
                 {t('ChangeAvailable')}{loading && (<CircularProgress size={30} className={classes.progressSpinner} />)}
@@ -92,7 +91,7 @@ class Book extends Component {
             <Card className={classes.card}>
                 <CardMedia image={cover} title="Cover image" className={classes.image}/>
                 <CardContent className={classes.content}>
-                    {deleteButton}{changeToAvailable}
+                    {deleteButton}{changeStatus}
                     {showTags ? ( 
                         <Typography variant="body2" color="textSecondary">{translatedTags}</Typography>
                     ) : null}
@@ -109,9 +108,6 @@ class Book extends Component {
                     {t('noTickets')}
                     </ColorButton>
                     ) : null}
-                     {authenticated? (!isOwner  && availability === 'provided') ? (
-                    <ButtonWish bookId={bookId} />
-                    ) : null: null }
                 </CardContent>
             </Card>
         );
