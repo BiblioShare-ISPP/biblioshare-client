@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import DeleteRequest from './DeleteRequest';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 //MUI
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -107,7 +108,18 @@ class Request extends Component {
                     {owner} 
                     {applicant}
                     <Typography variant="body2" color="textSecondary">{t('posted')}: {dayjs(createdAt).fromNow()}</Typography>
-                    <Typography variant="body2" color="primary">{t('status')}: {status}</Typography> 
+                    { (i18next.language === 'en') ? (
+                    <Typography variant="body2" color="primary">{t('status')}: {status}</Typography>
+                    ) : null}
+                    { (i18next.language === 'es' && status === 'pending' ) ? (
+                     <Typography variant="body2" color="primary">{t('status')}: Pendiente</Typography>
+                    ) : null}
+                    { (i18next.language === 'es' && status === 'rejected' ) ? (
+                     <Typography variant="body2" color="primary">{t('status')}: Rechazado</Typography>
+                    ) : null}
+                     { (i18next.language === 'es' && status === 'accepted' ) ? (
+                     <Typography variant="body2" color="primary">{t('status')}: Aceptado</Typography>
+                    ) : null}
                     {deleteButton}
                     {button}
                         
