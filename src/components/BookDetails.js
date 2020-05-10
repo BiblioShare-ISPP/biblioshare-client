@@ -32,13 +32,16 @@ import { red } from '@material-ui/core/colors';
 
 import { deleteBook, commentBook } from '../redux/actions/dataAction';
 
-const styles = {
+const styles = theme => ({
     card: {
         display: 'flex',
         marginBottom: 20,
     },
     image:{
         minWidth: 200,
+        [theme.breakpoints.down("xs")]: {
+            minWidth: 150,
+        },
     },
     content: {
         padding: 25,
@@ -50,19 +53,21 @@ const styles = {
     },
     noTickets: {
         float: 'right',
-        margin: '0px 5px 0px 5px'
-        
-   },
-   closeButton: {
-    position: 'absolute',
-    right: '3%',
-    top: '3%'
+        margin: '0px 5px 0px 5px',
+        [theme.breakpoints.down("xs")]: {
+            margin: '10px 5px 10px 5px',
+        },
+    },
+    closeButton: {
+        position: 'absolute',
+        right: '3%',
+        top: '3%'
     },
     submitButton: {
         position: 'relative',
         margin: '10px 5px 0px 0px'
     },
-};
+});
 const ColorButton = withStyles((theme) => ({
     root: {
       color: theme.palette.getContrastText(red[300]),
@@ -130,7 +135,6 @@ class BookDetails extends Component {
             for(let i = 0; i < tags.length; i++){
                 let last = i === (tags.length - 1) ? "" : ", ";
                 translatedTags = translatedTags + t(tags[i]).toUpperCase() + last;
-                console.log(translatedTags)
             }
         }
         const deleteButton = authenticated && owner === handle && availability === 'available' ? (
@@ -184,7 +188,7 @@ class BookDetails extends Component {
                         </Button>
                     ) : null}
                     { (!isOwner && authenticated && availability === 'available' && tickets > 1) ? (
-                    <RequestButton bookId={bookId} price={price}/>
+                    <RequestButton className={classes.noTickets} bookId={bookId} price={price}/>
                     ) : null}
                     { (!isOwner && authenticated && availability === 'available' && tickets < price) ? (
                     <ColorButton component={Link} variant="contained" className={classes.noTickets} to="/ticket">
