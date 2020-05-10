@@ -27,7 +27,7 @@ const PaypalCheckoutButton = ({ order , user}) => {
 
     const payment = (data, actions) => {
 
-        const pay = {
+        const payment = {
             transactions: [
                 {
                     amount: {
@@ -43,7 +43,7 @@ const PaypalCheckoutButton = ({ order , user}) => {
             ],
             note_to_payer: 'Contact for more information'
         };
-        return actions.payment.create({ pay });
+        return actions.payment.create({ payment });
     };
 
     const onAuthorize = (data, actions) => {
