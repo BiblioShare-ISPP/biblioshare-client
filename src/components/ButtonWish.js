@@ -18,8 +18,16 @@ const styles = {
 
 export class ButtonWish extends Component {
   desiredBook = () => {
-    let value = this.props.user.desireds && this.props.user.desireds.find((book) => book.bookId === this.props.bookId) ? true : false;
-    return value;
+    if(
+      this.props.user.desireds&&
+      this.props.user.desireds.find(
+        (book) => book.bookId === this.props.bookId
+      )
+    ){
+      return true;
+    }else{
+      return false;
+    }
   };
   addDesiredBook = () => {
     this.props.addDesiredBook(this.props.bookId);
@@ -27,7 +35,7 @@ export class ButtonWish extends Component {
 
   render() {
     const { classes } = this.props;
-    const wishButton = this.desiredBook() ? (
+    const ButtonWish = this.desiredBook() ? (
       <Button variant="contained" color="primary" className={classes.buttonWish} disabled>
          <FavoriteIcon color="primary" />
       </Button>  
@@ -36,7 +44,7 @@ export class ButtonWish extends Component {
         <Typography variant="body1" color="secondary">+ </Typography><FavoriteBorderIcon color="secondary" />
       </Button>
     );
-    return wishButton;
+    return ButtonWish;
   }
 }
 
