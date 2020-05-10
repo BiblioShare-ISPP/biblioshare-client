@@ -153,7 +153,7 @@ class home extends Component {
                     ):
                     null}
                     <div className={classes.socials}>
-                        <center><a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/channel/UCuu9luzMlXQkq6jX0BBxw8Q"><YouTubeIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/BiblioShareUS"><TwitterIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="/"><FacebookIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/biblioshareus/"><InstagramIcon fontSize="large" color="primary" className={classes.icons}/></a></center>
+                        <center><a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/channel/UCuu9luzMlXQkq6jX0BBxw8Q"><YouTubeIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/BiblioShareUS"><TwitterIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/Biblioshare-105139301202699"><FacebookIcon fontSize="large" color="primary" className={classes.icons}/></a><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/biblioshareus/"><InstagramIcon fontSize="large" color="primary" className={classes.icons}/></a></center>
                     </div>
                 </Grid>
                 <Grid item sm={8} xs={12}>
