@@ -47,7 +47,7 @@ class DesiredBook extends Component {
 
     render() {
         dayjs.extend(relativeTime);
-        const { classes, book: {bookId, title, author, cover, owner, ownerImage,userPostDate}, user: {authenticated}} = this.props;
+        const { classes, book: {bookId, title, author, cover, owner, ownerImage,createdAt}, user: {authenticated}} = this.props;
         const { t } = this.props;
         const deleteDesiredButton = authenticated ? (
             <DeleteDesiredBook bookId={bookId}/>
@@ -60,7 +60,7 @@ class DesiredBook extends Component {
                     <Typography variant="h5" component={Link} to={`/books/${bookId}`} color="primary">{title}</Typography>
                     <Typography variant="body2" color="textSecondary">{author}</Typography>
                     <Avatar alt={owner} src={ownerImage}/><Typography variant="body1" component={Link} to={`/users/${owner}`} color="primary">{owner}</Typography>
-                    <Typography className={classes.date} variant="body2" color="textSecondary">{t('Added')}: {dayjs(userPostDate).fromNow()} </Typography>
+                    <Typography className={classes.date} variant="body2" color="textSecondary">{t('Added')}: {dayjs(createdAt).fromNow()} </Typography>
                     
                 </CardContent>
             </Card>
