@@ -24,12 +24,24 @@ const styles = (theme) => ({
     width: '50%',
     marginBottom: 10
   },
+  avatarSize: {
+    width: 200,
+    height: 200,
+    [theme.breakpoints.down("sm")]: {
+      width: 100,
+      height: 100,
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: 200,
+      height: 200,
+    },
+  }
 });
 const ProfileSkeleton = (props) => {
   const { classes } = props;
   return (
     <Paper className={classes.paper}>
-        <center><Skeleton animation="wave" variant="circle" width={200} height={200}/></center>
+        <center><Skeleton animation="wave" variant="circle" className={classes.avatarSize}/></center>
         <br />
           <div className={classes.handle} />
           <Skeleton variant="text" animation="wave" height={20} width="100%" />
