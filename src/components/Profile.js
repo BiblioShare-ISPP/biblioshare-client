@@ -101,6 +101,14 @@ class Profile extends Component {
             root: {
               width: 50,
               height: 50,
+              [theme.breakpoints.down("sm")]: {
+                width: 40,
+                height: 40,
+              },
+              [theme.breakpoints.down("xs")]: {
+                width: 50,
+                height: 50,
+              },
               left: '40%',
               border: `2px solid ${theme.palette.background.paper}`,
             },
@@ -110,6 +118,14 @@ class Profile extends Component {
             root: {
               width: 200,
               height: 200,
+              [theme.breakpoints.down("sm")]: {
+                width: 100,
+                height: 100,
+              },
+              [theme.breakpoints.down("xs")]: {
+                width: 200,
+                height: 200,
+              },
               top: '80%',
               border: `2px solid ${theme.palette.background.paper}`,
             },
@@ -118,6 +134,14 @@ class Profile extends Component {
             root: {
               width: 200,
               height: 200,
+              [theme.breakpoints.down("sm")]: {
+                width: 100,
+                height: 100,
+              },
+              [theme.breakpoints.down("xs")]: {
+                width: 200,
+                height: 200,
+              },
               top: '80%',
               border: `2px solid ${theme.palette.background.paper}`,
             },
